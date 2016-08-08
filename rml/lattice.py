@@ -3,17 +3,17 @@ class Lattice:
         self.name = name
         self._elements = []
 
+
     def __len__(self):
         ''' The number of elements in the lattice '''
-        total_length = 0
-        for i in range(len(self._elements)):
-            total_length += 1
-        return total_length
+        return len(self._elements)
+
 
     # TODO: could modify this to accept a
     # list(.extend) or element arg
     def append_element(self, element):
         self._elements.append(element)
+
 
     def length(self):
         ''' Length of the lattice '''
