@@ -1,5 +1,5 @@
 class Lattice:
-    def __init__(self, name='UNDEFINED'):
+    def __init__(self, name):
         self.name = name
         self._elements = []
 

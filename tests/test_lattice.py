@@ -12,7 +12,7 @@ def test_create_lattice():
 
 
 def test_non_negative_lattice():
-    l = rml.lattice.Lattice()
+    l = rml.lattice.Lattice(DUMMY_NAME)
     assert(len(l)) >= 0
 
 
