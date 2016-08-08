@@ -25,4 +25,6 @@ def test_lattice_with_one_element():
     assert(len(l) == 1)
     # The total length of the lattice is the same as its one element.
     assert l.length() == element_length
+    # Get all elements
+    assert l.get_elements() == [e]
 
