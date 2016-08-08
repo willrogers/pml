@@ -2,6 +2,6 @@
 class Element:
 
     # TODO: use **kwargs
-    def __init__(self, name, position):
+    def __init__(self, name, length):
         self.element_type = name
-        self.s = position
+        self.length = length
