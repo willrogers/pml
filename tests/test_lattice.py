@@ -1,8 +1,23 @@
+import pytest
 import rml.lattice
 import rml.element
 
 
 DUMMY_NAME = 'dummy'
+
+
+@pytest.fixture
+def simple_element():
+    element_length = 1.5
+    e = rml.element.Element('dummy_element', element_length)
+    return e
+
+
+@pytest.fixture
+def simple_element_and_lattice(simple_element):
+    l = rml.lattice.Lattice(DUMMY_NAME)
+    l.append_element(simple_element)
+    return simple_element, l
 
 
 def test_create_lattice():
@@ -16,15 +31,19 @@ def test_non_negative_lattice():
     assert(len(l)) >= 0
 
 
-def test_lattice_with_one_element():
-    l = rml.lattice.Lattice(DUMMY_NAME)
-    element_length = 1.5
-    e = rml.element.Element('dummy_element', element_length)
-    l.append_element(e)
+def test_lattice_with_one_element(simple_element_and_lattice):
+    element, lattice = simple_element_and_lattice
     # There is one element in the lattice.
-    assert(len(l) == 1)
+    assert(len(lattice) == 1)
     # The total length of the lattice is the same as its one element.
-    assert l.length() == element_length
+    assert lattice.length() == element.length
     # Get all elements
-    assert l.get_elements() == [e]
+    assert lattice.get_elements() == [element]
+
+
+def test_lattice_get_element_with_family(simple_element_and_lattice):
+    element, lattice = simple_element_and_lattice
+    element.add_to_family('fam')
+    assert lattice.get_elements('fam') == [element]
+    assert lattice.get_elements('nofam') == []
 
