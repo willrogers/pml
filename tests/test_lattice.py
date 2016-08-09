@@ -46,4 +46,3 @@ def test_lattice_get_element_with_family(simple_element_and_lattice):
     element.add_to_family('fam')
     assert lattice.get_elements('fam') == set([element])
     assert lattice.get_elements('nofam') == set()
-
