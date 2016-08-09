@@ -7,12 +7,12 @@ class Element:
         # TODO: use **kwargs
         self.element_type = elem_type
         self.length = length
-        self.families = []
+        self.families = set()
 
 ############################## Utility methods ###############################
 
     def add_to_family(self, family):
-        self.families.append(family)
+        self.families.add(family)
 
 ############################## Accessor methods ##############################
 

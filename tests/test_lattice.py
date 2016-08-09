@@ -36,7 +36,7 @@ def test_lattice_with_one_element(simple_element_and_lattice):
     # There is one element in the lattice.
     assert(len(lattice) == 1)
     # The total length of the lattice is the same as its one element.
-    assert lattice.length() == element.length
+    assert lattice.get_length() == element.length
     # Get all elements
     assert lattice.get_elements() == [element]
 
@@ -44,6 +44,7 @@ def test_lattice_with_one_element(simple_element_and_lattice):
 def test_lattice_get_element_with_family(simple_element_and_lattice):
     element, lattice = simple_element_and_lattice
     element.add_to_family('fam')
-    assert lattice.get_elements('fam') == [element]
-    assert lattice.get_elements('nofam') == []
+    print element.get_families(), [element]
+    assert lattice.get_elements('fam') == set([element])
+    assert lattice.get_elements('nofam') == set()
 
