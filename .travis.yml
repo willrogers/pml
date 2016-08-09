@@ -9,6 +9,7 @@ python:
 install:
   - pip install python-coveralls
   - pip install pytest-pep8
+  - pip install pytest-cov
 
 script:
   - export PYTHONPATH=.
