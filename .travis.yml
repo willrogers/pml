@@ -13,7 +13,7 @@ install:
 
 script:
   - export PYTHONPATH=.
-  - py.test --pep8 coveralls -v --cov coveralls
+  - py.test tests --pep8 rml -v --cov rml
 
 after_success:
   - coveralls
