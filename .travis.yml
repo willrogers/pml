@@ -6,6 +6,12 @@ python:
   - "3.4"
   - "3.5"
 
+install:
+  - pip install python-coveralls
+
 script:
   - export PYTHONPATH=.
-  - py.test
+  - py.test --pep8 coveralls -v --cov coveralls
+
+after_success:
+  - coveralls
