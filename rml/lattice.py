@@ -8,14 +8,15 @@ class Lattice:
         ''' The number of elements in the lattice '''
         return len(self._elements)
 
+############################## Utility methods ###############################
 
-    # TODO: could modify this to accept a
-    # list(.extend) or element arg
     def append_element(self, element):
+        # TODO: could modify this to accept a
+        # list(.extend) or element arg
         self._elements.append(element)
 
 
-    def length(self):
+    def get_length(self):
         ''' Length of the lattice '''
         total_length = 0
         for e in self._elements:
@@ -23,7 +24,13 @@ class Lattice:
         return total_length
 
 
-    # TODO return elements for a specific family name
     def get_elements(self, family='*'):
-        ''' Get all the elements of a lattice '''
+        # TODO return elements for a specific family name
+        ''' Get all the elements of a lattice from a specified family '''
         return self._elements
+
+
+############################## Accessor methods ##############################
+
+    def get_name(self):
+        return self.name
