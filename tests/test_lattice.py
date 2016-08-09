@@ -23,7 +23,7 @@ def simple_element_and_lattice(simple_element):
 def test_create_lattice():
     l = rml.lattice.Lattice(DUMMY_NAME)
     assert(len(l)) == 0
-    assert l.name == DUMMY_NAME
+    assert l.get_name() == DUMMY_NAME
 
 
 def test_non_negative_lattice():
@@ -36,7 +36,7 @@ def test_lattice_with_one_element(simple_element_and_lattice):
     # There is one element in the lattice.
     assert(len(lattice) == 1)
     # The total length of the lattice is the same as its one element.
-    assert lattice.get_length() == element.length
+    assert lattice.get_length() == element.get_length()
     # Get all elements
     assert lattice.get_elements() == [element]
 
