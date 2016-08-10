@@ -1,6 +1,7 @@
 import pkg_resources
 pkg_resources.require('cothread')
 import cothread
+import rml
 import rml.element
 
 
@@ -18,6 +19,9 @@ def test_add_element_to_family():
 
 def test_get_pv_value():
     PV = 'SR22C-DI-EBPM-04:SA:X'
-    e = rml.element.Element('dummy', 0.0, pv=PV)
+    e = rml.element.Element('dummy', 0.0)
+    e.set_pv('x', PV)
     result = e.get_pv('x')
     assert isinstance(result, float)
+    with pytest.raises(rml.ConfigException):
+        e.get_pv('y')
