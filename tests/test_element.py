@@ -1,8 +1,9 @@
 import pkg_resources
-pkg_resources.require('cothread')
-import cothread
-import rml
+from rml.exceptions import ConfigException
 import rml.element
+import pytest
+import cothread
+pkg_resources.require('cothread')
 
 
 def test_create_element():
@@ -21,7 +22,8 @@ def test_get_pv_value():
     PV = 'SR22C-DI-EBPM-04:SA:X'
     e = rml.element.Element('dummy', 0.0)
     e.set_pv('x', PV)
+    print e.pv
     result = e.get_pv('x')
     assert isinstance(result, float)
-    with pytest.raises(rml.ConfigException):
+    with pytest.raises(ConfigException):
         e.get_pv('y')
