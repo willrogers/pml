@@ -6,6 +6,7 @@ import pkg_resources
 from rml.exceptions import ConfigException
 from cothread.catools import caget
 
+
 class Element(object):
 
     def __init__(self, element_type, length, **kwargs):
@@ -26,7 +27,7 @@ class Element(object):
         Currently only supports readback handle
         """
 
-        if not field in self._field:
+        if field not in self._field:
             raise ConfigException("Field {0} doesn't exist.".format(field))
         elif handle == 'readback':
             print 'abc'
