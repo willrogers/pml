@@ -2,7 +2,6 @@
 @param element_type: type of the element
 @param length: length of the element
 '''
-import pkg_resources
 from rml.exceptions import ConfigException
 from cothread.catools import caget
 
