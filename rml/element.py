@@ -2,7 +2,6 @@
 @param element_type: type of the element
 @param length: length of the element
 '''
-from rml.epicscontrolsystem import EpicsControlSystem
 from rml.exceptions import PvUnknownFieldError, PvUnknownHandleError
 from cothread.catools import caget
 
@@ -18,8 +17,7 @@ class Element(object):
         self.element_type = element_type
         self.length = length
         self.families = set()
-        if kwargs.get('cs') == 'epics':
-            self._cs = EpicsControlSystem()
+        self._cs = kwargs.get('cs', None)
         # For storing the pv. Dictionary where keys are fields and
         # values are pv names
         self.pv = dict()
