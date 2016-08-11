@@ -9,6 +9,7 @@ from cothread.catools import caget
 
 
 class EpicsControlSystem(ControlSystem):
+
     def __init__(self):
         pass
 
