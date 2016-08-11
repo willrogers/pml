@@ -12,12 +12,12 @@ def get_elements(fields):
     result = list()
     if 'x' in fields:
         pv_x = 'SR22C-DI-EBPM-04:SA:X'
-        e = rml.element.Element('dummy_x', 0.0)
+        e = rml.element.Element('dummy_x', 0.0, cs='epics')
         e.set_pv('x', pv_x)
         result.append(e)
     if 'y' in fields:
         pv_y = 'SR22C-DI-EBPM-04:SA:Y'
-        e = rml.element.Element('dummy_y', 0.0)
+        e = rml.element.Element('dummy_y', 0.0, cs='epics')
         e.set_pv('y', pv_y)
         result.append(e)
     return result
