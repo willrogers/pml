@@ -4,7 +4,6 @@
 '''
 import pkg_resources
 from rml.exceptions import ConfigException
-pkg_resources.require('cothread')
 from cothread.catools import caget
 
 class Element(object):
