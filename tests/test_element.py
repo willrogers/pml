@@ -1,5 +1,5 @@
 import pkg_resources
-from rml.exceptions import ConfigException
+from rml.exceptions import PvUnknownHandleError, PvUnknownFieldError
 import rml.element
 import pytest
 import cothread
@@ -39,3 +39,11 @@ def test_get_pv_value():
     pv = get_elements(['x', 'y'])
     assert isinstance(pv[0].get_pv('x'), float)
     assert isinstance(pv[1].get_pv('y'), float)
+
+
+def test_get_pv_exceptions():
+    pvs = get_elements(['x', 'y'])
+    with pytest.raises(PvUnknownFieldError):
+        pvs[0].get_pv('unknown_field')
+    with pytest.raises(PvUnknownHandleError):
+        pvs[1].get_pv('y', 'unkown_handle')
