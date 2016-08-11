@@ -1,0 +1,18 @@
+# Coverage report
+apipkg
+cothread
+coverage
+coveralls
+docopt
+execnet
+numpy
+pep8
+pip
+py
+pytest
+pytest-cache
+pytest-cov
+pytest-pep8
+requests
+setuptools
+wheel
