@@ -2,6 +2,7 @@
 @param element_type: type of the element
 @param length: length of the element
 '''
+from rml.epicscontrolsystem import EpicsControlSystem
 from rml.exceptions import PvUnknownFieldError, PvUnknownHandleError
 from cothread.catools import caget
 
@@ -9,10 +10,16 @@ from cothread.catools import caget
 class Element(object):
 
     def __init__(self, element_type, length, **kwargs):
+        '''
+        Possible arguments for kwargs:
+
+        :param cs: type of control system to be used
+        '''
         self.element_type = element_type
         self.length = length
         self.families = set()
-
+        if kwargs.get('cs') == 'epics':
+            self._cs = EpicsControlSystem()
         # For storing the pv. Dictionary where keys are fields and
         # values are pv names
         self.pv = dict()
@@ -29,7 +36,7 @@ class Element(object):
         if field not in self.pv:
             raise PvUnknownFieldError("Unknown field {0}.".format(field))
         elif handle == 'readback':
-            return caget(self.pv[field])
+            return self._cs.get(self.pv[field])
         else:
             raise PvUnknownHandleError("Unknown handle {0}".format(handle))
 
