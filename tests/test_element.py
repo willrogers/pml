@@ -22,8 +22,11 @@ def test_get_pv_value():
     PV = 'SR22C-DI-EBPM-04:SA:X'
     e = rml.element.Element('dummy', 0.0)
     e.set_pv('x', PV)
-    print e.pv
     result = e.get_pv('x')
     assert isinstance(result, float)
-    with pytest.raises(ConfigException):
-        e.get_pv('y')
+
+    PV = 'SR22C-DI-EBPM-04:SA:Y'
+    e = rml.element.Element('dummy', 0.0)
+    e.set_pv('y', PV)
+    result = e.get_pv('y')
+    assert isinstance(result, float)
