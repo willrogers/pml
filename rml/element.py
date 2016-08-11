@@ -2,10 +2,9 @@
 @param element_type: type of the element
 @param length: length of the element
 '''
-import pkg_resources
 from rml.exceptions import PvUnknownFieldError, PvUnknownHandleError
-pkg_resources.require('cothread')
 from cothread.catools import caget
+
 
 class Element(object):
 
@@ -27,7 +26,7 @@ class Element(object):
         Currently only supports readback handle
         """
 
-        if not field in self.pv:
+        if field not in self.pv:
             raise PvUnknownFieldError("Unknown field {0}.".format(field))
         elif handle == 'readback':
             return caget(self.pv[field])
