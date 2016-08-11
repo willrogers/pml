@@ -4,7 +4,6 @@ get real-time data from the synchrotron.
 '''
 
 from rml.controlsystem import ControlSystem
-import pkg_resources
 from cothread.catools import caget
 
 

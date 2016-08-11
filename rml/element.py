@@ -3,7 +3,6 @@
 @param length: length of the element
 '''
 from rml.exceptions import PvUnknownFieldError, PvUnknownHandleError
-from cothread.catools import caget
 
 
 class Element(object):
