@@ -3,7 +3,7 @@
 @param length: length of the element
 '''
 import pkg_resources
-from rml.exceptions import ConfigException
+from rml.exceptions import PvUnknownFieldError, PvUnknownHandleError
 pkg_resources.require('cothread')
 from cothread.catools import caget
 
@@ -28,11 +28,11 @@ class Element(object):
         """
 
         if not field in self.pv:
-            raise ConfigException("Field {0} doesn't exist.".format(field))
+            raise PvUnknownFieldError("Unknown field {0}.".format(field))
         elif handle == 'readback':
             return caget(self.pv[field])
         else:
-            raise ValueError("Unknown handle {0}".format(handle))
+            raise PvUnknownHandleError("Unknown handle {0}".format(handle))
 
     def set_pv(self, field, pv_name):
         self.pv[field] = pv_name
