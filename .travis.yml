@@ -7,9 +7,7 @@ python:
   - "3.5"
 
 install:
-  - pip install python-coveralls
-  - pip install pytest-pep8
-  - pip install pytest-cov
+  - pip install -r requirements.txt
 
 script:
   - export PYTHONPATH=.
