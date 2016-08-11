@@ -14,9 +14,9 @@ class Element(object):
         self.length = length
         self.families = set()
 
-        # Getting the pv value
-        self.pv = kwargs.get('pv', None)
-        self._field = {}
+        # For storing the pv. Dictionary where keys are fields and
+        # values are pv names
+        self.pv = dict()
 
     def add_to_family(self, family):
         self.families.add(family)
@@ -27,17 +27,15 @@ class Element(object):
         Currently only supports readback handle
         """
 
-        if not field in self._field:
+        if not field in self.pv:
             raise ConfigException("Field {0} doesn't exist.".format(field))
         elif handle == 'readback':
-            print 'abc'
-            return caget(self.pv)
+            return caget(self.pv[field])
         else:
             raise ValueError("Unknown handle {0}".format(handle))
 
     def set_pv(self, field, pv_name):
-        self.pv = pv_name
-        self._field[field] = pv_name
+        self.pv[field] = pv_name
 
     def get_type(self):
         return self.element_type
