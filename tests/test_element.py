@@ -1,7 +1,7 @@
 import pkg_resources
 from rml.exceptions import PvUnknownHandleError, PvUnknownFieldError
 import rml.element
-import rml.epicscontrolsystem
+import rml.dummycontrolsystem
 import pytest
 pkg_resources.require('cothread')
 
@@ -9,16 +9,16 @@ pkg_resources.require('cothread')
 def get_elements(fields):
     # Return a list of requested elements
     # <list> fields: 'x' or 'y'
-    epics_control_system = rml.epicscontrolsystem.EpicsControlSystem()
+    dummy_control_system = rml.dummycontrolsystem.DummyControlSystem()
     result = dict()
     if 'x' in fields:
         pv_x = 'SR22C-DI-EBPM-04:SA:X'
-        e = rml.element.Element('dummy_x', 0.0, cs=epics_control_system)
+        e = rml.element.Element('dummy_x', 0.0, cs=dummy_control_system)
         e.set_pv('x', pv_x)
         result['x'] = e
     if 'y' in fields:
         pv_y = 'SR22C-DI-EBPM-04:SA:Y'
-        e = rml.element.Element('dummy_y', 0.0, cs=epics_control_system)
+        e = rml.element.Element('dummy_y', 0.0, cs=dummy_control_system)
         e.set_pv('y', pv_y)
         result['y'] = e
     return result
