@@ -6,6 +6,7 @@ import pytest
 pkg_resources.require('cothread')
 
 
+@pytest.fixture
 def get_elements(fields):
     # Return a list of requested elements
     # <list> fields: 'x' or 'y'
@@ -14,12 +15,12 @@ def get_elements(fields):
     if 'x' in fields:
         pv_x = 'SR22C-DI-EBPM-04:SA:X'
         e = rml.element.Element('dummy_x', 0.0, cs=dummy_control_system)
-        e.set_pv('x', pv_x)
+        e.put_pv_name('x', pv_x)
         result['x'] = e
     if 'y' in fields:
         pv_y = 'SR22C-DI-EBPM-04:SA:Y'
         e = rml.element.Element('dummy_y', 0.0, cs=dummy_control_system)
-        e.set_pv('y', pv_y)
+        e.put_pv_name('y', pv_y)
         result['y'] = e
     return result
 
@@ -38,13 +39,13 @@ def test_add_element_to_family():
 
 def test_get_pv_value():
     pvs = get_elements(['x', 'y'])
-    assert isinstance(pvs['x'].get_pv('x'), float)
-    assert isinstance(pvs['y'].get_pv('y'), float)
+    assert isinstance(pvs['x'].get_pv_value('x'), float)
+    assert isinstance(pvs['y'].get_pv_value('y'), float)
 
 
 def test_get_pv_exceptions():
     pvs = get_elements(['x', 'y'])
     with pytest.raises(PvUnknownFieldError):
-        pvs['x'].get_pv('unknown_field')
+        pvs['x'].get_pv_value('unknown_field')
     with pytest.raises(PvUnknownHandleError):
-        pvs['y'].get_pv('y', 'unkown_handle')
+        pvs['y'].get_pv_value('y', 'unkown_handle')
