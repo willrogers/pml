@@ -10,3 +10,6 @@ class ControlSystem(object):
 
     def get(self, pv):
         raise NotImplementedError()
+
+    def put(self, pv, value):
+        raise NotImplementedError()

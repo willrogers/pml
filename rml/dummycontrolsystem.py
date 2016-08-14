@@ -13,3 +13,6 @@ class DummyControlSystem(ControlSystem):
 
     def get(self, pv):
         return 4.0
+
+    def put(self, pv, value):
+        pass

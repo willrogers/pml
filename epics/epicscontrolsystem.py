@@ -4,7 +4,7 @@ get real-time data from the synchrotron.
 '''
 
 from rml.controlsystem import ControlSystem
-from cothread.catools import caget
+from cothread.catools import caget, caput
 
 
 class EpicsControlSystem(ControlSystem):
@@ -14,3 +14,6 @@ class EpicsControlSystem(ControlSystem):
 
     def get(self, pv):
         return caget(pv)
+
+    def put(self, pv, value):
+        caput(pv, value)
