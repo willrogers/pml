@@ -1,7 +1,7 @@
 import pytest
 import rml.lattice
 import rml.element
-
+import rml.machines
 
 DUMMY_NAME = 'dummy'
 
@@ -16,7 +16,7 @@ def simple_element():
 @pytest.fixture
 def simple_element_and_lattice(simple_element):
     l = rml.lattice.Lattice(DUMMY_NAME)
-    l.append_element(simple_element)
+    l.add_element(simple_element)
     return simple_element, l
 
 
@@ -46,3 +46,7 @@ def test_lattice_get_element_with_family(simple_element_and_lattice):
     element.add_to_family('fam')
     assert lattice.get_elements('fam') == set([element])
     assert lattice.get_elements('nofam') == set()
+
+def test_machiner_load_SRI21():
+    pv_names = rml.machines.load_pvs('SRI21')
+    assert pv_names
