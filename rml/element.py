@@ -17,28 +17,8 @@ class Element(object):
         self.length = length
         self.families = set()
         self._cs = kwargs.get('cs', None)
-        # For storing the pv. Dictionary where keys are fields and
-        # values are pv names
+        # To store the pv. Keys represent fields and values pv names.
         self.pv = dict()
-
-    def add_to_family(self, family):
-        self.families.add(family)
-
-    def get_pv(self, field, handle='readback'):
-        """
-        Get pv value for the given field.
-        Currently only supports readback handle
-        """
-
-        if field not in self.pv:
-            raise PvUnknownFieldError("Unknown field {0}.".format(field))
-        elif handle == 'readback':
-            return self._cs.get(self.pv[field])
-        else:
-            raise PvUnknownHandleError("Unknown handle {0}".format(handle))
-
-    def set_pv(self, field, pv_name):
-        self.pv[field] = pv_name
 
     def get_type(self):
         return self.element_type
@@ -48,3 +28,25 @@ class Element(object):
 
     def get_families(self):
         return self.families
+
+    def add_to_family(self, family):
+        self.families.add(family)
+
+    def get_pv_name(self, field):
+        return self.pv[field]
+
+    def set_pv_name(self, field, pv_name):
+        self.pv[field] = pv_name
+
+    def get_pv_value(self, field, handle='readback'):
+        """
+        Get pv value for the given field.
+        Currently, only supports readback handle
+        """
+
+        if field not in self.pv:
+            raise PvUnknownFieldError("Unknown field {0}.".format(field))
+        elif handle == 'readback':
+            return self._cs.get(self.pv[field])
+        else:
+            raise PvUnknownHandleError("Unknown handle {0}".format(handle))

@@ -5,22 +5,28 @@ class Lattice(object):
         self._elements = []
 
     def __len__(self):
-        ''' The number of elements in the lattice '''
+        ''' Get the number of elements in the lattice '''
         return len(self._elements)
 
-    def append_element(self, element):
-        # TODO: modify method to accept a set() arg
-        self._elements.append(element)
-
     def get_length(self):
-        ''' Length of the lattice '''
+        ''' Get the length of the lattice in meters '''
         total_length = 0
         for e in self._elements:
             total_length += e.length
         return total_length
 
+    def add_element(self, element):
+        '''
+        Add an element to the lattice
+        # TODO: modify method to accept a set() arg
+        '''
+        self._elements.append(element)
+
     def get_elements(self, family='*'):
-        ''' Get all elements of a lattice from a specified family '''
+        '''
+        Get all elements of a lattice from a specified family.
+        If no family is specified, return all elements
+        '''
         if family == '*':
             return self._elements
 
@@ -31,4 +37,5 @@ class Lattice(object):
         return matched_elements
 
     def get_name(self):
+        ''' Get the name of the lattice '''
         return self.name
