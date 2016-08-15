@@ -1,6 +1,7 @@
 import os
 import sqlite3
 
+
 def load_pvs(machine):
     basepath = os.path.dirname(__file__)
     filepath = os.path.abspath(os.path.join(basepath, machine, 'data.sqlite'))
@@ -12,6 +13,7 @@ def load_pvs(machine):
     c.execute('SELECT pv FROM pvs')
     while 1:
         row = c.fetchone()
-        if not row: break
+        if not row:
+            break
         pv_names.append(row)
     return pv_names
