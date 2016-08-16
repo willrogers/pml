@@ -3,10 +3,8 @@ Class to implement a dummy control system to use on git.
 It is needed to make tests dependendant on a specific control system pass.
 '''
 
-from rml.controlsystem import ControlSystem
 
-
-class DummyControlSystem(ControlSystem):
+class DummyControlSystem():
 
     def __init__(self):
         pass
