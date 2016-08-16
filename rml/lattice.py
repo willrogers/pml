@@ -41,6 +41,5 @@ class Lattice(object):
         return self.name
 
     def print_elements(self):
-        print self._elements
         for el in self._elements:
             print el.name
