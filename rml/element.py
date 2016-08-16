@@ -7,13 +7,14 @@ from rml.exceptions import PvUnknownFieldError, PvUnknownHandleError
 
 class Element(object):
 
-    def __init__(self, element_type, length, **kwargs):
+    def __init__(self, element_name, element_type, length=0, **kwargs):
         '''
         Possible arguments for kwargs:
 
         :param cs: type of control system to be used
         '''
         self.element_type = element_type
+        self.name = element_name
         self.length = length
         self.families = set()
         self._cs = kwargs.get('cs', None)
