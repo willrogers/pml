@@ -41,6 +41,14 @@ def test_lattice_with_one_element(simple_element_and_lattice):
     assert lattice.get_elements() == [element]
 
 
+def test_lattice_with_two_elements(simple_element_and_lattice):
+    element, lattice = simple_element_and_lattice
+    lattice.add_element(element)
+    assert len(lattice) == 2
+    elements = lattice.get_elements()
+    assert len(elements) == 2
+
+
 def test_lattice_get_element_with_family(simple_element_and_lattice):
     element, lattice = simple_element_and_lattice
     element.add_to_family('fam')
