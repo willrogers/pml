@@ -42,4 +42,4 @@ class Lattice(object):
 
     def print_elements(self):
         for el in self._elements:
-            print el.name
+            print el.name()
