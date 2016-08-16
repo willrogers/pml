@@ -26,7 +26,7 @@ def get_elements(fields):
 
 
 def test_create_element():
-    e = rml.element.Element('BPM', 6.0)
+    e = rml.element.Element(element_name=0, element_type='BPM', length=6.0)
     assert e.get_type() == 'BPM'
     assert e.get_length() == 6.0
 
