@@ -36,12 +36,6 @@ class Element(object):
     def add_to_family(self, family):
         self.families.add(family)
 
-    def get_pv_name(self, field):
-        return self.pv[field]
-
-    def put_pv_name(self, field, pv_name):
-        self.pv[field] = pv_name
-
     def get_pv_value(self, field, handle='readback'):
         """
         Get pv value for the given field.
@@ -62,3 +56,13 @@ class Element(object):
             raise PvUnknownFieldError("Unknown field {0}.".format(field))
         else:
             self._cs.put(self.pv[field], value)
+
+    def put_pv_name(self, field, pv_name):
+        self.pv[field] = pv_name
+
+'''
+    def get_pv_name(self, field):
+            Can be changed to accept one pv
+        return self.pv[field]
+
+'''

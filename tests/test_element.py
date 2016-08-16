@@ -37,10 +37,13 @@ def test_add_element_to_family():
     assert 'fam' in e.get_families()
 
 
-def test_get_pv_value():
+def test_get_set_pv_value():
+    # Tests to get/set pv names and/or values
     pvs = get_elements(['x', 'y'])
     assert isinstance(pvs['x'].get_pv_value('x'), float)
     assert isinstance(pvs['y'].get_pv_value('y'), float)
+    pvs['x'].put_pv_value('x', 4)
+    assert pvs['x'].get_pv_value('x') == 4
 
 
 def test_get_pv_exceptions():
