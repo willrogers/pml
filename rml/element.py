@@ -7,14 +7,15 @@ from rml.exceptions import PvUnknownFieldError, PvUnknownHandleError
 
 class Element(object):
 
-    def __init__(self, element_type, length, **kwargs):
+    def __init__(self, element_name, element_type, **kwargs):
         '''
         Possible arguments for kwargs:
 
         :param cs: type of control system to be used
         '''
         self.element_type = element_type
-        self.length = length
+        self.name = element_name
+        self.length = kwargs.get('length', 0)
         self.families = set()
         self._cs = kwargs.get('cs', None)
         # To store the pv. Keys represent fields and values pv names.
@@ -22,6 +23,9 @@ class Element(object):
 
     def get_type(self):
         return self.element_type
+
+    def get_name(self):
+        return self.name
 
     def get_length(self):
         return self.length
@@ -31,12 +35,6 @@ class Element(object):
 
     def add_to_family(self, family):
         self.families.add(family)
-
-    def get_pv_name(self, field):
-        return self.pv[field]
-
-    def put_pv_name(self, field, pv_name):
-        self.pv[field] = pv_name
 
     def get_pv_value(self, field, handle='readback'):
         """
@@ -58,3 +56,13 @@ class Element(object):
             raise PvUnknownFieldError("Unknown field {0}.".format(field))
         else:
             self._cs.put(self.pv[field], value)
+
+    def put_pv_name(self, field, pv_name):
+        self.pv[field] = pv_name
+
+'''
+    def get_pv_name(self, field):
+            Can be changed to accept one pv
+        return self.pv[field]
+
+'''

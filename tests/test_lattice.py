@@ -54,8 +54,3 @@ def test_lattice_get_element_with_family(simple_element_and_lattice):
     element.add_to_family('fam')
     assert lattice.get_elements('fam') == set([element])
     assert lattice.get_elements('nofam') == set()
-
-
-def test_machine_load_SRI21():
-    pv_names = rml.machines.load_pvs('SRI21')
-    assert pv_names
