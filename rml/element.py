@@ -21,38 +21,59 @@ class Element(object):
         self.length = kwargs.get('length', 0)
         self._cs = kwargs.get('cs', None)
         # Keys represent fields and values pv names.
-        self.pv = dict()
+        self.readback = dict()
+        self.setpoint = dict()
+        self.has_pv = False
 
     def add_to_family(self, family):
         self.families.add(family)
 
-    def get_pv_value(self, field, handle='readback'):
+    def get_pv_value(self, handle, field):
         """
         Get pv value for the given field.
         Currently, only supports readback handle
         """
 
-        if field not in self.pv:
-            raise PvUnknownFieldError("Unknown field {0}.".format(field))
-        elif handle == 'readback':
-            return self._cs.get(self.pv[field])
+        if handle == 'readback':
+            if field not in self.readback:
+                raise PvUnknownFieldError("Unknown field {0}.".format(field))
+            else:
+                return self._cs.get(self.readback[field])
+        elif handle == 'setpoint':
+            if field not in self.setpoint:
+                raise PvUnknownFieldError("Unknown field {0}.".format(field))
+            else:
+                return self._cs.get(self.setpoint[field])
         else:
-            raise PvUnknownHandleError("Unknown handle {0}".format(handle))
+            raise PvUnknownHandleError("Unknown handle {0}.".format(field))
 
     def put_pv_value(self, field, value):
         ''' Set the pv value. No need for handle because only the setback value
         can be set'''
-        if field not in self.pv:
+        if field not in self.setpoint:
             raise PvUnknownFieldError("Unknown field {0}.".format(field))
         else:
-            self._cs.put(self.pv[field], value)
+            self._cs.put(self.setpoint[field], value)
 
-    def put_pv_name(self, field, pv_name):
-        self.pv[field] = pv_name
+    def put_pv_name(self, handle, field, pv_name):
+        if handle == 'setpoint':
+            self.setpoint[field] = pv_name
+        elif handle == 'readback':
+            self.readback[field] = pv_name
+        else:
+            raise PvUnknownHandleError("Unknown handle {0}".format(field))
 
-'''
-    def get_pv_name(self, field):
-            Can be changed to accept one pv
-        return self.pv[field]
-
-'''
+    def get_pv_name(self, handle, field='*'):
+        if handle == 'setpoint':
+            if field == '*':
+                return self.setpoint
+            else:
+                return self.setpoint[field]
+        elif handle == 'readback':
+            if field == '*':
+                return self.readback
+            else:
+                return self.readback[field]
+        else:
+            raise PvUnknownHandleError("Unknown handle {0}".format(field))
+        raise RuntimeError('ceva nu merge')
