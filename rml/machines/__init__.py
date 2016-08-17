@@ -33,13 +33,10 @@ def get_elements(machine, elemType='BPM'):
         lattice.add_element(element)
 
     # Parse the pvs from the pv table
-    pvs = set()
-
     conn = sqlite3.connect(filepath)
     c = conn.cursor()
     c.execute('SELECT * FROM pvs;')
 
-    i = 0
     while 1:
         row = c.fetchone()
         if not row:
