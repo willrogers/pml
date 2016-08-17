@@ -32,7 +32,7 @@ class Lattice(object):
 
         matched_elements = set()
         for element in self._elements:
-            if family in element.get_families():
+            if family in element.families:
                 matched_elements.add(element)
         return matched_elements
 

@@ -7,31 +7,21 @@ from rml.exceptions import PvUnknownFieldError, PvUnknownHandleError
 
 class Element(object):
 
-    def __init__(self, element_name, element_type, **kwargs):
+    def __init__(self, elem_identity, elem_family, **kwargs):
         '''
         Possible arguments for kwargs:
 
+        :str elem_identity: identifier used to match an element to a pv
+        :set elem_family: a set used to store families
         :param cs: type of control system to be used
         '''
-        self.element_type = element_type
-        self.name = element_name
-        self.length = kwargs.get('length', 0)
+        self.identity = elem_identity
         self.families = set()
+        self.families.add(elem_family)
+        self.length = kwargs.get('length', 0)
         self._cs = kwargs.get('cs', None)
-        # To store the pv. Keys represent fields and values pv names.
+        # Keys represent fields and values pv names.
         self.pv = dict()
-
-    def get_type(self):
-        return self.element_type
-
-    def get_name(self):
-        return self.name
-
-    def get_length(self):
-        return self.length
-
-    def get_families(self):
-        return self.families
 
     def add_to_family(self, family):
         self.families.add(family)
