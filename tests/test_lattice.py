@@ -36,7 +36,7 @@ def test_lattice_with_one_element(simple_element_and_lattice):
     # There is one element in the lattice.
     assert(len(lattice) == 1)
     # The total length of the lattice is the same as its one element.
-    assert lattice.get_length() == element.get_length()
+    assert lattice.get_length() == element.length
     # Get all elements
     assert lattice.get_elements() == [element]
 
