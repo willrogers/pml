@@ -5,22 +5,14 @@ from rml.lattice import Lattice
 from rml.utility import binary_search
 
 
-def load():
-    '''
-    Not implemented. Will load the machine here instead of using machine
-    parameter in get_elements()
-    '''
-    pass
-
-
-def get_elements(machine, elemType='BPM'):
+def get_elements(machine, element_type):
     basepath = os.path.dirname(__file__)
     filepath = os.path.abspath(os.path.join(basepath, machine, 'data.sqlite'))
 
     # Load data from the elements table
     conn = sqlite3.connect(filepath)
     c = conn.cursor()
-    c.execute('SELECT * FROM elements WHERE elemType=\'' + elemType + '\';')
+    c.execute('SELECT * FROM elements WHERE elemType=\'' + element_type + '\';')
 
     lattice = Lattice(machine)
     while 1:
