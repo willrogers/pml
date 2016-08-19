@@ -1,7 +1,6 @@
 import pytest
 import rml.lattice
 import rml.element
-import rml.machines
 
 DUMMY_NAME = 'dummy'
 

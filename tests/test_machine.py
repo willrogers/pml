@@ -1,4 +1,3 @@
-import rml.machines
 import rml.load
 import pytest
 
