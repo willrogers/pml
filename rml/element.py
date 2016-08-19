@@ -36,16 +36,16 @@ class Element(object):
             if field not in self._readback:
                 raise PvUnknownFieldError("Unknown field {0}.".format(field))
             else:
-                rb_val = self._cs.get(self._readback[field])
-                if unitsys == None:
-                    return rb_val
+                return self._cs.get(self._readback[field])
+#                if unitsys==None:
+#                    return rb_val
         elif handle == 'setpoint':
             if field not in self._setpoint:
                 raise PvUnknownFieldError("Unknown field {0}.".format(field))
             else:
-                sp_val = self._cs.get(self._setpoint[field])
-                if unitsys == None:
-                    return sp_val
+                return self._cs.get(self._setpoint[field])
+#                if unitsys == None:
+#                    return sp_val
         else:
             raise PvUnknownHandleError("Unknown handle {0}.".format(field))
 

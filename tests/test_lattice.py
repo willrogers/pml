@@ -8,7 +8,7 @@ DUMMY_NAME = 'dummy'
 @pytest.fixture
 def simple_element():
     element_length = 1.5
-    e = rml.element.Element('dummy_element', element_length)
+    e = rml.element.Element('dummy_element')
     return e
 
 
@@ -20,9 +20,9 @@ def simple_element_and_lattice(simple_element):
 
 
 def test_create_lattice():
-    l = rml.lattice.Lattice(DUMMY_NAME)
+    l = rml.lattice.Lattice('DUMMY_NAME')
     assert(len(l)) == 0
-    assert l.get_name() == DUMMY_NAME
+    assert l.name == 'DUMMY_NAME'
 
 
 def test_non_negative_lattice():

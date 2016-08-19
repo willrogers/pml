@@ -40,7 +40,8 @@ def load_lattice(load_dir):
         id_ = db_element['elemName']
         fam = db_element['elemType']
         length = float(db_element['elemLength'])
-        element = Element(id_, fam, length=length)
+        element = Element(id_, length=length)
+        element.add_to_family(fam)
 
         cur.execute("select * from pvs where elemName='{}'".format(id_))
         matched_pvs = cur.fetchall()

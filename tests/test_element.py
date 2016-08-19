@@ -14,25 +14,26 @@ def get_elements(handle, fields):
     result = dict()
     if 'x' in fields:
         pv_x = 'SR22C-DI-EBPM-04:SA:X'
-        e = rml.element.Element('dummy_x', 0.0, cs=dummy_control_system)
+        e = rml.element.Element('dummy_x', length=0.0, cs=dummy_control_system)
         e.put_pv_name(handle, 'x', pv_x)
         result['x'] = e
     if 'y' in fields:
         pv_y = 'SR22C-DI-EBPM-04:SA:Y'
-        e = rml.element.Element('dummy_y', 0.0, cs=dummy_control_system)
+        e = rml.element.Element('dummy_y', length=0.0, cs=dummy_control_system)
         e.put_pv_name(handle, 'y', pv_y)
         result['y'] = e
     return result
 
 
 def test_create_element():
-    e = rml.element.Element(4, 'BPM', length=6.0)
+    e = rml.element.Element(4, length=6.0)
+    e.add_to_family('BPM')
     assert 'BPM' in e.families
     assert e.length == 6.0
 
 
 def test_add_element_to_family():
-    e = rml.element.Element('dummy', 0.0)
+    e = rml.element.Element('dummy')
     e.add_to_family('fam')
     assert 'fam' in e.families
 
