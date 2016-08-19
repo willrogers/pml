@@ -23,7 +23,6 @@ class Element(object):
         # Keys represent fields and values pv names.
         self.readback = dict()
         self.setpoint = dict()
-        self.has_pv = False
 
     def add_to_family(self, family):
         self.families.add(family)
@@ -56,12 +55,12 @@ class Element(object):
             self._cs.put(self.setpoint[field], value)
 
     def put_pv_name(self, handle, field, pv_name):
-        if handle == 'setpoint':
+        if handle == 'setpoint' or handle == 'put':
             self.setpoint[field] = pv_name
-        elif handle == 'readback':
+        elif handle == 'readback' or handle == 'get':
             self.readback[field] = pv_name
         else:
-            raise PvUnknownHandleError("Unknown handle {0}".format(field))
+            raise PvUnknownHandleError("Unknown handle {0}".format(handle))
 
     def get_pv_name(self, handle, field='*'):
         if handle == 'setpoint':
@@ -76,4 +75,3 @@ class Element(object):
                 return self.readback[field]
         else:
             raise PvUnknownHandleError("Unknown handle {0}".format(field))
-        raise RuntimeError('ceva nu merge')
