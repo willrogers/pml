@@ -35,7 +35,3 @@ class Lattice(object):
             if family in element.families:
                 matched_elements.add(element)
         return matched_elements
-
-    def get_name(self):
-        ''' Get the name of the lattice '''
-        return self.name
