@@ -3,6 +3,7 @@
 @param length: length of the element
 '''
 from rml.exceptions import PvException
+from rml.unitconversion.identityconversion import IdentityConversion
 
 
 class Element(object):
@@ -19,6 +20,8 @@ class Element(object):
         self.families = set()
         self.length = kwargs.get('length', 0)
         self._cs = kwargs.get('cs', None)
+        unit_conversion = IdentityConversion()
+        self._uc = kwargs.get('uc', unit_conversion)
         # Keys represent fields and values pv names.
         self._readback = dict()
         self._setpoint = dict()
@@ -26,7 +29,7 @@ class Element(object):
     def add_to_family(self, family):
         self.families.add(family)
 
-    def get_pv_value(self, handle, field):
+    def get_pv_value(self, handle, field, unit='phys'):
         """
         Get pv value for the given field.
         Currently, only supports readback handle
@@ -34,17 +37,27 @@ class Element(object):
 
         if handle == 'readback':
             if field in self._readback:
-                return self._cs.get(self._readback[field])
+                if unit == 'phys':
+                    return self._cs.get(self._readback[field])
+                elif unit == 'eng':
+                    physics_val = self._cs.get(self._readback[field])
+                    return self._uc.phys_to_eng(physics_val)
         elif handle == 'setpoint':
             if field in self._setpoint:
-                return self._cs.get(self._setpoint[field])
+                if unit == 'phys':
+                    return self._cs.get(self._setpoint[field])
+                elif unit == 'eng':
+                    physics_val = self._cs.get(self._setpoint[field])
+                    return self._uc.phys_to_eng(physics_val)
 
         raise PvException("""Something went wrong...
         Handle or field was not recognized {0}{1}.""".format(handle, field))
 
     def put_pv_value(self, field, value):
-        ''' Set the pv value. No need for handle because only the setpoint value
-        can be set'''
+        '''
+        Set the pv value. No need for handle because only the setpoint value
+        can be set
+        '''
         if field in self._setpoint:
             self._cs.put(self._setpoint[field], value)
         else:
