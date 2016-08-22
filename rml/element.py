@@ -2,7 +2,7 @@
 @param element_type: type of the element
 @param length: length of the element
 '''
-from rml.exceptions import PvUnknownFieldError, PvUnknownHandleError
+from rml.exceptions import PvException
 
 
 class Element(object):
@@ -33,29 +33,22 @@ class Element(object):
         """
 
         if handle == 'readback':
-            if field not in self._readback:
-                raise PvUnknownFieldError("Unknown field {0}.".format(field))
-            else:
+            if field in self._readback:
                 return self._cs.get(self._readback[field])
-#                if unitsys==None:
-#                    return rb_val
         elif handle == 'setpoint':
-            if field not in self._setpoint:
-                raise PvUnknownFieldError("Unknown field {0}.".format(field))
-            else:
+            if field in self._setpoint:
                 return self._cs.get(self._setpoint[field])
-#                if unitsys == None:
-#                    return sp_val
-        else:
-            raise PvUnknownHandleError("Unknown handle {0}.".format(field))
+
+        raise PvException("""Something went wrong...
+        Handle or field was not recognized {0}{1}.""".format(handle, field))
 
     def put_pv_value(self, field, value):
         ''' Set the pv value. No need for handle because only the setpoint value
         can be set'''
-        if field not in self._setpoint:
-            raise PvUnknownFieldError("Unknown field {0}.".format(field))
-        else:
+        if field in self._setpoint:
             self._cs.put(self._setpoint[field], value)
+        else:
+            raise PvException("""Unknown field {0}.""".format(field))
 
     def put_pv_name(self, handle, field, pv_name):
         if handle == 'setpoint' or handle == 'put':
@@ -63,7 +56,8 @@ class Element(object):
         elif handle == 'readback' or handle == 'get':
             self._readback[field] = pv_name
         else:
-            raise PvUnknownHandleError("Unknown handle {0}".format(handle))
+            raise PvException("Unknown handle or field {0} {1}"
+                              .format(handle, field))
 
     def get_pv_name(self, handle='readback', field='*'):
         if handle == 'setpoint':
@@ -76,5 +70,6 @@ class Element(object):
                 return self._readback
             else:
                 return self._readback[field]
-        else:
-            raise PvUnknownHandleError("Unknown handle {0}".format(field))
+
+        raise PvException("""Something went wrong...
+        Handle or field was not recognized {0}{1}.""".format(handle, field))
