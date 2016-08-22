@@ -1,12 +1,9 @@
-# Compile python files
 *.pyc
 .cache
-
-# Virtualenv files
 bin
 lib
 include
 pip-selfcheck.json
-
-# Coverage reports
 .coverage
+share
+rml/#*

@@ -1,6 +1,3 @@
-class PvUnknownFieldError(RuntimeError):
-    pass
-
-
-class PvUnknownHandleError(ValueError):
+# TODO which supertype should this class inherit
+class PvException(Exception):
     pass

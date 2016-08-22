@@ -4,6 +4,9 @@ class Lattice(object):
         self.name = name
         self._elements = []
 
+    def __getitem__(self, i):
+        return self._elements[i]
+
     def __len__(self):
         ''' Get the number of elements in the lattice '''
         return len(self._elements)
@@ -32,10 +35,6 @@ class Lattice(object):
 
         matched_elements = set()
         for element in self._elements:
-            if family in element.get_families():
+            if family in element.families:
                 matched_elements.add(element)
         return matched_elements
-
-    def get_name(self):
-        ''' Get the name of the lattice '''
-        return self.name
