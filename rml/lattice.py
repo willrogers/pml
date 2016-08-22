@@ -4,6 +4,9 @@ class Lattice(object):
         self.name = name
         self._elements = []
 
+    def __getitem__(self, i):
+        return self._elements[i]
+
     def __len__(self):
         ''' Get the number of elements in the lattice '''
         return len(self._elements)

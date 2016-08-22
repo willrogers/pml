@@ -1,12 +1,15 @@
 import rml.load
 import pytest
+import os
 
 from math import floor
 
 
 @pytest.fixture
 def init():
-    lattice = rml.load.load_lattice('/home/cxa78676/rml/tests/data/SRI21/')
+    basepath = os.path.dirname(__file__)
+    filename = os.path.join(basepath, 'data/SRI21/')
+    lattice = rml.load.load_lattice(filename)
     return lattice
 
 
