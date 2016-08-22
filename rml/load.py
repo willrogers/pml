@@ -1,4 +1,3 @@
-import os
 import sqlite3
 import csv
 from rml.element import Element
@@ -16,7 +15,7 @@ def load_lattice(load_dir):
 
     pvs_db = []
     elem_db = []
-    with open(load_dir + 'pvs.csv', 'rb') as fin:
+    with open(load_dir + 'pvs.csv', 'r') as fin:
         dr = csv.DictReader(fin)
         pvs_db = [(i['pv'], i['elemName'], i['elemHandle'],
                    i['elemField']) for i in dr]

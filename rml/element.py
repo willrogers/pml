@@ -26,7 +26,7 @@ class Element(object):
     def add_to_family(self, family):
         self.families.add(family)
 
-    def get_pv_value(self, handle, field, unitsys=None):
+    def get_pv_value(self, handle, field):
         """
         Get pv value for the given field.
         Currently, only supports readback handle
