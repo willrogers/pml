@@ -77,3 +77,12 @@ def test_put_pv_exceptions():
     with pytest.raises(PvException):
         pvs['y'].put_pv_name('unknown_handle', 'x',
                              'SR21C-DI-EBPM-04:SA:Y')
+
+
+def test_unit_conversion():
+    pvs = get_elements('setpoint', ['x'])
+    pvs['x'].put_pv_value('x', 4.0)
+    value = pvs['x'].get_pv_value('setpoint', 'x', 'phys')
+    assert isinstance(value, float)
+    value = pvs['x'].get_pv_value('setpoint', 'x', 'eng')
+    assert isinstance(value, float)
