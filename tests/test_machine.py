@@ -22,11 +22,10 @@ def test_load_bpms():
         assert isinstance(element.get_pv_name('readback', 'y'), str)
 
 
-def test_load_drift():
+def test_load_drift_elements():
+    # TODO test not finished
     lattice = init()
     drifts = lattice.get_elements('DRIFT')
-#    for drift in drifts:
-#        assert drift.get_pv_name('x') == None
 
 
 def test_load_lattice():

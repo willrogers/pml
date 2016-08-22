@@ -7,8 +7,8 @@ DUMMY_NAME = 'dummy'
 
 @pytest.fixture
 def simple_element():
-    element_length = 1.5
-    e = rml.element.Element('dummy_element')
+    e_length = 1.5
+    e = rml.element.Element('dummy_element', length=e_length)
     return e
 
 
@@ -30,22 +30,20 @@ def test_non_negative_lattice():
     assert(len(l)) >= 0
 
 
-def test_lattice_with_one_element(simple_element_and_lattice):
-    element, lattice = simple_element_and_lattice
-    # There is one element in the lattice.
-    assert(len(lattice) == 1)
-    # The total length of the lattice is the same as its one element.
-    assert lattice.get_length() == element.length
-    # Get all elements
-    assert lattice.get_elements() == [element]
+def test_lattice_with_n_elements(simple_element_and_lattice):
+    elem, lattice = simple_element_and_lattice
 
+    # Length of the lattice/elements
+    assert len(lattice) == 1
+    assert lattice.get_length() == elem.length
 
-def test_lattice_with_two_elements(simple_element_and_lattice):
-    element, lattice = simple_element_and_lattice
-    lattice.add_element(element)
+    lattice.add_element(elem)
     assert len(lattice) == 2
-    elements = lattice.get_elements()
-    assert len(elements) == 2
+    assert lattice.get_length() == elem.length + elem.length
+
+    # Getting elements
+    assert lattice[0] == elem
+    assert lattice.get_elements() == [elem, elem]
 
 
 def test_lattice_get_element_with_family(simple_element_and_lattice):

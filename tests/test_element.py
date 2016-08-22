@@ -1,5 +1,5 @@
 import pkg_resources
-from rml.exceptions import PvUnknownHandleError, PvUnknownFieldError
+from rml.exceptions import PvException
 import rml.element
 import dummycontrolsystem
 import pytest
@@ -40,9 +40,17 @@ def test_add_element_to_family():
 
 def test_readback_pvs():
     # Tests to get/set pv names and/or values
-    pvs = get_elements('readback', ['x', 'y'])
-    assert isinstance(pvs['x'].get_pv_value('readback', 'x'), float)
-    assert isinstance(pvs['y'].get_pv_value('readback', 'y'), float)
+    pvs_rb = get_elements('readback', ['x', 'y'])
+    assert isinstance(pvs_rb['x'].get_pv_value('readback', 'x'), float)
+    assert isinstance(pvs_rb['y'].get_pv_value('readback', 'y'), float)
+    assert isinstance(pvs_rb['x'].get_pv_name('readback'), dict)
+    assert isinstance(pvs_rb['y'].get_pv_name('readback', 'y'), str)
+
+    pvs_sb = get_elements('setpoint', ['x', 'y'])
+    assert isinstance(pvs_sb['x'].get_pv_value('setpoint', 'x'), float)
+    assert isinstance(pvs_sb['y'].get_pv_value('setpoint', 'y'), float)
+    assert isinstance(pvs_sb['x'].get_pv_name('setpoint'), dict)
+    assert isinstance(pvs_sb['y'].get_pv_name('setpoint', 'y'), str)
 
 
 def test_setpoint_pvs():
@@ -53,7 +61,19 @@ def test_setpoint_pvs():
 
 def test_get_pv_exceptions():
     pvs = get_elements('setpoint', ['x', 'y'])
-    with pytest.raises(PvUnknownFieldError):
+    with pytest.raises(PvException):
         pvs['x'].get_pv_value('setpoint', 'unknown_field')
-    with pytest.raises(PvUnknownHandleError):
-        pvs['y'].get_pv_value('unkown_handle', 'y')
+    with pytest.raises(PvException):
+        pvs['y'].get_pv_value('unknown_handle', 'y')
+
+    with pytest.raises(PvException):
+        pvs['x'].get_pv_name('unknown_handle')
+
+
+def test_put_pv_exceptions():
+    pvs = get_elements('setpoint', ['x', 'y'])
+    with pytest.raises(PvException):
+        pvs['x'].put_pv_value('unknown_field', 4.0)
+    with pytest.raises(PvException):
+        pvs['y'].put_pv_name('unknown_handle', 'x',
+                             'SR21C-DI-EBPM-04:SA:Y')
