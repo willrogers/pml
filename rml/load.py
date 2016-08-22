@@ -1,5 +1,6 @@
 import sqlite3
 import csv
+import io
 from rml.element import Element
 from rml.lattice import Lattice
 
@@ -15,11 +16,11 @@ def load_lattice(load_dir):
 
     pvs_db = []
     elem_db = []
-    with open(load_dir + 'pvs.csv', 'r') as fin:
+    with io.open(load_dir + 'pvs.csv', 'r') as fin:
         dr = csv.DictReader(fin)
         pvs_db = [(i['pv'], i['elemName'], i['elemHandle'],
                    i['elemField']) for i in dr]
-    with open(load_dir + 'elements.csv', 'rb') as fin:
+    with io.open(load_dir + 'elements.csv', 'r') as fin:
         dr = csv.DictReader(fin)
         elem_db = [(i['elemName'], i['elemType'], i['elemLength']) for i in dr]
     cur.executemany("INSERT INTO pvs (pv, elemName, elemHandle, elemField)\
