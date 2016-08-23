@@ -80,9 +80,10 @@ def test_put_pv_exceptions():
 
 
 def test_identity_conversion():
-    pvs = get_elements('setpoint', ['x'])
-    pvs['x'].put_pv_value('x', 4.0)
-    value = pvs['x'].get_pv_value('setpoint', 'x', 'physics')
-    assert isinstance(value, float)
-    value = pvs['x'].get_pv_value('setpoint', 'x', 'machine')
-    assert isinstance(value, float)
+    pvs = get_elements('setpoint', ['x', 'y'])
+    pvs['x'].put_pv_value('x', 4.0, unit='machine')
+    pvs['y'].put_pv_value('y', 4.0, unit='physics')
+    value_physics = pvs['x'].get_pv_value('setpoint', 'x', 'physics')
+    value_machine = pvs['y'].get_pv_value('setpoint', 'y', 'machine')
+    assert isinstance(value_physics, float)
+    assert isinstance(value_machine, float)

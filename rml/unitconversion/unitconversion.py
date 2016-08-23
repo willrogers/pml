@@ -7,8 +7,8 @@ class UnitConversion():
     def __init__():
         raise NotImplementedError()
 
-    def physics_to_engineering():
+    def physics_to_machine():
         raise NotImplementedError()
 
-    def engineering_to_physics():
+    def machine_to_physics():
         raise NotImplementedError()

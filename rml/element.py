@@ -54,13 +54,18 @@ class Element(object):
         raise PvException("""Something went wrong...
         Handle or field was not recognized {0}{1}.""".format(handle, field))
 
-    def put_pv_value(self, field, value):
+    def put_pv_value(self, field, value, unit='machine'):
         '''
         Set the pv value. No need for handle because only the setpoint value
         can be set
         '''
         if field in self._setpoint:
-            self._cs.put(self._setpoint[field], value)
+            if unit == 'machine':
+                machine_value = value
+                self._cs.put(self._setpoint[field], machine_value)
+            elif unit == 'physics':
+                machine_value = self._uc.physics_to_machine(value)
+                self._cs.put(self._setpoint[field], machine_value)
         else:
             raise PvException("""Unknown field {0}.""".format(field))
 
