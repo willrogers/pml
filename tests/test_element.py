@@ -79,10 +79,10 @@ def test_put_pv_exceptions():
                              'SR21C-DI-EBPM-04:SA:Y')
 
 
-def test_unit_conversion():
+def test_identity_conversion():
     pvs = get_elements('setpoint', ['x'])
     pvs['x'].put_pv_value('x', 4.0)
-    value = pvs['x'].get_pv_value('setpoint', 'x', 'phys')
+    value = pvs['x'].get_pv_value('setpoint', 'x', 'physics')
     assert isinstance(value, float)
-    value = pvs['x'].get_pv_value('setpoint', 'x', 'eng')
+    value = pvs['x'].get_pv_value('setpoint', 'x', 'machine')
     assert isinstance(value, float)

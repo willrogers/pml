@@ -29,7 +29,7 @@ class Element(object):
     def add_to_family(self, family):
         self.families.add(family)
 
-    def get_pv_value(self, handle, field, unit='phys'):
+    def get_pv_value(self, handle, field, unit='machine'):
         """
         Get pv value for the given field.
         Currently, only supports readback handle
@@ -37,18 +37,19 @@ class Element(object):
 
         if handle == 'readback':
             if field in self._readback:
-                if unit == 'phys':
+                if unit == 'machine':
                     return self._cs.get(self._readback[field])
-                elif unit == 'eng':
-                    physics_val = self._cs.get(self._readback[field])
-                    return self._uc.phys_to_eng(physics_val)
+                elif unit == 'physics':
+                    machine_value = self._cs.get(self._readback[field])
+                    return self._uc.machine_to_physics(machine_value)
+
         elif handle == 'setpoint':
             if field in self._setpoint:
-                if unit == 'phys':
+                if unit == 'machine':
                     return self._cs.get(self._setpoint[field])
-                elif unit == 'eng':
-                    physics_val = self._cs.get(self._setpoint[field])
-                    return self._uc.phys_to_eng(physics_val)
+                elif unit == 'physics':
+                    machine_value = self._cs.get(self._setpoint[field])
+                    return self._uc.machine_to_physics(machine_value)
 
         raise PvException("""Something went wrong...
         Handle or field was not recognized {0}{1}.""".format(handle, field))

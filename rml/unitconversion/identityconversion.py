@@ -7,6 +7,6 @@ class IdentityConversion():
     def __init__(self):
         pass
 
-    def phys_to_eng(self, phys_val):
-        eng_val = phys_val
-        return eng_val
+    def machine_to_physics(self, machine_value):
+        physics_value = machine_value
+        return physics_value
