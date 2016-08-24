@@ -1,5 +1,5 @@
 import pytest
-from rml.unitconversion import UnitConversion
+from rml.unitconversion import UnitConversion, PPConversion
 
 
 def test_identity_conversion():
@@ -24,3 +24,10 @@ def test_quadratic_conversion():
     assert physics_value == 27
     with pytest.raises(ValueError):
         quadratic_conversion.physics_to_machine(2.5)
+
+
+def test_ppconversion():
+    pchip_uc = PPConversion([1, 3], [1, 3])
+    assert pchip_uc.machine_to_physics(1) == 1
+    assert pchip_uc.machine_to_physics(2) == 2
+    assert pchip_uc.machine_to_physics(3) == 3
