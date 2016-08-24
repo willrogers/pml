@@ -90,38 +90,11 @@ def test_put_pv_exceptions():
 
 
 def test_identity_conversion():
-    # Test identity unit conversion
     identity_conversion = UnitConversion([1, 0])
-    pvs = get_elements('setpoint', ['x', 'y'],
-                       unit_conversion=identity_conversion)
+    pvs = get_elements('setpoint', ['x'], unit_conversion=identity_conversion)
     pvs['x'].put_pv_value('x', 4.0, unit='machine')
-    pvs['y'].put_pv_value('y', 4.0, unit='physics')
+    pvs['x'].put_pv_value('x', 4.0, unit='physics')
     value_physics = pvs['x'].get_pv_value('setpoint', 'x', 'physics')
-    value_machine = pvs['y'].get_pv_value('setpoint', 'y', 'machine')
+    value_machine = pvs['x'].get_pv_value('setpoint', 'x', 'machine')
     assert value_physics == 4.0
     assert value_machine == 4.0
-
-
-def test_linear_conversion():
-    # Test linear unit conversion
-    linear_conversion = UnitConversion([2, 3])
-    pvs = get_elements('setpoint', ['x', 'y'],
-                       unit_conversion=linear_conversion)
-    pvs['x'].put_pv_value('x', 4.0, unit='machine')
-    pvs['y'].put_pv_value('y', 4.0, unit='physics')
-    value_physics = pvs['x'].get_pv_value('setpoint', 'x', 'physics')
-    value_machine = pvs['y'].get_pv_value('setpoint', 'y', 'machine')
-    assert value_physics == 11.0
-    assert value_machine == 0.5
-
-
-def test_quadratic_equation():
-    pvs = get_elements('setpoint', ['x', 'y'],
-                       unit_conversion=UnitConversion([1, 2, 3]))
-
-    pvs['x'].put_pv_value('x', 4.0, unit='machine')
-    value_physics = pvs['x'].get_pv_value('setpoint', 'x', 'physics')
-    assert value_physics == 27.0
-
-    with pytest.raises(ValueError):
-        pvs['y'].put_pv_value('y', 2.5, unit='physics')
