@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.interpolate import PchipInterpolator
 
 
 class UnitConversion():
@@ -15,3 +16,16 @@ class UnitConversion():
             return positive_roots[0]
         else:
             raise ValueError("No corresponding positive machine value:", roots)
+
+
+class PPConversion():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.pp = PchipInterpolator(x, y)
+
+    def machine_to_physics(self, machine_value):
+        return self.pp(machine_value)
+
+    def physics_to_machine(self, physics_value):
+        pass
