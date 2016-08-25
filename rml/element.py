@@ -3,7 +3,7 @@
 @param length: length of the element
 '''
 from rml.exceptions import PvException
-from rml.unitconversion import UnitConversion
+from rml.units import UcPoly
 
 
 class Element(object):
@@ -20,7 +20,7 @@ class Element(object):
         self.families = set()
         self.length = kwargs.get('length', 0)
         self._cs = kwargs.get('cs', None)
-        unit_conversion = UnitConversion([1, 0])
+        unit_conversion = UcPoly([1, 0])
         self._uc = kwargs.get('uc', unit_conversion)
         # Keys represent fields and values pv names.
         self._readback = dict()

@@ -2,13 +2,13 @@ import pkg_resources
 from rml.exceptions import PvException
 import rml.element
 import dummycontrolsystem
-from rml.unitconversion import UnitConversion
+from rml.units import UcPoly
 import pytest
 pkg_resources.require('cothread')
 
 
 @pytest.fixture
-def get_elements(handle, fields, unit_conversion=UnitConversion([1, 0])):
+def get_elements(handle, fields, unit_conversion=UcPoly([1, 0])):
     # Return a list of requested elements
     # <list> fields: 'x' or 'y'
     dummy_control_system = dummycontrolsystem.DummyControlSystem()
@@ -90,7 +90,7 @@ def test_put_pv_exceptions():
 
 
 def test_identity_conversion():
-    identity_conversion = UnitConversion([1, 0])
+    identity_conversion = UcPoly([1, 0])
     pvs = get_elements('setpoint', ['x'], unit_conversion=identity_conversion)
     pvs['x'].put_pv_value('x', 4.0, unit='machine')
     pvs['x'].put_pv_value('x', 4.0, unit='physics')
