@@ -3,4 +3,5 @@ python-coveralls
 pytest-pep8
 pytest-cov
 cothread
+scipy
 # sphinx, sphinx-autobuild
