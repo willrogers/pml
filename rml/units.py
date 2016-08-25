@@ -2,7 +2,7 @@ import numpy as np
 from scipy.interpolate import PchipInterpolator
 
 
-class UcPoly():
+class UcPoly(object):
     def __init__(self, coef):
         self.p = np.poly1d(coef)
 
@@ -18,7 +18,7 @@ class UcPoly():
             raise ValueError("No corresponding positive machine value:", roots)
 
 
-class UcPchip():
+class UcPchip(object):
     def __init__(self, x, y):
         self.x = x
         self.y = y
