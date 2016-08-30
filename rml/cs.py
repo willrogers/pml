@@ -1,5 +1,5 @@
 '''
-Abstract class used as template to define control systems.
+Template module to define control systems.
 '''
 
 

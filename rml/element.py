@@ -3,6 +3,7 @@
 @param length: length of the element
 '''
 from rml.exceptions import PvException
+from rml.units import UcPoly
 
 
 class Element(object):
@@ -19,6 +20,8 @@ class Element(object):
         self.families = set()
         self.length = kwargs.get('length', 0)
         self._cs = kwargs.get('cs', None)
+        unit_conversion = UcPoly([1, 0])
+        self._uc = kwargs.get('uc', unit_conversion)
         # Keys represent fields and values pv names.
         self._readback = dict()
         self._setpoint = dict()
@@ -26,7 +29,7 @@ class Element(object):
     def add_to_family(self, family):
         self.families.add(family)
 
-    def get_pv_value(self, handle, field):
+    def get_pv_value(self, handle, field, unit='machine'):
         """
         Get pv value for the given field.
         Currently, only supports readback handle
@@ -34,19 +37,35 @@ class Element(object):
 
         if handle == 'readback':
             if field in self._readback:
-                return self._cs.get(self._readback[field])
+                if unit == 'machine':
+                    return self._cs.get(self._readback[field])
+                elif unit == 'physics':
+                    machine_value = self._cs.get(self._readback[field])
+                    return self._uc.machine_to_physics(machine_value)
+
         elif handle == 'setpoint':
             if field in self._setpoint:
-                return self._cs.get(self._setpoint[field])
+                if unit == 'machine':
+                    return self._cs.get(self._setpoint[field])
+                elif unit == 'physics':
+                    machine_value = self._cs.get(self._setpoint[field])
+                    return self._uc.machine_to_physics(machine_value)
 
         raise PvException("""Something went wrong...
         Handle or field was not recognized {0}{1}.""".format(handle, field))
 
-    def put_pv_value(self, field, value):
-        ''' Set the pv value. No need for handle because only the setpoint value
-        can be set'''
+    def put_pv_value(self, field, value, unit='machine'):
+        '''
+        Set the pv value. No need for handle because only the setpoint value
+        can be set
+        '''
         if field in self._setpoint:
-            self._cs.put(self._setpoint[field], value)
+            if unit == 'machine':
+                machine_value = value
+                self._cs.put(self._setpoint[field], machine_value)
+            elif unit == 'physics':
+                machine_value = self._uc.physics_to_machine(value)
+                self._cs.put(self._setpoint[field], machine_value)
         else:
             raise PvException("""Unknown field {0}.""".format(field))
 

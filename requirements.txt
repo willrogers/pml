@@ -1,6 +1,0 @@
-# Coverage report
-python-coveralls
-pytest-pep8
-pytest-cov
-cothread
-# sphinx, sphinx-autobuild

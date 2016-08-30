@@ -7,10 +7,13 @@ It is needed to make tests dependendant on a specific control system pass.
 class DummyControlSystem():
 
     def __init__(self):
-        pass
+        self.storage = dict()
 
     def get(self, pv):
-        return 4.0
+        if pv in self.storage:
+            return self.storage[pv]
+        else:
+            return 4.0
 
     def put(self, pv, value):
-        pass
+        self.storage[pv] = value
