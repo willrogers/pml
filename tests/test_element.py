@@ -4,7 +4,6 @@ import rml.element
 import cs_dummy
 from rml.units import UcPoly
 import pytest
-pkg_resources.require('cothread')
 
 
 @pytest.fixture
