@@ -23,7 +23,7 @@ install:
   - conda info -a
 
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pytest numpy scipy pytest-pep8
-  - conda install --file requirements/conda_requirements.txt
+  - conda install --file=requirements/conda_requirements.txt
   - pip install -r requirements/pip_requirements.txt
   - source activate test-environment
 
