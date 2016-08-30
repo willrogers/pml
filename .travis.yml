@@ -23,11 +23,9 @@ install:
   - conda update -q conda
   - conda info -a
 
-  # Replace dep1 dep2 ... with your dependencies
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION scipy
   - source activate test-environment
   - pip install -r requirements.txt
-  - python setup.py install
 
 after_success:
   - coveralls
