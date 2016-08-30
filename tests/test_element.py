@@ -1,7 +1,7 @@
 import pkg_resources
 from rml.exceptions import PvException
 import rml.element
-import dummycontrolsystem
+import cs_dummy
 from rml.units import UcPoly
 import pytest
 pkg_resources.require('cothread')
@@ -11,7 +11,7 @@ pkg_resources.require('cothread')
 def get_elements(handle, fields, unit_conversion=UcPoly([1, 0])):
     # Return a list of requested elements
     # <list> fields: 'x' or 'y'
-    dummy_control_system = dummycontrolsystem.DummyControlSystem()
+    dummy_control_system = cs_dummy.DummyControlSystem()
 #    dummy_control_system.get = mock.MagicMock(return_value=4)
 #    self._cs.get('duumy')
 #    dummy_control_system.get.assert_called_with('dummy')
