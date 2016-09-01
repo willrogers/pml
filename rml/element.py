@@ -4,6 +4,17 @@
 '''
 from rml.exceptions import PvException
 from rml.units import UcPoly
+from enum import Enum
+
+
+class ElementType(Enum):
+    DRIFT = 'DRIFT'
+    DIPOLE = 'DIPOLE'
+    QUAD = 'QUAD'
+    SEXT = 'SEXT'
+    RF = 'RF'
+    BPM = 'BPM'
+    CORRECTOR = 'CORRECTOR'
 
 
 class Element(object):
@@ -25,6 +36,7 @@ class Element(object):
         # Keys represent fields and values pv names.
         self._readback = dict()
         self._setpoint = dict()
+        self._devices = dict()
 
     def add_to_family(self, family):
         self.families.add(family)
