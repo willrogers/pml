@@ -3,6 +3,7 @@ import csv
 import io
 from rml.element import Element
 from rml.lattice import Lattice
+from rml.device import Device
 
 
 def load_lattice(load_dir):
@@ -43,13 +44,20 @@ def load_lattice(load_dir):
         element = Element(id_, length=length)
         element.add_to_family(fam)
 
+        # Create and add device to an element
+        # TODO: find a sql stastement to parse the database and create a device
         cur.execute("select * from pvs where elemName='{}'".format(id_))
+        cur.execute("select * from pvs where elemField='{}'".format(id_))
+
         matched_pvs = cur.fetchall()
         for pv in matched_pvs:
             pv_name = pv['pv']
             handle = pv['elemHandle']
             field = pv['elemField']
-            element.put_pv_name(handle, field, pv_name)
+            print pv_name, handle, field
+#            device(pv_name, )
+#            element.add_device(field, device)
+#            element.put_pv_name(handle, field, pv_name)
         lattice.add_element(element)
     con.close()
 
