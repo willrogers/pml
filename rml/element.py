@@ -31,7 +31,6 @@ class Element(object):
         self.families.add(family)
 
     def get_pv_value(self, field, handle, unit='machine'):
-        print self.devices, field
         if field in self.devices:
             return self.devices[field].get_value(handle, unit)
         else:
