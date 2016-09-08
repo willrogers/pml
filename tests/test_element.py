@@ -8,7 +8,7 @@ import pytest
 
 @pytest.fixture
 def get_elements(length=0.0, uc=UcPoly([0, 1])):
-    cs = cs_dummy.DummyControlSystem()
+    cs = cs_dummy.CsDummy()
 
     element = rml.element.Element(1, length=length, cs=cs_dummy, uc=uc)
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'

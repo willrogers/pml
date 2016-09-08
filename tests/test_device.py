@@ -12,7 +12,7 @@ sp = 'SR01A-PC-SQUAD-01:SETI'
 def create_device(readback, setpoint):
     _rb = readback
     _sp = setpoint
-    _cs = cs_dummy.DummyControlSystem()
+    _cs = cs_dummy.CsDummy()
     _uc = None
     device = rml.device.Device(_rb, _sp, _cs, _uc)
     return device

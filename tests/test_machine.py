@@ -22,14 +22,12 @@ def test_load_bpms():
         assert isinstance(element.get_pv_name('readback', 'y'), str)
 
 
-@pytest.mark.xfail
 def test_load_drift_elements():
     # TODO test not finished
     lattice = init()
     drifts = lattice.get_elements('DRIFT')
 
 
-@pytest.mark.xfail
 def test_load_lattice():
     lattice = init()
     assert len(lattice) == 2428

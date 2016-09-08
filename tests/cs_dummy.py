@@ -4,7 +4,7 @@ It is needed to make tests dependendant on a specific control system pass.
 '''
 
 
-class DummyControlSystem():
+class CsDummy():
 
     def __init__(self):
         self.storage = dict()
