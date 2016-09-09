@@ -1,11 +1,23 @@
+'''
+Load the lattice given loading directory which contains two .txt files
+containing the pvs and the elements of the lattice. Files used for SRI21
+are dumped from a .sqlite database.
+TODO: split the code in sub methods
+      look into quicker way to load the elements from memory
+      not sure whether load_lattice should have a cs and uc parameter
+      part where a device is created is rather complicated
+'''
 import sqlite3
 import csv
 import io
 from rml.element import Element
 from rml.lattice import Lattice
+from rml.device import Device
+from rml.units import UcPoly
+from rml.cs_dummy import CsDummy
 
 
-def load_lattice(load_dir):
+def load_lattice(load_dir, cs=CsDummy(), uc=UcPoly([1, 0])):
     # Convert csv files into sqlite3 tables.
     # Pvs table: pv, elemName, elemHandle, elemField.
     # Elements table: elemName, elemType.
@@ -36,6 +48,10 @@ def load_lattice(load_dir):
 
     cur.execute("select * from elements")
     db_elements = cur.fetchall()
+    cur.execute("select distinct elemField from pvs;")
+    fields = cur.fetchall()
+
+    # Go through the database and create elements
     for db_element in db_elements:
         id_ = db_element['elemName']
         fam = db_element['elemType']
@@ -43,13 +59,22 @@ def load_lattice(load_dir):
         element = Element(id_, length=length)
         element.add_to_family(fam)
 
-        cur.execute("select * from pvs where elemName='{}'".format(id_))
-        matched_pvs = cur.fetchall()
-        for pv in matched_pvs:
-            pv_name = pv['pv']
-            handle = pv['elemHandle']
-            field = pv['elemField']
-            element.put_pv_name(handle, field, pv_name)
+        # Add devices to an element
+        for field in fields:
+            cur.execute("""select * from (select * from pvs where elemName='{0}')
+            where elemField like '{1}'""".format(id_, field[0]))
+            matched_pvs = cur.fetchall()
+            if len(matched_pvs) > 0:
+                d = dict()
+                for pv in matched_pvs:
+                    handle = pv['elemHandle']
+                    if handle == 'get':
+                        d['get'] = pv['pv']
+                    elif handle == 'put':
+                        d['put'] = pv['pv']
+                    device = Device(d.get('get', ''), d.get('put', ''),
+                                    cs=cs, uc=uc)
+                    element.add_device(field, device)
         lattice.add_element(element)
     con.close()
 
