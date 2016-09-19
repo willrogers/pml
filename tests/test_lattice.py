@@ -49,5 +49,5 @@ def test_lattice_with_n_elements(simple_element_and_lattice):
 def test_lattice_get_element_with_family(simple_element_and_lattice):
     element, lattice = simple_element_and_lattice
     element.add_to_family('fam')
-    assert lattice.get_elements('fam') == set([element])
-    assert lattice.get_elements('nofam') == set()
+    assert lattice.get_elements('fam') == [element]
+    assert lattice.get_elements('nofam') == list()

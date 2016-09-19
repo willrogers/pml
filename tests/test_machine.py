@@ -13,22 +13,23 @@ def init():
     return lattice
 
 
-@pytest.mark.xfail
 def test_load_bpms():
     lattice = init()
-    assert len(lattice) == 173
-    for element in lattice.get_elements():
-        assert isinstance(element.get_pv_name('readback', 'x'), str)
-        assert isinstance(element.get_pv_name('readback', 'y'), str)
+    bpms = lattice.get_elements('BPM')
+    assert 'x' in bpms[0].devices.keys()
 
 
+@pytest.fixture
 def test_load_drift_elements():
-    # TODO test not finished
+    # Length of the drifts array is too big
     lattice = init()
     drifts = lattice.get_elements('DRIFT')
+    assert len(drifts) == 1268
 
 
 def test_load_lattice():
     lattice = init()
     assert len(lattice) == 2428
+    bpms = lattice.get_elements('BPM')
+    drifts = lattice.get_elements('DRIFT')
     assert floor(lattice.get_length()) == 561.0

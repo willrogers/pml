@@ -24,6 +24,9 @@ class Element(object):
         self._uc = kwargs.get('uc', unit_conversion)
         self.devices = dict()
 
+    def __repr__(self):
+        return str(self.families)
+
     def add_device(self, field, device):
         self.devices[field] = device
 

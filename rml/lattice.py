@@ -11,6 +11,9 @@ class Lattice(object):
         ''' Get the number of elements in the lattice '''
         return len(self._elements)
 
+    def __str__(self):
+        print self._elements
+
     def get_length(self):
         ''' Get the length of the lattice in meters '''
         total_length = 0
@@ -33,8 +36,8 @@ class Lattice(object):
         if family == '*':
             return self._elements
 
-        matched_elements = set()
+        matched_elements = list()
         for element in self._elements:
             if family in element.families:
-                matched_elements.add(element)
+                matched_elements.append(element)
         return matched_elements
