@@ -33,8 +33,8 @@ class Lattice(object):
         if family == '*':
             return self._elements
 
-        matched_elements = set()
+        matched_elements = list()
         for element in self._elements:
             if family in element.families:
-                matched_elements.add(element)
+                matched_elements.append(element)
         return matched_elements
