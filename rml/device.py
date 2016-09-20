@@ -5,10 +5,10 @@ from rml.exceptions import PvException
 
 class Device(object):
     # should be a length parameter here
-    def __init__(self, length, rb_pv=None, sp_pv=None, cs=CsDummy(), uc=None):
-        self.length = length
+    def __init__(self, rb_pv=None, sp_pv=None, cs=CsDummy()):
         self.rb_pv = rb_pv
         self.sp_pv = sp_pv
+        self.cs = cs
         assert not (rb_pv is None and sp_pv is None)
         if rb_pv is not None:
             self.name = rb_pv.split(':')[0]
@@ -26,19 +26,11 @@ class Device(object):
             raise PvException("""This device {0} has no setpoint pv."""
                               .format(self.name))
 
-    def get_value(self, handle, unit):
+    def get_value(self, handle):
         if handle == 'readback' and self.rb_pv:
-            if unit == 'machine':
-                return self.cs.get(self.rb_pv)
-            elif unit == 'physics':
-                machine_value = self.cs.get(self.rb_pv)
-                return self.uc.machine_to_physics(machine_value)
+            return self.cs.get(self.rb_pv)
         elif handle == 'setpoint' and self.sp_pv:
-            if unit == 'machine':
-                return self.cs.get(self.sp_pv)
-            elif unit == 'physics':
-                machine_value = self.cs.get(self.sp_pv)
-                return self.uc.machine_to_physics(machine_value)
+            return self.cs.get(self.sp_pv)
 
         raise PvException("""This device {0} has no {1} pv."""
                           .format(self.name, handle))

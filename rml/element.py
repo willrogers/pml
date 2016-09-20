@@ -31,8 +31,6 @@ class Element(object):
         '''
         self._identity = elem_identity
         self.families = set()
-        self.length = kwargs.get('length', 0)
-        self._cs = kwargs.get('cs', None)
         self._uc = dict()
         self._devices = dict()
         self._physics = kwargs.get('physics', None)
@@ -47,18 +45,17 @@ class Element(object):
     def get_pv_value(self, field, handle, unit='machine', sim=False):
         if not sim:
             if field in self._devices:
-                value = self._devices[field].get_value(handle, unit)
+                value = self._devices[field].get_value(handle)
                 if unit == 'physics':
                     value = self._uc[field].machine_to_physics(value)
                 return value
             else:
-                raise PvException("There is no device associated with field {0}")
+                raise PvException("No device associated with field {0}")
         else:
             value = self._physics.get_value(field, handle, unit)
-            if unit == 'physics':
+            if unit == 'machine':
                 value = self._uc[field].machine_to_physics(value)
             return value
-
 
     def put_pv_value(self, field, value, unit='machine', sim=False):
         if not sim:
@@ -70,8 +67,8 @@ class Element(object):
                 raise PvException('''There is no device associated with
                                      field {0}'''.format(field))
         else:
-            if unit == 'physics':
-                value = self._uc[field].physics_to_machine(value)
+            if unit == 'machine':
+                value = self._uc[field].machine_to_physics(value)
             self._physics.put_value(field, value)
 
     def get_pv_name(self, field, handle='*', sim=False):
