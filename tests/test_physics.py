@@ -9,7 +9,7 @@ def create_device(readback, setpoint):
     _sp = setpoint
     _cs = cs_dummy.CsDummy()
     _uc = None
-    device = rml.device.Device(_rb, _sp, _cs, _uc)
+    device = rml.device.Device(_rb, _sp, _cs)
     return device
 
 

@@ -25,13 +25,16 @@ class Physics(object):
 
 
 class Rf(Physics):
-    def __init__(self):
-        pass
+    def __init__(self, voltage, frequency, harmonic_no):
+        self.voltage = voltage
+        self.frequency = frequency
+        self.harmonic_no = harmonic_no
+        self.time_lag = 0
 
 
 class Ap(Physics):
     def __init__(self):
-        pass
+        self.limits = [0] * 4
 
 
 class Drift(Physics):
@@ -57,6 +60,10 @@ class Magnet(Physics):
     def __init__(self, poly_a, poly_b):
         self.poly_a = poly_a
         self.poly_b = poly_b
+        self.r1 = [[0 for x in range(6)] for y in range(6)]
+        self.r2 = [[0 for x in range(6)] for y in range(6)]
+        self.t1 = [0 for x in range(6)]
+        self.t2 = [0 for x in range(6)]
 
     def put_b2(self, value, unit):
         pass
@@ -92,9 +99,13 @@ class Sext(Magnet):
 
 
 class Dipole(Magnet):
-    def __init__(self, gap, bending_angle):
-        self.gap = gap
+    def __init__(self, entrance_angle, bending_angle, exit_angle, full_gap):
+        self.entrance_angle = entrace_angle
         self.bending_angle = bending_angle
+        self.exit_angle = exit_angle
+        self.full_gap = full_gap
+        self.fringe_int1 = 0
+        self.fringe_int2 = 0
 
 
 # Correctors
