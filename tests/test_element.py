@@ -11,14 +11,13 @@ def get_elements(length=0.0, uc=UcPoly([0, 1])):
     cs = cs_dummy.CsDummy()
 
     element = rml.element.Element(1, length=length, cs=cs_dummy, uc=uc)
-    length = 0
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'
     sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
-    device1 = rml.device.Device(length, rb_pv, sp_pv, cs, uc)
-    device2 = rml.device.Device(length, sp_pv, rb_pv, cs, uc)
+    device1 = rml.device.Device(rb_pv, sp_pv, cs)
+    device2 = rml.device.Device(sp_pv, rb_pv, cs)
 
-    element.add_device('x', device1)
-    element.add_device('y', device2)
+    element.add_device('x', device1, uc)
+    element.add_device('y', device2, uc)
 
     return element
 
