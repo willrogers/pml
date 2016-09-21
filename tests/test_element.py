@@ -2,7 +2,9 @@ from rml.exceptions import PvException
 import rml.element
 import rml.device
 import cs_dummy
+from rml.physics import Physics
 from rml.units import UcPoly
+from mock import MagicMock
 import pytest
 
 
@@ -10,7 +12,8 @@ import pytest
 def get_elements(length=0.0, uc=UcPoly([0, 1])):
     cs = cs_dummy.CsDummy()
 
-    element = rml.element.Element(1, length=length, cs=cs_dummy, uc=uc)
+    element = rml.element.Element(1, MagicMock(), length=length,
+                                  cs=cs_dummy, uc=uc)
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'
     sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
     device1 = rml.device.Device(rb_pv, sp_pv, cs)
@@ -23,14 +26,16 @@ def get_elements(length=0.0, uc=UcPoly([0, 1])):
 
 
 def test_create_element():
-    e = rml.element.Element(4, length=6.0)
+    physics = Physics(length=6.0)
+    e = rml.element.Element(4, physics)
     e.add_to_family('BPM')
     assert 'BPM' in e.families
-    assert e.length == 6.0
+    assert e.get_length() == 6.0
 
 
 def test_add_element_to_family():
-    e = rml.element.Element('dummy')
+    physics = Physics(length=6.0)
+    e = rml.element.Element('dummy', physics)
     e.add_to_family('fam')
     assert 'fam' in e.families
 

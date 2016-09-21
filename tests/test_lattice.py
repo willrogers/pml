@@ -1,6 +1,7 @@
 import pytest
 import rml.lattice
 import rml.element
+import mock
 
 DUMMY_NAME = 'dummy'
 
@@ -8,7 +9,7 @@ DUMMY_NAME = 'dummy'
 @pytest.fixture
 def simple_element():
     e_length = 1.5
-    e = rml.element.Element('dummy_element', length=e_length)
+    e = rml.element.Element('dummy_element', mock.MagicMock())
     return e
 
 
@@ -33,15 +34,8 @@ def test_non_negative_lattice():
 def test_lattice_with_n_elements(simple_element_and_lattice):
     elem, lattice = simple_element_and_lattice
 
-    # Length of the lattice/elements
-    assert len(lattice) == 1
-    assert lattice.get_length() == elem.length
-
-    lattice.add_element(elem)
-    assert len(lattice) == 2
-    assert lattice.get_length() == elem.length + elem.length
-
     # Getting elements
+    lattice.add_element(elem)
     assert lattice[0] == elem
     assert lattice.get_elements() == [elem, elem]
 
