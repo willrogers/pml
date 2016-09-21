@@ -1,5 +1,15 @@
 '''
-Other element types available in MML:
+List of available physics objects:
+RF
+AP
+DRIFT
+BPM
+BEND
+QUAD
+SEXT
+DIPOLE
+HSTR
+VSTR
 HCHICA
 VTRIM
 HTRIM
@@ -12,7 +22,7 @@ from rml.device import Device
 
 
 class Physics(object):
-    def __init__(self, length=0):
+    def __init__(self, length):
         self.length = length
 
     def get_value(self, field, handle):
@@ -24,8 +34,41 @@ class Physics(object):
                                      in children classes!''')
 
 
+class Hchica(Physics):
+    pass
+
+
+class Vtrim(Physics):
+    pass
+
+
+class Htrim(Physics):
+    pass
+
+
+class Mpw12(Physics):
+    pass
+
+
+class Mpw10(Physics):
+    pass
+
+
+class Mpw15(Physics):
+    pass
+
+
+class Bpm10(Physics):
+    pass
+
+
+class Source(Physics):
+    pass
+
+
 class Rf(Physics):
-    def __init__(self, voltage, frequency, harmonic_no):
+    def __init__(self, length, voltage=0, frequency=0, harmonic_no=0):
+        super(Rf, self).__init__(length)
         self.voltage = voltage
         self.frequency = frequency
         self.harmonic_no = harmonic_no
@@ -33,19 +76,16 @@ class Rf(Physics):
 
 
 class Ap(Physics):
-    def __init__(self):
+    def __init__(self, length):
+        super(Ap, self).__init__(length)
         self.limits = [0] * 4
 
 
 class Drift(Physics):
-    def __init__(self):
-        pass
+    pass
 
 
 class Bpm(Physics):
-    def __init__(self):
-        pass
-
     def get_x(self):
         pass
 
@@ -57,7 +97,8 @@ class Bpm(Physics):
 class Magnet(Physics):
     # Should create subclasses of each magnet that inherit MagnetPhysics
     # Quad, dipole, corrector, sext
-    def __init__(self, poly_a, poly_b):
+    def __init__(self, length, poly_a=0, poly_b=0):
+        super(Magnet, self).__init__(length)
         self.poly_a = poly_a
         self.poly_b = poly_b
         self.r1 = [[0 for x in range(6)] for y in range(6)]
@@ -77,10 +118,7 @@ class Bend(Magnet):
 
 
 class Quad(Magnet):
-    def __init__(self, ):
-        pass
-
-    def put_b1(self, ):
+    def put_b1(self):
         pass
 
     def get_b1(self):
@@ -88,9 +126,6 @@ class Quad(Magnet):
 
 
 class Sext(Magnet):
-    def __init__(self):
-        pass
-
     def put_b2(self):
         pass
 
@@ -99,7 +134,9 @@ class Sext(Magnet):
 
 
 class Dipole(Magnet):
-    def __init__(self, entrance_angle, bending_angle, exit_angle, full_gap):
+    def __init__(self, length, entrance_angle, bending_angle, exit_angle,
+                 full_gap):
+        super(Dipole, self).__init__(length)
         self.entrance_angle = entrace_angle
         self.bending_angle = bending_angle
         self.exit_angle = exit_angle
@@ -110,9 +147,6 @@ class Dipole(Magnet):
 
 # Correctors
 class Corrector(Magnet):
-    def __init__(self):
-        pass
-
     def put_b0(self):
         pass
 

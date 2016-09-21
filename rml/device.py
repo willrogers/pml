@@ -1,6 +1,5 @@
 from rml.exceptions import PvException
 from rml.cs_dummy import CsDummy
-from rml.exceptions import PvException
 
 
 class Device(object):

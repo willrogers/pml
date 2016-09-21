@@ -10,11 +10,32 @@ TODO: split the code in sub methods
 import sqlite3
 import csv
 import io
+import rml.physics
 from rml.element import Element
 from rml.lattice import Lattice
 from rml.device import Device
 from rml.units import UcPoly
 from rml.cs_dummy import CsDummy
+
+
+PHYSICS_CLASSES = {'RF': rml.physics.Rf,
+                   'AP': rml.physics.Ap,
+                   'DRIFT': rml.physics.Drift,
+                   'BPM': rml.physics.Bpm,
+                   'BEND': rml.physics.Bend,
+                   'QUAD': rml.physics.Quad,
+                   'SEXT': rml.physics.Sext,
+                   'DIPOLE': rml.physics.Dipole,
+                   'HSTR': rml.physics.Hstr,
+                   'VSTR': rml.physics.Vstr,
+                   'VTRIM': rml.physics.Vtrim,
+                   'HTRIM': rml.physics.Htrim,
+                   'MPW12': rml.physics.Mpw12,
+                   'MPW15': rml.physics.Mpw15,
+                   'BPM10': rml.physics.Bpm10,
+                   'source': rml.physics.Source,
+                   'AP': rml.physics.Ap,
+                   'HCHICA': rml.physics.Hchica}
 
 
 def load_lattice(load_dir, cs=CsDummy(), uc=UcPoly([1, 0])):
@@ -55,7 +76,8 @@ def load_lattice(load_dir, cs=CsDummy(), uc=UcPoly([1, 0])):
         id_ = db_element['elemName']
         fam = db_element['elemType']
         length = float(db_element['elemLength'])
-        element = Element(id_, length=length)
+        physics = PHYSICS_CLASSES[fam](length)
+        element = Element(id_, physics)
         element.add_to_family(fam)
 
         # Add devices to an element
