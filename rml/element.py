@@ -4,19 +4,6 @@
 '''
 from rml.exceptions import PvException
 from rml.units import UcPoly
-from enum import Enum
-
-
-class ElementType(Enum):
-    rf = 1
-    ap = 2
-    drift = 3
-    bpm = 4
-    bend = 5
-    sext = 6
-    dipole = 7
-    hstr = 8
-    vstr = 9
 
 
 class Element(object):

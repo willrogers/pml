@@ -1,4 +1,3 @@
 python-coveralls
 cothread
 pytest-cov
-enum34
