@@ -50,7 +50,6 @@ def load_lattice(load_dir, cs=CsDummy(), uc=UcPoly([1, 0])):
     db_elements = cur.fetchall()
     cur.execute("select distinct elemField from pvs;")
     fields = cur.fetchall()
-
     # Go through the database and create elements
     for db_element in db_elements:
         id_ = db_element['elemName']
@@ -73,8 +72,8 @@ def load_lattice(load_dir, cs=CsDummy(), uc=UcPoly([1, 0])):
                     elif handle == 'put':
                         d['put'] = pv['pv']
                     device = Device(d.get('get', ''), d.get('put', ''),
-                                    cs=cs, uc=uc)
-                    element.add_device(field, device)
+                                    cs=cs)
+                    element.add_device(field[0], device, uc)
         lattice.add_element(element)
     con.close()
 
