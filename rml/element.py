@@ -21,7 +21,7 @@ class ElementType(Enum):
 
 class Element(object):
 
-    def __init__(self, elem_identity, **kwargs):
+    def __init__(self, elem_identity, physics, **kwargs):
         '''
         Possible arguments for kwargs:
 
@@ -30,10 +30,13 @@ class Element(object):
         :param cs: type of control system to be used
         '''
         self._identity = elem_identity
+        self._physics = physics
         self.families = set()
         self._uc = dict()
         self._devices = dict()
-        self._physics = kwargs.get('physics', None)
+
+    def get_length(self):
+        return self._physics.length
 
     def add_device(self, field, device, uc):
         self._devices[field] = device

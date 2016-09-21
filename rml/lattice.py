@@ -15,7 +15,7 @@ class Lattice(object):
         ''' Get the length of the lattice in meters '''
         total_length = 0
         for e in self._elements:
-            total_length += e.length
+            total_length += e.get_length()
         return total_length
 
     def add_element(self, element):
