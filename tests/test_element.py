@@ -4,7 +4,6 @@ import rml.device
 import cs_dummy
 from rml.physics import Physics
 from rml.units import UcPoly
-from mock import MagicMock
 import pytest
 
 
@@ -12,7 +11,7 @@ import pytest
 def get_elements(length=0.0, uc=UcPoly([0, 1])):
     cs = cs_dummy.CsDummy()
 
-    element = rml.element.Element(1, MagicMock(), length=length,
+    element = rml.element.Element(1, Physics(6), length=length,
                                   cs=cs_dummy, uc=uc)
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'
     sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
