@@ -25,6 +25,9 @@ class Element(object):
     def get_length(self):
         return self._physics.length
 
+    def __repr__(self):
+        return str(self.families)
+
     def add_device(self, field, device, uc):
         self.devices[field] = device
         self._uc[field] = uc

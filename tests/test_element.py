@@ -83,7 +83,6 @@ def test_identity_conversion():
     assert value_machine == 4.0
     assert value_physics == 4.0
 
-
 '''
 #    dummy_control_system.get = mock.MagicMock(return_value=4)
 #    self._cs.get('duumy')

@@ -46,4 +46,6 @@ def test_load_quad_family(lattice):
 
 def test_load_lattice(lattice):
     assert len(lattice) == 2428
+    bpms = lattice.get_elements('BPM')
+    drifts = lattice.get_elements('DRIFT')
     assert floor(lattice.get_length()) == 561.0
