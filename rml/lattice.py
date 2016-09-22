@@ -12,7 +12,7 @@ class Lattice(object):
         return len(self._elements)
 
     def __str__(self):
-        print self._elements
+        print(self._elements)
 
     def get_length(self):
         ''' Get the length of the lattice in meters '''
