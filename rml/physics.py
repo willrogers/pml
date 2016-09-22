@@ -137,7 +137,7 @@ class Dipole(Magnet):
     def __init__(self, length, entrance_angle, bending_angle, exit_angle,
                  full_gap):
         super(Dipole, self).__init__(length)
-        self.entrance_angle = entrace_angle
+        self.entrance_angle = entrance_angle
         self.bending_angle = bending_angle
         self.exit_angle = exit_angle
         self.full_gap = full_gap
