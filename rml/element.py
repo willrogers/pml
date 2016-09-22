@@ -3,8 +3,19 @@
 @param length: length of the element
 '''
 from rml.exceptions import PvException
-from rml.units import UcPoly
+from enum import Enum
 
+
+class ElementType(Enum):
+    rf = 1
+    ap = 2
+    drift = 3
+    bpm = 4
+    bend = 5
+    sext = 6
+    dipole = 7
+    hstr = 8
+    vstr = 9
 
 class Element(object):
 
@@ -17,6 +28,7 @@ class Element(object):
         :param cs: type of control system to be used
         '''
         self._identity = elem_identity
+<<<<<<< HEAD
         self._physics = physics
         self.families = set()
         self._uc = dict()
@@ -25,6 +37,13 @@ class Element(object):
     def get_length(self):
         return self._physics.length
 
+=======
+        self.families = set()
+        self._uc = dict()
+        self._devices = dict()
+        self._physics = kwargs.get('physics', None)
+
+>>>>>>> master
     def add_device(self, field, device, uc):
         self._devices[field] = device
         self._uc[field] = uc
