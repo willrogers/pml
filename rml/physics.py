@@ -18,7 +18,6 @@ MPW15
 BPM10
 source
 '''
-from rml.device import Device
 
 
 class Physics(object):
@@ -118,19 +117,11 @@ class Bend(Magnet):
 
 
 class Quad(Magnet):
-    def put_b1(self):
-        pass
-
-    def get_b1(self):
-        pass
+    pass
 
 
 class Sext(Magnet):
-    def put_b2(self):
-        pass
-
-    def get_b2(self):
-        pass
+    pass
 
 
 class Dipole(Magnet):

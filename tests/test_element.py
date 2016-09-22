@@ -11,8 +11,7 @@ import pytest
 def get_elements(length=0.0, uc=UcPoly([0, 1])):
     cs = cs_dummy.CsDummy()
 
-    element = rml.element.Element(1, 'Quad', Physics(6), length=length,
-                                  cs=cs_dummy, uc=uc)
+    element = rml.element.Element(1, 'Quad', Physics(6))
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'
     sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
     device1 = rml.device.Device(rb_pv, sp_pv, cs)
@@ -38,18 +37,17 @@ def test_add_element_to_family():
     e.add_to_family('fam')
     assert 'fam' in e.families
 
-'''
+
 def test_readback_pvs():
     # Tests to get/set pv names and/or values
     element = get_elements()
-    element.put_pv_value('x', 40)
-    element.put_pv_value('y', 40)
-    print element.get_pv_value('x', 'readback')
-    assert isinstance(element.get_pv_value('x', 'readback'), float)
+    element.put_pv_value('x', 40.0)
+    element.put_pv_value('y', 40.0)
+    assert isinstance(element.get_pv_value('x', 'readback',
+                                           unit='physics'), float)
     assert isinstance(element.get_pv_value('y', 'readback'), float)
-    assert isinstance(element.get_pv_name('x'), dict)
+    assert isinstance(element.get_pv_name('x'), list)
     assert isinstance(element.get_pv_name('y', 'readback'), str)
-'''
 
 
 def test_setpoint_pvs():

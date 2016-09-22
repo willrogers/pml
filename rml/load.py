@@ -34,7 +34,6 @@ PHYSICS_CLASSES = {'RF': rml.physics.Rf,
                    'MPW15': rml.physics.Mpw15,
                    'BPM10': rml.physics.Bpm10,
                    'source': rml.physics.Source,
-                   'AP': rml.physics.Ap,
                    'HCHICA': rml.physics.Hchica}
 
 
