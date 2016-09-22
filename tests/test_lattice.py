@@ -9,7 +9,7 @@ DUMMY_NAME = 'dummy'
 @pytest.fixture
 def simple_element():
     e_length = 1.5
-    e = rml.element.Element('dummy_element', mock.MagicMock())
+    e = rml.element.Element('dummy_element', 'Quad', mock.MagicMock())
     return e
 
 

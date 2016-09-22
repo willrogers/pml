@@ -45,7 +45,8 @@ def load_lattice(load_dir, cs=CsDummy(), uc=UcPoly([1, 0])):
     con = sqlite3.connect(":memory:")
     cur = con.cursor()
     cur.execute("CREATE TABLE pvs (pv, elemName, elemHandle, elemField);")
-    cur.execute("CREATE TABLE elements (elemName, elemType, elemLength);")
+    cur.execute("""CREATE TABLE elements (elemName, elemType, elemLength,
+    elemGroups);""")
 
     pvs_db = []
     elem_db = []
@@ -55,11 +56,12 @@ def load_lattice(load_dir, cs=CsDummy(), uc=UcPoly([1, 0])):
                    i['elemField']) for i in dr]
     with io.open(load_dir + 'elements.csv', 'r') as fin:
         dr = csv.DictReader(fin)
-        elem_db = [(i['elemName'], i['elemType'], i['elemLength']) for i in dr]
+        elem_db = [(i['elemName'], i['elemType'], i['elemLength'],
+                    i['elemGroups']) for i in dr]
     cur.executemany("INSERT INTO pvs (pv, elemName, elemHandle, elemField)\
     VALUES (?, ?, ?, ?);", pvs_db)
-    cur.executemany("INSERT INTO elements (elemName, elemType, elemLength)\
-    VALUES (?, ?, ?);", elem_db)
+    cur.executemany("INSERT INTO elements (elemName, elemType, elemLength, elemGroups)\
+    VALUES (?, ?, ?, ?);", elem_db)
     con.commit()
 
     # Store db elements in an array and use it to match pvs to an element
@@ -74,11 +76,13 @@ def load_lattice(load_dir, cs=CsDummy(), uc=UcPoly([1, 0])):
     # Go through the database and create elements
     for db_element in db_elements:
         id_ = db_element['elemName']
-        fam = db_element['elemType']
+        _type = db_element['elemType']
         length = float(db_element['elemLength'])
-        physics = PHYSICS_CLASSES[fam](length)
-        element = Element(id_, physics)
-        element.add_to_family(fam)
+        family = db_element['elemGroups']
+        physics = PHYSICS_CLASSES[_type](length)
+        element = Element(id_, _type, physics)
+        element.add_to_family(_type)
+        element.add_to_family(family)
 
         # Add devices to an element
         for field in fields:

@@ -36,9 +36,7 @@ def test_load_quadrupoles(lattice):
         assert re.match('SR.*Q.*:I', device.rb_pv)
         assert re.match('SR.*Q.*:SETI', device.sp_pv)
         quad.put_pv_value('b1', 1)
-        print(device)
-        print(device._cs)
-        device._cs.put.assert_called_with(device.sp_pv, 1)
+        device.cs.put.assert_called_with(device.sp_pv, 1)
 
 
 def test_load_quad_family(lattice):

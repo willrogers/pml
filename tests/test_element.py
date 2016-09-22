@@ -11,7 +11,7 @@ import pytest
 def get_elements(length=0.0, uc=UcPoly([0, 1])):
     cs = cs_dummy.CsDummy()
 
-    element = rml.element.Element(1, Physics(6), length=length,
+    element = rml.element.Element(1, 'Quad', Physics(6), length=length,
                                   cs=cs_dummy, uc=uc)
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'
     sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
@@ -26,7 +26,7 @@ def get_elements(length=0.0, uc=UcPoly([0, 1])):
 
 def test_create_element():
     physics = Physics(length=6.0)
-    e = rml.element.Element(4, physics)
+    e = rml.element.Element(4, 'Quad', physics)
     e.add_to_family('BPM')
     assert 'BPM' in e.families
     assert e.get_length() == 6.0
@@ -34,7 +34,7 @@ def test_create_element():
 
 def test_add_element_to_family():
     physics = Physics(length=6.0)
-    e = rml.element.Element('dummy', physics)
+    e = rml.element.Element('dummy', 'Quad', physics)
     e.add_to_family('fam')
     assert 'fam' in e.families
 

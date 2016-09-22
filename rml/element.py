@@ -7,7 +7,7 @@ from rml.exceptions import PvException
 
 class Element(object):
 
-    def __init__(self, elem_identity, physics, **kwargs):
+    def __init__(self, identity, _type, physics, **kwargs):
         '''
         Possible arguments for kwargs:
 
@@ -15,17 +15,18 @@ class Element(object):
         :set elem_family: a set used to store families
         :param cs: type of control system to be used
         '''
-        self._identity = elem_identity
+        self._identity = identity
+        self._type = _type
         self._physics = physics
         self.families = set()
         self._uc = dict()
-        self._devices = dict()
+        self.devices = dict()
 
     def get_length(self):
         return self._physics.length
 
     def add_device(self, field, device, uc):
-        self._devices[field] = device
+        self.devices[field] = device
         self._uc[field] = uc
 
     def add_to_family(self, family):
@@ -33,8 +34,8 @@ class Element(object):
 
     def get_pv_value(self, field, handle, unit='machine', sim=False):
         if not sim:
-            if field in self._devices:
-                value = self._devices[field].get_value(handle)
+            if field in self.devices:
+                value = self.devices[field].get_value(handle)
                 if unit == 'physics':
                     value = self._uc[field].machine_to_physics(value)
                 return value
@@ -48,10 +49,10 @@ class Element(object):
 
     def put_pv_value(self, field, value, unit='machine', sim=False):
         if not sim:
-            if field in self._devices:
+            if field in self.devices:
                 if unit == 'physics':
                     value = self._uc[field].physics_to_machine(value)
-                self._devices[field].put_value(value)
+                self.devices[field].put_value(value)
             else:
                 raise PvException('''There is no device associated with
                                      field {0}'''.format(field))
@@ -62,8 +63,8 @@ class Element(object):
 
     def get_pv_name(self, field, handle='*', sim=False):
         if not sim:
-            if field in self._devices:
-                return self._devices[field].get_pv_name(handle)
+            if field in self.devices:
+                return self.devices[field].get_pv_name(handle)
         else:
             return self._physics.get_pv_name(field, handle)
         raise PvException("There is no device associated with field {0}"
