@@ -7,7 +7,7 @@ from rml.exceptions import PvException
 
 class Element(object):
 
-    def __init__(self, identity, _type, physics, **kwargs):
+    def __init__(self, identity, _type, physics):
         '''
         Possible arguments for kwargs:
 
