@@ -10,6 +10,7 @@ DUMMY_NAME = 'dummy'
 def simple_element():
     e_length = 1.5
     e = rml.element.Element('dummy_element', 'Quad', mock.MagicMock())
+    e.add_to_family('Q1B')
     return e
 
 

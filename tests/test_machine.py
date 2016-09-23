@@ -47,8 +47,8 @@ def test_load_quad_family(lattice):
 
 
 def test_load_correctors(lattice):
-    hcm = lattice.get_elements('HCM')
-    vcm = lattice.get_elements('VCM')
+    hcm = lattice.get_elements('HSTR')
+    vcm = lattice.get_elements('VSTR')
     assert len(hcm) == 172
     assert len(vcm) == 172
 
