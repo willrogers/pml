@@ -41,3 +41,11 @@ class Lattice(object):
             if family in element.families:
                 matched_elements.append(element)
         return matched_elements
+
+    def get_all_families(self):
+        families = set()
+        for element in self._elements:
+            for family in element.families:
+                families.add(family)
+
+        return families

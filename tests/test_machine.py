@@ -42,6 +42,15 @@ def test_load_quadrupoles(lattice):
 def test_load_quad_family(lattice):
     q1b = lattice.get_elements('Q1B')
     assert len(q1b) == 36
+    q1b = lattice.get_elements('Q1D')
+    assert len(q1b) == 12
+
+
+def test_load_correctors(lattice):
+    hcm = lattice.get_elements('HSTR')
+    vcm = lattice.get_elements('VSTR')
+    assert len(hcm) == 172
+    assert len(vcm) == 172
 
 
 def test_load_lattice(lattice):

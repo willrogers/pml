@@ -10,6 +10,7 @@ DUMMY_NAME = 'dummy'
 def simple_element():
     e_length = 1.5
     e = rml.element.Element('dummy_element', 'Quad', mock.MagicMock())
+    e.add_to_family('Q1B')
     return e
 
 
@@ -45,3 +46,9 @@ def test_lattice_get_element_with_family(simple_element_and_lattice):
     element.add_to_family('fam')
     assert lattice.get_elements('fam') == [element]
     assert lattice.get_elements('nofam') == []
+
+
+def test_get_all_families(simple_element_and_lattice):
+    element, lattice = simple_element_and_lattice
+    families = lattice.get_all_families()
+    assert len(families) > 0
