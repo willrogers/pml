@@ -1,17 +1,31 @@
 import pytest
 import rml.lattice
 import rml.element
+import rml.device
+import cs_dummy
 import mock
+from rml.units import UcPoly
 
 DUMMY_NAME = 'dummy'
 
 
 @pytest.fixture
-def simple_element():
-    e_length = 1.5
-    e = rml.element.Element('dummy_element', 'Quad', mock.MagicMock())
-    e.add_to_family('Q1B')
-    return e
+def simple_element(identity=1):
+    cs = cs_dummy.CsDummy()
+    uc = UcPoly([0, 1])
+
+    # Create devices and attach them to the element
+    element = rml.element.Element(identity, 'BPM', mock.MagicMock())
+    rb_pv = 'SR22C-DI-EBPM-04:SA:X'
+    sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
+    device1 = rml.device.Device(rb_pv, sp_pv, cs)
+    device2 = rml.device.Device(sp_pv, rb_pv, cs)
+    element.add_to_family('BPM')
+
+    element.add_device('x', device1, uc)
+    element.add_device('y', device2, uc)
+
+    return element
 
 
 @pytest.fixture
@@ -52,3 +66,10 @@ def test_get_all_families(simple_element_and_lattice):
     element, lattice = simple_element_and_lattice
     families = lattice.get_all_families()
     assert len(families) > 0
+
+
+def test_get_family_value(simple_element_and_lattice):
+    element, lattice = simple_element_and_lattice
+    lattice.set_family_value('BPM', 'x', [2.3])
+    family_values = lattice.get_family_value('BPM', 'x')
+    assert family_values == list([2.3])
