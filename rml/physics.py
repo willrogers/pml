@@ -24,11 +24,11 @@ class Physics(object):
     def __init__(self, length):
         self.length = length
 
-    def get_value(self, field, handle):
+    def get_length(self, field, handle):
         raise NotImplementedError('''This method should be overwritten
                                      in children classes!''')
 
-    def put_value(self, field, unit):
+    def set_length(self, field, unit):
         raise NotImplementedError('''This method should be overwritten
                                      in children classes!''')
 
@@ -58,7 +58,9 @@ class Mpw15(Physics):
 
 
 class Bpm10(Physics):
-    pass
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
 
 class Source(Physics):
@@ -66,12 +68,36 @@ class Source(Physics):
 
 
 class Rf(Physics):
-    def __init__(self, length, voltage=0, frequency=0, harmonic_no=0):
+    def __init__(self, voltage, frequency, harmonic_no, time_lag=0):
         super(Rf, self).__init__(length)
         self.voltage = voltage
         self.frequency = frequency
         self.harmonic_no = harmonic_no
-        self.time_lag = 0
+        self.time_lag = time_lag
+
+    def get_voltage(self):
+        return self.voltage
+
+    def set_voltage(self, value):
+        self.voltage = value
+
+    def get_frequency(self):
+        return self.frequency
+
+    def set_frequency(self, value):
+        self.frequency = value
+
+    def get_harmonic_no(self):
+        return harmonic_no
+
+    def set_harmonic_no(self, value):
+        self.harmonic_no = value
+
+    def get_time_lag(self):
+        return self.time_lag
+
+    def set_time_lag(self, value):
+        self.time_lag = value
 
 
 class Ap(Physics):
@@ -81,36 +107,82 @@ class Ap(Physics):
 
 
 class Drift(Physics):
-    pass
+    def __init__(self):
+        pass
 
 
 class Bpm(Physics):
+    def __init__(self, x=None, y=None):
+        self.x = x
+        self.y = y
+
     def get_x(self):
-        pass
+        return self.x
 
     def get_y(self):
-        pass
+        return self.y
 
 
 # Magnets
 class Magnet(Physics):
     # Should create subclasses of each magnet that inherit MagnetPhysics
     # Quad, dipole, corrector, sext
-    def __init__(self, length, poly_a=0, poly_b=0):
+    def __init__(self, poly_a=0, poly_b=0, r1=0, r2=0, t1=0, t2=0):
         super(Magnet, self).__init__(length)
-        self.poly_a = poly_a
-        self.poly_b = poly_b
+        self.poly_a = [0 for x in range(4)]
+        self.poly_b = [0 for x in range(4)]
         self.r1 = [[0 for x in range(6)] for y in range(6)]
         self.r2 = [[0 for x in range(6)] for y in range(6)]
         self.t1 = [0 for x in range(6)]
         self.t2 = [0 for x in range(6)]
 
-    def put_b2(self, value, unit):
-        pass
 
-    def get_b2(self, value, unit):
-        pass
+    def get_poly_a(self, value):
+        self.poly_a = value
 
+    def set_poly_a(self, value):
+        self.poly_a = value
+
+    def get_poly_b(self):
+        return self.poly_b
+
+    def set_poly_b(self, value):
+        self.poly_b = value
+
+    def get_r1(self):
+        return self.r1
+
+    def set_r1(self, value):
+        self.r1 = value
+
+    def get_r2(self):
+        return self.r2
+
+    def set_r2(self, value):
+        self.r2 = value
+
+    def get_t1(self):
+        return self.t1
+
+    def set_t1(self, value):
+        self.t1 = value
+
+    def get_t2(self):
+        return self.t2
+
+    def set_t2(self, value):
+        self.t2 = value
+
+
+class Aperture(Physics):
+    def __init__(self, limits):
+        self.limits = limits
+
+    def get_limits(self):
+        return self.limits
+
+    def set_limits(self, value):
+        self.limits = value
 
 class Bend(Magnet):
     pass
@@ -151,3 +223,149 @@ class Hstr(Corrector):
 
 class Vstr(Corrector):
     pass
+
+
+class Marker(Physics):
+    def __init__(self):
+        pass
+
+
+
+class Monitor(Physics):
+    def __init__(self):
+        pass
+
+
+class Drif(Physics):
+    def __init__(self):
+        pass
+
+
+class Aperture(Physics):
+    def __init__(self):
+        pass
+
+
+class RF(Physics):
+    def __init__(self, voltage, frequency, harmonic_number, time_lag=0):
+        self.voltage = voltage
+        self.frequency = frequency
+        self.harmonic_number = harmonic_number
+        self.time_lag = time_lag
+
+    def get_voltage(self):
+        return self.voltage
+
+    def set_voltage(self, value):
+        self.voltage = value
+
+    def get_frequency(self):
+        return self.frequency
+
+    def set_frequency(self, value):
+        self.frequency = value
+
+    def get_harmonic_number(self):
+        return self.harmonic_number
+
+    def set_harmonic_number(self, value):
+        self.harmonic_number = value
+
+    def get_time_lag(self):
+        return time_lag
+
+    def set_time_lag(self, value):
+        self.time_lag = value
+
+
+class Magnet(Physics):
+    def __init__(self, polynom_a=0, polynom_b=0, r1=0, r2=0, t1=0, t2=0):
+        self.polynom_a = polynom_a
+        self.polynom_b = polynom_b
+        self.r1 = r1
+        self.r2 = r2
+        self.t1 = t1
+        self.t2 = t2
+
+    def get_polynom_a(self):
+        return self.polynom_a
+
+    def set_polynom_a(self, value):
+        return self.polynom_a
+
+    def get_polynom_b(self):
+        return polynom_b
+
+    def set_polynom_b(self, value):
+        self.polynom_b = value
+
+    def get_r1(self):
+        return self.r1
+
+    def set_r1(self, value):
+        self.r1 = value
+
+    def get_r2(self):
+        return self.r2
+
+    def set_r2(self, value):
+        self.r2 = value
+
+    def get_t1(self):
+        return self.t1
+
+    def set_t1(self, value):
+        self.t1 = value
+
+    def get_t2(self):
+        return self.t2
+
+    def set_t2(self, value):
+        self.t2 = value
+
+
+class Dipole(Magnet):
+    def __init__(self, bending_angle, entrance_angle, exit_angle,
+                 full_gap, fringe_int1, fringe_int2):
+        self.bending_angle = bending_angle
+        self.entrance_angle = entrance_angle
+        self.exit_angle = exit_angle
+        self.full_gap = full_gap
+        self.fringe_int1 = fringe_int1
+        self.fringe_int2 = fringe_int2
+
+    def get_bending_angle(self):
+        return self.bending_angle
+
+    def set_bending_angle(self, value):
+        self.bending_angle = value
+
+    def get_entrance_angle(self):
+        return self.entrance_angle
+
+    def set_entrance_angle(self, value):
+        self.entrance_angle = value
+
+    def get_exit_angle(self):
+        return self.exit_angle
+
+    def set_exit_angle(self, value):
+        self.exit_angle = exit_angle
+
+    def get_full_gap(self):
+        return self.full_gap
+
+    def set_full_gap(self, value):
+        self.full_gap = value
+
+    def get_fringe_int1(self):
+        return self.fringe_int1
+
+    def set_fringe_int1(self, value):
+        self.fringe_int1 = value
+
+    def get_fringe_int2(self):
+        return self.fringe_int2
+
+    def set_fringe_int2(self, value):
+        self.fringe_int2 = value
