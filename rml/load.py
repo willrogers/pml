@@ -68,38 +68,43 @@ def load_lattice(load_dir, cs=CsDummy(), uc=UcPoly([1, 0])):
     cur = con.cursor()
     lattice = Lattice('SRI21')
 
-    cur.execute("select * from elements")
+    cur.execute("select * from elements left outer join pvs on elements.elemName = pvs.elemName")
     db_elements = cur.fetchall()
-    cur.execute("select distinct elemField from pvs;")
-    fields = cur.fetchall()
-    # Go through the database and create elements
-    for db_element in db_elements:
-        id_ = db_element['elemName']
-        _type = db_element['elemType']
-        length = float(db_element['elemLength'])
-        family = db_element['elemGroups']
-        physics = PHYSICS_CLASSES[_type](length)
-        element = Element(id_, _type, physics)
-        element.add_to_family(_type)
-        element.add_to_family(family)
 
-        # Add devices to an element
-        for field in fields:
-            cur.execute("""select * from (select * from pvs where elemName='{0}')
-            where elemField like '{1}'""".format(id_, field['elemField']))
-            matched_pvs = cur.fetchall()
-            if len(matched_pvs) > 0:
-                d = dict()
-                for pv in matched_pvs:
-                    handle = pv['elemHandle']
-                    if handle == 'get':
-                        d['get'] = pv['pv']
-                    elif handle == 'put':
-                        d['put'] = pv['pv']
-                    device = Device(d.get('get', ''), d.get('put', ''),
-                                    cs=cs)
-                    element.add_device(field[0], device, uc)
-        lattice.add_element(element)
+    # Go through the database and create elements
+    created_elements = {}
+    for i, db_element in enumerate(db_elements):
+        id_ = db_element['elemName']
+        try:
+            element = created_elements[id_]
+        except KeyError:
+            _type = db_element['elemType']
+            length = float(db_element['elemLength'])
+            family = db_element['elemGroups']
+            physics = PHYSICS_CLASSES[_type](length)
+            element = Element(id_, _type, physics)
+            element.add_to_family(_type)
+            element.add_to_family(family)
+            lattice.add_element(element)
+            created_elements[id_] = element
+
+        # Now create devices if necessary.
+        field = db_element['elemField']
+
+        if field is not None:
+            pv = db_element['pv']
+            handle = db_element['elemHandle']
+            rb_pv = pv if handle == 'get' else None
+            sp_pv = pv if handle == 'put' else None
+            try:
+                device = element.devices[field]
+                if rb_pv is not None:
+                    device.rb_pv = rb_pv
+                if sp_pv is not None:
+                    device.sp_pv = sp_pv
+            except KeyError:
+                device = Device(rb_pv, sp_pv, cs)
+                element.devices[field] = device
     con.close()
 
     return lattice
