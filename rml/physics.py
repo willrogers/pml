@@ -88,7 +88,7 @@ class Rf(Physics):
         self.frequency = value
 
     def get_harmonic_no(self):
-        return harmonic_no
+        return self.harmonic_no
 
     def set_harmonic_no(self, value):
         self.harmonic_no = value
@@ -176,7 +176,7 @@ class Magnet(Physics):
 
 class Aperture(Physics):
     def __init__(self, limits):
-        self.limits = limits
+        self.limits = [0 for x in range(4)]
 
     def get_limits(self):
         return self.limits
@@ -194,18 +194,6 @@ class Quad(Magnet):
 
 class Sext(Magnet):
     pass
-
-
-class Dipole(Magnet):
-    def __init__(self, length, entrance_angle, bending_angle, exit_angle,
-                 full_gap):
-        super(Dipole, self).__init__(length)
-        self.entrance_angle = entrance_angle
-        self.bending_angle = bending_angle
-        self.exit_angle = exit_angle
-        self.full_gap = full_gap
-        self.fringe_int1 = 0
-        self.fringe_int2 = 0
 
 
 # Correctors
@@ -237,11 +225,6 @@ class Monitor(Physics):
 
 
 class Drif(Physics):
-    def __init__(self):
-        pass
-
-
-class Aperture(Physics):
     def __init__(self):
         pass
 
@@ -294,7 +277,7 @@ class Magnet(Physics):
         return self.polynom_a
 
     def get_polynom_b(self):
-        return polynom_b
+        return self.polynom_b
 
     def set_polynom_b(self, value):
         self.polynom_b = value
