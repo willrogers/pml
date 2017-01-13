@@ -4,4 +4,4 @@ pytest-cov
 pytest
 numpy
 scipy
-test-pep8
+mock
