@@ -58,7 +58,8 @@ class Mpw15(Physics):
 
 
 class Bpm10(Physics):
-    def __init__(self, x, y):
+    def __init__(self, length, x=0, y=0):
+        super(Bpm10, self).__init__(length)
         self.x = x
         self.y = y
 
@@ -68,7 +69,7 @@ class Source(Physics):
 
 
 class Rf(Physics):
-    def __init__(self, voltage, frequency, harmonic_no, time_lag=0):
+    def __init__(self, length, voltage=0, frequency=0, harmonic_no=0, time_lag=0):
         super(Rf, self).__init__(length)
         self.voltage = voltage
         self.frequency = frequency
@@ -107,12 +108,12 @@ class Ap(Physics):
 
 
 class Drift(Physics):
-    def __init__(self):
-        pass
+    pass
 
 
 class Bpm(Physics):
-    def __init__(self, x=None, y=None):
+    def __init__(self, length, x=None, y=None):
+        super(Bpm, self).__init__(length)
         self.x = x
         self.y = y
 
@@ -127,7 +128,7 @@ class Bpm(Physics):
 class Magnet(Physics):
     # Should create subclasses of each magnet that inherit MagnetPhysics
     # Quad, dipole, corrector, sext
-    def __init__(self, poly_a=0, poly_b=0, r1=0, r2=0, t1=0, t2=0):
+    def __init__(self, length, poly_a=0, poly_b=0, r1=0, r2=0, t1=0, t2=0):
         super(Magnet, self).__init__(length)
         self.poly_a = [0 for x in range(4)]
         self.poly_b = [0 for x in range(4)]
@@ -189,7 +190,8 @@ class Bend(Magnet):
 
 
 class Quad(Magnet):
-    pass
+    def __init__(self, length):
+        super(Quad, self).__init__(length)
 
 
 class Sext(Magnet):
@@ -218,13 +220,7 @@ class Marker(Physics):
         pass
 
 
-
 class Monitor(Physics):
-    def __init__(self):
-        pass
-
-
-class Drif(Physics):
     def __init__(self):
         pass
 
@@ -259,52 +255,6 @@ class RF(Physics):
 
     def set_time_lag(self, value):
         self.time_lag = value
-
-
-class Magnet(Physics):
-    def __init__(self, polynom_a=0, polynom_b=0, r1=0, r2=0, t1=0, t2=0):
-        self.polynom_a = polynom_a
-        self.polynom_b = polynom_b
-        self.r1 = r1
-        self.r2 = r2
-        self.t1 = t1
-        self.t2 = t2
-
-    def get_polynom_a(self):
-        return self.polynom_a
-
-    def set_polynom_a(self, value):
-        return self.polynom_a
-
-    def get_polynom_b(self):
-        return self.polynom_b
-
-    def set_polynom_b(self, value):
-        self.polynom_b = value
-
-    def get_r1(self):
-        return self.r1
-
-    def set_r1(self, value):
-        self.r1 = value
-
-    def get_r2(self):
-        return self.r2
-
-    def set_r2(self, value):
-        self.r2 = value
-
-    def get_t1(self):
-        return self.t1
-
-    def set_t1(self, value):
-        self.t1 = value
-
-    def get_t2(self):
-        return self.t2
-
-    def set_t2(self, value):
-        self.t2 = value
 
 
 class Dipole(Magnet):
@@ -352,3 +302,4 @@ class Dipole(Magnet):
 
     def set_fringe_int2(self, value):
         self.fringe_int2 = value
+
