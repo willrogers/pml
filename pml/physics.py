@@ -130,12 +130,12 @@ class Magnet(Physics):
     # Quad, dipole, corrector, sext
     def __init__(self, length, poly_a=0, poly_b=0, r1=0, r2=0, t1=0, t2=0):
         super(Magnet, self).__init__(length)
-        self.poly_a = [0 for x in range(4)]
-        self.poly_b = [0 for x in range(4)]
-        self.r1 = [[0 for x in range(6)] for y in range(6)]
-        self.r2 = [[0 for x in range(6)] for y in range(6)]
-        self.t1 = [0 for x in range(6)]
-        self.t2 = [0 for x in range(6)]
+        self.poly_a = [0 for _ in range(4)]
+        self.poly_b = [0 for _ in range(4)]
+        self.r1 = [[0 for _ in range(6)] for _ in range(6)]
+        self.r2 = [[0 for _ in range(6)] for _ in range(6)]
+        self.t1 = [0 for _ in range(6)]
+        self.t2 = [0 for _ in range(6)]
 
 
     def get_poly_a(self, value):
@@ -177,7 +177,8 @@ class Magnet(Physics):
 
 class Aperture(Physics):
     def __init__(self, limits):
-        self.limits = [0 for x in range(4)]
+        assert len(limits) == 4
+        self.limits = limits
 
     def get_limits(self):
         return self.limits
