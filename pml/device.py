@@ -1,5 +1,5 @@
-from rml.exceptions import PvException
-from rml.cs_dummy import CsDummy
+from pml.exceptions import PvException
+from pml.cs_dummy import CsDummy
 
 
 class Device(object):

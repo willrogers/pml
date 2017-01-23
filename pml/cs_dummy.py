@@ -2,7 +2,7 @@
 Class to implement a dummy control system to use on git.
 It is needed to make tests dependendant on a specific control system pass.
 '''
-from rml.cs import ControlSystem
+from pml.cs import ControlSystem
 
 
 class CsDummy(ControlSystem):

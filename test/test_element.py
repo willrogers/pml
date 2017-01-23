@@ -1,9 +1,9 @@
-from rml.exceptions import PvException
-import rml.element
-import rml.device
+from pml.exceptions import PvException
+import pml.element
+import pml.device
 import cs_dummy
-from rml.physics import Physics
-from rml.units import UcPoly
+from pml.physics import Physics
+from pml.units import UcPoly
 import pytest
 
 
@@ -11,11 +11,11 @@ import pytest
 def get_elements(length=0.0, uc=UcPoly([0, 1])):
     cs = cs_dummy.CsDummy()
 
-    element = rml.element.Element(1, 'Quad', Physics(6))
+    element = pml.element.Element(1, 'Quad', Physics(6))
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'
     sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
-    device1 = rml.device.Device(rb_pv, sp_pv, cs)
-    device2 = rml.device.Device(sp_pv, rb_pv, cs)
+    device1 = pml.device.Device(rb_pv, sp_pv, cs)
+    device2 = pml.device.Device(sp_pv, rb_pv, cs)
 
     element.add_device('x', device1, uc)
     element.add_device('y', device2, uc)
@@ -25,7 +25,7 @@ def get_elements(length=0.0, uc=UcPoly([0, 1])):
 
 def test_create_element():
     physics = Physics(length=6.0)
-    e = rml.element.Element(4, 'Quad', physics)
+    e = pml.element.Element(4, 'Quad', physics)
     e.add_to_family('BPM')
     assert 'BPM' in e.families
     assert e.get_length() == 6.0
@@ -33,7 +33,7 @@ def test_create_element():
 
 def test_add_element_to_family():
     physics = Physics(length=6.0)
-    e = rml.element.Element('dummy', 'Quad', physics)
+    e = pml.element.Element('dummy', 'Quad', physics)
     e.add_to_family('fam')
     assert 'fam' in e.families
 

@@ -1,5 +1,5 @@
 import pytest
-from rml.units import UcPoly, UcPchip
+from pml.units import UcPoly, UcPchip
 
 
 def test_identity_conversion():

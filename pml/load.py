@@ -10,31 +10,31 @@ TODO: split the code in sub methods
 import sqlite3
 import csv
 import io
-import rml.physics
-from rml.element import Element
-from rml.lattice import Lattice
-from rml.device import Device
-from rml.units import UcPoly
-from rml.cs_dummy import CsDummy
+import pml.physics
+from pml.element import Element
+from pml.lattice import Lattice
+from pml.device import Device
+from pml.units import UcPoly
+from pml.cs_dummy import CsDummy
 
 
-PHYSICS_CLASSES = {'RF': rml.physics.Rf,
-                   'AP': rml.physics.Ap,
-                   'DRIFT': rml.physics.Drift,
-                   'BPM': rml.physics.Bpm,
-                   'BEND': rml.physics.Bend,
-                   'QUAD': rml.physics.Quad,
-                   'SEXT': rml.physics.Sext,
-                   'DIPOLE': rml.physics.Dipole,
-                   'HSTR': rml.physics.Hstr,
-                   'VSTR': rml.physics.Vstr,
-                   'VTRIM': rml.physics.Vtrim,
-                   'HTRIM': rml.physics.Htrim,
-                   'MPW12': rml.physics.Mpw12,
-                   'MPW15': rml.physics.Mpw15,
-                   'BPM10': rml.physics.Bpm10,
-                   'source': rml.physics.Source,
-                   'HCHICA': rml.physics.Hchica}
+PHYSICS_CLASSES = {'RF': pml.physics.Rf,
+                   'AP': pml.physics.Ap,
+                   'DRIFT': pml.physics.Drift,
+                   'BPM': pml.physics.Bpm,
+                   'BEND': pml.physics.Bend,
+                   'QUAD': pml.physics.Quad,
+                   'SEXT': pml.physics.Sext,
+                   'DIPOLE': pml.physics.Dipole,
+                   'HSTR': pml.physics.Hstr,
+                   'VSTR': pml.physics.Vstr,
+                   'VTRIM': pml.physics.Vtrim,
+                   'HTRIM': pml.physics.Htrim,
+                   'MPW12': pml.physics.Mpw12,
+                   'MPW15': pml.physics.Mpw15,
+                   'BPM10': pml.physics.Bpm10,
+                   'source': pml.physics.Source,
+                   'HCHICA': pml.physics.Hchica}
 
 
 def load_lattice(load_dir, cs=CsDummy(), uc=UcPoly([1, 0])):
