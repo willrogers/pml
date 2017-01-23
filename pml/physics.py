@@ -251,7 +251,7 @@ class RF(Physics):
         self.harmonic_number = value
 
     def get_time_lag(self):
-        return time_lag
+        return self.time_lag
 
     def set_time_lag(self, value):
         self.time_lag = value
@@ -283,7 +283,7 @@ class Dipole(Magnet):
         return self.exit_angle
 
     def set_exit_angle(self, value):
-        self.exit_angle = exit_angle
+        self.exit_angle = value
 
     def get_full_gap(self):
         return self.full_gap
