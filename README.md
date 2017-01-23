@@ -1,14 +1,9 @@
-|build-status| |coverage| |health|
+# PML
 
+Python Middlelayer is a Python library intended to make it easy to work with accelerators.
 
-.. |build-status| image:: https://travis-ci.org/willrogers/pml.svg?branch=master
-    :target: https://travis-ci.org/willrogers/pml
-    :alt: Build Status
+[![Build Status](https://travis-ci.org/simkimsia/UtilityBehaviors.png)](https://travis-ci.org/simkimsia/UtilityBehaviors)
 
-.. |coverage| image:: https://coveralls.io/repos/willrogers/pml/badge.svg?branch=master&service=github
-    :target: https://coveralls.io/github/willrogers/pml?branch=master
-    :alt: Test coverage
+[![Coverage](https://coveralls.io/repos/willrogers/pml/badge.svg?branch=master&service=github)](https://coveralls.io/repos/willrogers/pml/)
 
-.. |health| image:: https://landscape.io/github/willrogers/pml/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/willrogers/pml/master
-   :alt: Code Health
+[![Health](https://landscape.io/github/willrogers/pml/master/landscape.svg?style=flat)](https://landscape.io/github/willrogers/pml/)
