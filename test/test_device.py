@@ -1,5 +1,5 @@
-from rml.exceptions import PvException
-import rml.device
+from pml.exceptions import PvException
+import pml.device
 import cs_dummy
 import pytest
 
@@ -10,7 +10,7 @@ def create_device(readback, setpoint):
     _sp = setpoint
     _cs = cs_dummy.CsDummy()
     _uc = None
-    device = rml.device.Device(rb_pv=_rb, sp_pv=_sp, cs=_cs)
+    device = pml.device.Device(rb_pv=_rb, sp_pv=_sp, cs=_cs)
     return device
 
 

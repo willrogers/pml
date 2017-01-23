@@ -1,4 +1,4 @@
-import rml.load
+import pml.load
 import pytest
 import os
 import re
@@ -11,7 +11,7 @@ from math import floor
 def lattice():
     basepath = os.path.dirname(__file__)
     filename = os.path.join(basepath, 'data/SRI21/')
-    lattice = rml.load.load_lattice(filename, cs=mock.MagicMock())
+    lattice = pml.load.load_lattice(filename, cs=mock.MagicMock())
     return lattice
 
 

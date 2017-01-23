@@ -1,4 +1,4 @@
-import rml.physics
+import pml.physics
 import cs_dummy
 import pytest
 
@@ -9,7 +9,7 @@ def create_device(readback, setpoint):
     _sp = setpoint
     _cs = cs_dummy.CsDummy()
     _uc = None
-    device = rml.device.Device(_rb, _sp, _cs)
+    device = pml.device.Device(_rb, _sp, _cs)
     return device
 
 

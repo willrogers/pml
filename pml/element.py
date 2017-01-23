@@ -2,7 +2,7 @@
 @param element_type: type of the element
 @param length: length of the element
 '''
-from rml.exceptions import PvException
+from pml.exceptions import PvException
 
 
 class Element(object):

@@ -1,10 +1,10 @@
 import pytest
-import rml.lattice
-import rml.element
-import rml.device
+import pml.lattice
+import pml.element
+import pml.device
 import cs_dummy
 import mock
-from rml.units import UcPoly
+from pml.units import UcPoly
 
 DUMMY_NAME = 'dummy'
 
@@ -15,11 +15,11 @@ def simple_element(identity=1):
     uc = UcPoly([0, 1])
 
     # Create devices and attach them to the element
-    element = rml.element.Element(identity, 'BPM', mock.MagicMock())
+    element = pml.element.Element(identity, 'BPM', mock.MagicMock())
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'
     sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
-    device1 = rml.device.Device(rb_pv, sp_pv, cs)
-    device2 = rml.device.Device(sp_pv, rb_pv, cs)
+    device1 = pml.device.Device(rb_pv, sp_pv, cs)
+    device2 = pml.device.Device(sp_pv, rb_pv, cs)
     element.add_to_family('BPM')
 
     element.add_device('x', device1, uc)
@@ -30,19 +30,19 @@ def simple_element(identity=1):
 
 @pytest.fixture
 def simple_element_and_lattice(simple_element):
-    l = rml.lattice.Lattice(DUMMY_NAME)
+    l = pml.lattice.Lattice(DUMMY_NAME)
     l.add_element(simple_element)
     return simple_element, l
 
 
 def test_create_lattice():
-    l = rml.lattice.Lattice('DUMMY_NAME')
+    l = pml.lattice.Lattice('DUMMY_NAME')
     assert(len(l)) == 0
     assert l.name == 'DUMMY_NAME'
 
 
 def test_non_negative_lattice():
-    l = rml.lattice.Lattice(DUMMY_NAME)
+    l = pml.lattice.Lattice(DUMMY_NAME)
     assert(len(l)) >= 0
 
 
