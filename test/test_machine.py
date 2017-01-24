@@ -11,7 +11,7 @@ from math import floor
 def lattice():
     basepath = os.path.dirname(__file__)
     filename = os.path.join(basepath, 'data/SRI21/')
-    lattice = pml.load.load_lattice(filename, cs=mock.MagicMock())
+    lattice = pml.load.load_lattice(filename, mock.MagicMock())
     return lattice
 
 
@@ -55,6 +55,4 @@ def test_load_correctors(lattice):
 
 def test_load_lattice(lattice):
     assert len(lattice) == 2428
-    bpms = lattice.get_elements('BPM')
-    drifts = lattice.get_elements('DRIFT')
     assert floor(lattice.get_length()) == 561.0

@@ -1,10 +1,9 @@
 from pml.exceptions import PvException
-from pml.cs_dummy import CsDummy
 
 
 class Device(object):
     # should be a length parameter here
-    def __init__(self, rb_pv=None, sp_pv=None, cs=CsDummy()):
+    def __init__(self, cs, rb_pv=None, sp_pv=None):
         self.rb_pv = rb_pv
         self.sp_pv = sp_pv
         self.cs = cs

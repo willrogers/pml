@@ -18,8 +18,8 @@ def simple_element(identity=1):
     element = pml.element.Element(identity, 'BPM', mock.MagicMock())
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'
     sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
-    device1 = pml.device.Device(rb_pv, sp_pv, cs)
-    device2 = pml.device.Device(sp_pv, rb_pv, cs)
+    device1 = pml.device.Device(cs, rb_pv, sp_pv)
+    device2 = pml.device.Device(cs, sp_pv, rb_pv)
     element.add_to_family('BPM')
 
     element.add_device('x', device1, uc)
