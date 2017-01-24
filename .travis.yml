@@ -30,4 +30,7 @@ install:
 
 script:
   - export PYTHONPATH=.
-  - py.test
+  - py.test --cov=pml
+
+after_success:
+  - coveralls

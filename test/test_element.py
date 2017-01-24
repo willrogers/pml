@@ -14,8 +14,8 @@ def get_element(length=0.0, uc=UcPoly([1, 0])):
     element = pml.element.Element(1, 'Quad', Physics(6))
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'
     sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
-    device1 = pml.device.Device(rb_pv, sp_pv, cs)
-    device2 = pml.device.Device(sp_pv, rb_pv, cs)
+    device1 = pml.device.Device(cs, rb_pv, sp_pv)
+    device2 = pml.device.Device(cs, sp_pv, rb_pv)
 
     element.add_device('x', device1, uc)
     element.add_device('y', device2, uc)

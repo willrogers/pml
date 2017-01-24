@@ -1,5 +1,5 @@
 [run]
-source = rml
+source = pml
 omit =
     */python?.?/*
     */lib-python/?.?/*.py

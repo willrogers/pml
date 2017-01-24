@@ -15,7 +15,7 @@ from pml.element import Element
 from pml.lattice import Lattice
 from pml.device import Device
 from pml.units import UcPoly
-from pml.cs_dummy import CsDummy
+from pml.cs import NullControlSystem
 
 
 PHYSICS_CLASSES = {'RF': pml.physics.Rf,
@@ -37,7 +37,7 @@ PHYSICS_CLASSES = {'RF': pml.physics.Rf,
                    'HCHICA': pml.physics.Hchica}
 
 
-def load_lattice(load_dir, cs=CsDummy(), uc=UcPoly([1, 0])):
+def load_lattice(load_dir, cs=NullControlSystem(), uc=UcPoly([1, 0])):
     # Convert csv files into sqlite3 tables.
     # Pvs table: pv, elemName, elemHandle, elemField.
     # Elements table: elemName, elemType.
@@ -103,7 +103,7 @@ def load_lattice(load_dir, cs=CsDummy(), uc=UcPoly([1, 0])):
                 if sp_pv is not None:
                     device.sp_pv = sp_pv
             except KeyError:
-                device = Device(rb_pv, sp_pv, cs)
+                device = Device(cs, rb_pv, sp_pv)
                 element.devices[field] = device
     con.close()
 
