@@ -8,7 +8,7 @@ import pytest
 
 
 @pytest.fixture
-def get_elements(length=0.0, uc=UcPoly([0, 1])):
+def get_element(length=0.0, uc=UcPoly([0, 1])):
     cs = cs_dummy.CsDummy()
 
     element = pml.element.Element(1, 'Quad', Physics(6))
@@ -40,7 +40,7 @@ def test_add_element_to_family():
 
 def test_readback_pvs():
     # Tests to get/set pv names and/or values
-    element = get_elements()
+    element = get_element()
     element.put_pv_value('x', 40.0)
     element.put_pv_value('y', 40.0)
     assert isinstance(element.get_pv_value('x', 'readback',
@@ -51,7 +51,7 @@ def test_readback_pvs():
 
 
 def test_setpoint_pvs():
-    element = get_elements()
+    element = get_element()
     element.put_pv_value('x', 40.0)
     element.put_pv_value('y', 40.0)
     assert isinstance(element.get_pv_value('x', 'setpoint'), float)
@@ -61,7 +61,7 @@ def test_setpoint_pvs():
 
 
 def test_get_pv_exceptions():
-    element = get_elements()
+    element = get_element()
     with pytest.raises(PvException):
         element.get_pv_value('setpoint', 'unknown_field')
     with pytest.raises(PvException):
@@ -73,7 +73,7 @@ def test_get_pv_exceptions():
 
 def test_identity_conversion():
     uc_id = UcPoly([1, 0])
-    element = get_elements(uc=uc_id)
+    element = get_element(uc=uc_id)
     element.put_pv_value('x', 4.0, unit='machine')
     value_physics = element.get_pv_value('x', 'setpoint', 'physics')
     element.put_pv_value('x', 4.0, unit='physics')
