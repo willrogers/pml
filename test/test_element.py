@@ -75,10 +75,3 @@ def test_identity_conversion():
     value_machine = element.get_pv_value('x', 'setpoint', 'machine')
     assert value_machine == 4.0
     assert value_physics == 4.0
-
-'''
-#    dummy_control_system.get = mock.MagicMock(return_value=4)
-#    self._cs.get('duumy')
-#    dummy_control_system.get.assert_called_with('dummy')
-#    dummy_control_system.set.assert_called_with(pv, value)
-'''
