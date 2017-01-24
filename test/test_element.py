@@ -8,7 +8,7 @@ import pytest
 
 
 @pytest.fixture
-def get_element(length=0.0, uc=UcPoly([0, 1])):
+def get_element(length=0.0, uc=UcPoly([1, 0])):
     cs = cs_dummy.CsDummy()
 
     element = pml.element.Element(1, 'Quad', Physics(6))
@@ -38,26 +38,21 @@ def test_add_element_to_family():
     assert 'fam' in e.families
 
 
-def test_readback_pvs():
+@pytest.mark.parametrize('pv_type', ['readback', 'setpoint'])
+def test_readback_pvs(pv_type):
     # Tests to get/set pv names and/or values
+    # The default unit conversion is identity
     element = get_element()
     element.put_pv_value('x', 40.0)
     element.put_pv_value('y', 40.0)
-    assert isinstance(element.get_pv_value('x', 'readback',
-                                           unit='physics'), float)
-    assert isinstance(element.get_pv_value('y', 'readback'), float)
+    assert element.get_pv_value('x', pv_type, unit='physics') == 40.0
+    assert element.get_pv_value('x', pv_type, unit='hardware') == 40.0
+    assert element.get_pv_value('y', pv_type, unit='physics') == 40.0
+    assert element.get_pv_value('y', pv_type, unit='hardware') == 40.0
     assert isinstance(element.get_pv_name('x'), list)
-    assert isinstance(element.get_pv_name('y', 'readback'), str)
-
-
-def test_setpoint_pvs():
-    element = get_element()
-    element.put_pv_value('x', 40.0)
-    element.put_pv_value('y', 40.0)
-    assert isinstance(element.get_pv_value('x', 'setpoint'), float)
-    assert isinstance(element.get_pv_value('y', 'setpoint'), float)
-    assert isinstance(element.get_pv_name('x'), list)
-    assert isinstance(element.get_pv_name('y', 'setpoint'), str)
+    assert isinstance(element.get_pv_name('y'), list)
+    assert isinstance(element.get_pv_name('x', pv_type), str)
+    assert isinstance(element.get_pv_name('y', pv_type), str)
 
 
 def test_get_pv_exceptions():
