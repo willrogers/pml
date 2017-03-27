@@ -82,7 +82,7 @@ def load_lattice(load_dir, cs=NullControlSystem(), uc=UcPoly([1, 0])):
             length = float(db_element['elemLength'])
             family = db_element['elemGroups']
             physics = PHYSICS_CLASSES[_type](length)
-            element = Element(id_, _type, physics)
+            element = Element(id_, length, _type, physics)
             element.add_to_family(_type)
             element.add_to_family(family)
             lattice.add_element(element)
@@ -97,14 +97,14 @@ def load_lattice(load_dir, cs=NullControlSystem(), uc=UcPoly([1, 0])):
             rb_pv = pv if handle == 'get' else None
             sp_pv = pv if handle == 'put' else None
             try:
-                device = element.devices[field]
+                device = element._devices[field]
                 if rb_pv is not None:
                     device.rb_pv = rb_pv
                 if sp_pv is not None:
                     device.sp_pv = sp_pv
             except KeyError:
                 device = Device(cs, rb_pv, sp_pv)
-                element.devices[field] = device
+                element._devices[field] = device
     con.close()
 
     return lattice

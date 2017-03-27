@@ -25,7 +25,7 @@ def get_element(length=0.0, uc=UcPoly([1, 0])):
 
 def test_create_element():
     physics = Physics(length=6.0)
-    e = pml.element.Element(4, 'Quad', physics)
+    e = pml.element.Element('bpm1', 6.0, 'bpm', physics)
     e.add_to_family('BPM')
     assert 'BPM' in e.families
     assert e.get_length() == 6.0
