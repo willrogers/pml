@@ -24,4 +24,4 @@ def test_devices_loaded(lattice):
     quads = lattice.get_elements('quad')
     assert len(quads) == 1
     assert quads[0].get_pv_name(field='b1', handle='readback') == 'Q1:RB'
-    assert quads[0].get_pv_name(field='b1', handle='setpoint') == 'Q1:RB'
+    assert quads[0].get_pv_name(field='b1', handle='setpoint') == 'Q1:SP'

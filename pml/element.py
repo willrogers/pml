@@ -13,6 +13,7 @@ class Element(object):
             length: length of the element
             physics: physics object
         '''
+        self._name = name
         self._type = element_type
         self._length = length
         self._physics = physics

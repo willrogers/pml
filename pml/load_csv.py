@@ -16,7 +16,7 @@ def load(directory):
     with open(os.path.join(directory, 'devices.csv')) as elements:
         csv_reader = csv.DictReader(elements)
         for item in csv_reader:
-            d = device.Device(None, item['get_pv'], item['get_pv'])
+            d = device.Device(None, item['get_pv'], item['set_pv'])
             lat[int(item['id']) - 1].add_device(item['field'], d, None)
 
     return lat
