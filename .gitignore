@@ -15,6 +15,7 @@ pip-selfcheck.json
 
 # coverage
 .coverage
+htmlcov/
 
 # emacs
 pml/#*
