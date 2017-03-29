@@ -2,7 +2,9 @@ import pml
 import pytest
 import os
 import re
-from math import floor
+
+
+EPS = 1e-8
 
 
 @pytest.fixture
@@ -11,6 +13,18 @@ def lattice():
     filename = os.path.join(basepath, 'data/VMX/')
     lattice = pml.load_csv.load(filename)
     return lattice
+
+
+def test_load_lattice(lattice):
+    assert len(lattice) == 2476
+    assert (lattice.get_length() - 561.571) < EPS
+
+
+def test_get_pv_names(lattice):
+    bpm_x_pvs = lattice.get_pv_names('BPM', 'x', handle='readback')
+    assert len(bpm_x_pvs) == 173
+    for pv in bpm_x_pvs:
+        assert re.match('SR.*BPM.*X', pv)
 
 
 def test_load_bpms(lattice):
@@ -47,8 +61,3 @@ def test_load_correctors(lattice):
     vcm = lattice.get_elements('VSTR')
     assert len(hcm) == 173
     assert len(vcm) == 173
-
-
-def test_load_lattice(lattice):
-    assert len(lattice) == 2476
-    assert floor(lattice.get_length()) == 561.0

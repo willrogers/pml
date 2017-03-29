@@ -50,6 +50,13 @@ class Lattice(object):
 
         return families
 
+    def get_pv_names(self, family, field, handle):
+        elements = self.get_elements(family)
+        pv_names = []
+        for element in elements:
+            pv_names.append(element.get_pv_name(field, handle))
+        return pv_names
+
     def get_family_value(self, family, field, handle='setpoint'):
         family_values = list()
         for element in self._lattice:
