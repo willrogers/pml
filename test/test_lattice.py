@@ -2,7 +2,6 @@ import pytest
 import pml.lattice
 import pml.element
 import pml.device
-import cs_dummy
 import mock
 from pml.units import UcPoly
 
@@ -11,15 +10,14 @@ DUMMY_NAME = 'dummy'
 
 @pytest.fixture
 def simple_element(identity=1):
-    cs = cs_dummy.CsDummy()
     uc = UcPoly([0, 1])
 
     # Create devices and attach them to the element
     element = pml.element.Element(identity, 'element', mock.MagicMock())
     rb_pv = 'readback_pv'
     sp_pv = 'setpoint_pv'
-    device1 = pml.device.Device(cs, sp_pv, rb_pv)
-    device2 = pml.device.Device(cs, sp_pv, rb_pv)
+    device1 = pml.device.Device(mock.MagicMock(), sp_pv, rb_pv)
+    device2 = pml.device.Device(mock.MagicMock(), sp_pv, rb_pv)
     element.add_to_family('family')
 
     element.add_device('x', device1, uc)

@@ -1,21 +1,23 @@
 from pml.exceptions import PvException
 import pml.element
 import pml.device
-import cs_dummy
 from pml.physics import Physics
 from pml.units import UcPoly
 import pytest
+import mock
 
 
 @pytest.fixture
 def get_element(length=0.0, uc=UcPoly([1, 0])):
-    cs = cs_dummy.CsDummy()
+
+    mock_cs = mock.MagicMock()
+    mock_cs.get.return_value = 40.0
 
     element = pml.element.Element(1, 'Quad', Physics(6))
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'
     sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
-    device1 = pml.device.Device(cs, rb_pv, sp_pv)
-    device2 = pml.device.Device(cs, sp_pv, rb_pv)
+    device1 = pml.device.Device(mock_cs, rb_pv, sp_pv)
+    device2 = pml.device.Device(mock_cs, sp_pv, rb_pv)
 
     element.add_device('x', device1, uc)
     element.add_device('y', device2, uc)
@@ -43,8 +45,6 @@ def test_readback_pvs(pv_type):
     # Tests to get/set pv names and/or values
     # The default unit conversion is identity
     element = get_element()
-    element.put_pv_value('x', 40.0)
-    element.put_pv_value('y', 40.0)
     assert element.get_pv_value('x', pv_type, unit='physics') == 40.0
     assert element.get_pv_value('x', pv_type, unit='hardware') == 40.0
     assert element.get_pv_value('y', pv_type, unit='physics') == 40.0
@@ -68,9 +68,7 @@ def test_get_pv_exceptions():
 def test_identity_conversion():
     uc_id = UcPoly([1, 0])
     element = get_element(uc=uc_id)
-    element.put_pv_value('x', 4.0, unit='machine')
     value_physics = element.get_pv_value('x', 'setpoint', 'physics')
-    element.put_pv_value('x', 4.0, unit='physics')
     value_machine = element.get_pv_value('x', 'setpoint', 'machine')
-    assert value_machine == 4.0
-    assert value_physics == 4.0
+    assert value_machine == 40.0
+    assert value_physics == 40.0

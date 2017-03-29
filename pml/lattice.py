@@ -1,5 +1,6 @@
 from pml.exceptions import PvException
 
+
 class Lattice(object):
 
     def __init__(self, name, control_system):
