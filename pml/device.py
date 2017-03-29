@@ -6,7 +6,7 @@ class Device(object):
     def __init__(self, cs, rb_pv=None, sp_pv=None):
         self.rb_pv = rb_pv
         self.sp_pv = sp_pv
-        self.cs = cs
+        self._cs = cs
         assert not (rb_pv is None and sp_pv is None)
         if rb_pv is not None:
             self.name = rb_pv.split(':')[0]
@@ -19,16 +19,16 @@ class Device(object):
         # Not sure if this method will need a handle flag to set
         # an initial value for readback pvs. Suppose not:
         if self.sp_pv is not None:
-            self.cs.put(self.sp_pv, value)
+            self._cs.put(self.sp_pv, value)
         else:
             raise PvException("""This device {0} has no setpoint pv."""
                               .format(self.name))
 
     def get_value(self, handle):
         if handle == 'readback' and self.rb_pv:
-            return self.cs.get(self.rb_pv)
+            return self._cs.get(self.rb_pv)
         elif handle == 'setpoint' and self.sp_pv:
-            return self.cs.get(self.sp_pv)
+            return self._cs.get(self.sp_pv)
 
         raise PvException("""This device {0} has no {1} pv."""
                           .format(self.name, handle))
