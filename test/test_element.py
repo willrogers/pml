@@ -61,7 +61,6 @@ def test_get_pv_exceptions():
         element.get_pv_value('setpoint', 'unknown_field')
     with pytest.raises(PvException):
         element.get_pv_value('unknown_handle', 'y')
-
     with pytest.raises(PvException):
         element.get_pv_name('unknown_handle')
 

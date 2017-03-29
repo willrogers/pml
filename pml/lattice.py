@@ -1,3 +1,5 @@
+from pml.exceptions import PvException
+
 class Lattice(object):
 
     def __init__(self, name, control_system):
@@ -64,22 +66,8 @@ class Lattice(object):
 
     def set_family_value(self, family, field, values):
         # Get the number of elements in the family
-        elements_in_family = 0
-        family_elements = list()
-
-        # Find out how many elements are in the given family
-        for element in self._lattice:
-            if family in element.families:
-                elements_in_family += 1
-                family_elements.append(element)
-
-        # if number of given elements is not equal to the size of
-        # the given array, raise an exception
-        if elements_in_family != len(values):
-            raise Exception("""Number of elements in given array must be equal
+        pv_names = self.get_pv_names(family, field, 'setpoint')
+        if len(pv_names) != len(values):
+            raise PvException("""Number of elements in given array must be equal
             to the number of elements in the lattice""")
-
-        # change the value of each element in the computed list to the
-        # one in the given value array
-        for element, value in zip(family_elements, values):
-            element.put_pv_value(field, value)
+        self._cs.put(pv_names, values)

@@ -72,3 +72,9 @@ def test_get_family_value(simple_element_and_lattice):
     element, lattice = simple_element_and_lattice
     lattice.get_family_value('family', 'x')
     lattice._cs.get.assert_called_with(['readback_pv'])
+
+
+def test_set_family_value(simple_element_and_lattice):
+    element, lattice = simple_element_and_lattice
+    lattice.set_family_value('family', 'x', [1])
+    lattice._cs.put.assert_called_with(['readback_pv'], [1])
