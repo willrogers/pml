@@ -15,12 +15,12 @@ def simple_element(identity=1):
     uc = UcPoly([0, 1])
 
     # Create devices and attach them to the element
-    element = pml.element.Element(identity, 'BPM', mock.MagicMock())
-    rb_pv = 'SR22C-DI-EBPM-04:SA:X'
-    sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
-    device1 = pml.device.Device(cs, rb_pv, sp_pv)
+    element = pml.element.Element(identity, 'element', mock.MagicMock())
+    rb_pv = 'readback_pv'
+    sp_pv = 'setpoint_pv'
+    device1 = pml.device.Device(cs, sp_pv, rb_pv)
     device2 = pml.device.Device(cs, sp_pv, rb_pv)
-    element.add_to_family('BPM')
+    element.add_to_family('family')
 
     element.add_device('x', device1, uc)
     element.add_device('y', device2, uc)
@@ -30,19 +30,19 @@ def simple_element(identity=1):
 
 @pytest.fixture
 def simple_element_and_lattice(simple_element):
-    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock)
+    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock())
     l.add_element(simple_element)
     return simple_element, l
 
 
 def test_create_lattice():
-    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock)
+    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock())
     assert(len(l)) == 0
     assert l.name == DUMMY_NAME
 
 
 def test_non_negative_lattice():
-    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock)
+    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock())
     assert(len(l)) >= 0
 
 
@@ -70,6 +70,5 @@ def test_get_all_families(simple_element_and_lattice):
 
 def test_get_family_value(simple_element_and_lattice):
     element, lattice = simple_element_and_lattice
-    lattice.set_family_value('BPM', 'x', [2.3])
-    family_values = lattice.get_family_value('BPM', 'x')
-    assert family_values == list([2.3])
+    lattice.get_family_value('family', 'x')
+    lattice._cs.get.assert_called_with(['readback_pv'])

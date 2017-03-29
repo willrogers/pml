@@ -59,17 +59,8 @@ class Lattice(object):
         return pv_names
 
     def get_family_value(self, family, field, handle='setpoint'):
-        family_values = list()
-        for element in self._lattice:
-            if family in element.families:
-                if handle == 'setpoint':
-                    family_values.append(element.get_pv_value(
-                        field, 'setpoint'))
-                elif handle == 'readback':
-                    family_values.append(element.get_pv_value(
-                        field, 'readback'))
-
-        return family_values
+        pv_names = self.get_pv_names(family, field, handle)
+        return self._cs.get(pv_names)
 
     def set_family_value(self, family, field, values):
         # Get the number of elements in the family
