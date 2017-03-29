@@ -1,4 +1,4 @@
-import pml.load
+import pml
 import pytest
 import os
 import re
