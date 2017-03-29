@@ -30,19 +30,19 @@ def simple_element(identity=1):
 
 @pytest.fixture
 def simple_element_and_lattice(simple_element):
-    l = pml.lattice.Lattice(DUMMY_NAME)
+    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock)
     l.add_element(simple_element)
     return simple_element, l
 
 
 def test_create_lattice():
-    l = pml.lattice.Lattice('DUMMY_NAME')
+    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock)
     assert(len(l)) == 0
-    assert l.name == 'DUMMY_NAME'
+    assert l.name == DUMMY_NAME
 
 
 def test_non_negative_lattice():
-    l = pml.lattice.Lattice(DUMMY_NAME)
+    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock)
     assert(len(l)) >= 0
 
 

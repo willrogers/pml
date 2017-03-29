@@ -1,5 +1,6 @@
 import os
 import pytest
+import mock
 from pml import load_csv
 
 
@@ -8,7 +9,8 @@ CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
 
 @pytest.fixture
 def lattice():
-    lat = load_csv.load(os.path.join(CURRENT_DIR, 'data/dummy'))
+    lat = load_csv.load(os.path.join(CURRENT_DIR, 'data/dummy'), 'dummy',
+                        mock.MagicMock())
     return lat
 
 

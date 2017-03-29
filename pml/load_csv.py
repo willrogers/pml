@@ -3,8 +3,8 @@ import csv
 from pml import lattice, element, device
 
 
-def load(directory):
-    lat = lattice.Lattice('dummy')
+def load(directory, name, control_system):
+    lat = lattice.Lattice(name, control_system)
     with open(os.path.join(directory, 'elements.csv')) as elements:
         csv_reader = csv.DictReader(elements)
         for item in csv_reader:

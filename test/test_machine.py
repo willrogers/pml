@@ -2,6 +2,7 @@ import pml
 import pytest
 import os
 import re
+import mock
 
 
 EPS = 1e-8
@@ -11,12 +12,13 @@ EPS = 1e-8
 def lattice():
     basepath = os.path.dirname(__file__)
     filename = os.path.join(basepath, 'data/VMX/')
-    lattice = pml.load_csv.load(filename)
+    lattice = pml.load_csv.load(filename, 'VMX', mock.MagicMock())
     return lattice
 
 
 def test_load_lattice(lattice):
     assert len(lattice) == 2476
+    assert lattice.name == 'VMX'
     assert (lattice.get_length() - 561.571) < EPS
 
 

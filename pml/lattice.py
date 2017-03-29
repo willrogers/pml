@@ -1,8 +1,9 @@
 class Lattice(object):
 
-    def __init__(self, name):
+    def __init__(self, name, control_system):
         self.name = name
         self._lattice = []
+        self._cs = control_system
 
     def __getitem__(self, i):
         return self._lattice[i]
