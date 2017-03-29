@@ -31,6 +31,9 @@ class Element(object):
         self._devices[field] = device
         self._uc[field] = uc
 
+    def get_device(self, field):
+        return self._devices[field]
+
     def add_to_family(self, family):
         self.families.add(family)
 
