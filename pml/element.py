@@ -66,11 +66,8 @@ class Element(object):
                 value = self._uc[field].machine_to_physics(value)
             self._physics.put_value(field, value)
 
-    def get_pv_name(self, field, handle='*', sim=False):
-        if not sim:
-            if field in self._devices:
-                return self._devices[field].get_pv_name(handle)
-        else:
-            return self._physics.get_pv_name(field, handle)
-        raise PvException("There is no device associated with field {0}"
-                          .format(field))
+    def get_pv_name(self, field, handle='*'):
+        try:
+            return self._devices[field].get_pv_name(handle)
+        except KeyError:
+            raise PvException('Element has no device for field {}'.format(field))
