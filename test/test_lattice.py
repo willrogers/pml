@@ -13,7 +13,8 @@ def simple_element(identity=1):
     uc = UcPoly([0, 1])
 
     # Create devices and attach them to the element
-    element = pml.element.Element(identity, 'element', mock.MagicMock())
+    # element = pml.element.Element(identity, 'element', mock.MagicMock())
+    element = pml.element.Element(identity, 0, 'BPM')
     rb_pv = 'readback_pv'
     sp_pv = 'setpoint_pv'
     device1 = pml.device.Device(mock.MagicMock(), sp_pv, rb_pv)
@@ -76,3 +77,16 @@ def test_set_family_value(simple_element_and_lattice):
     element, lattice = simple_element_and_lattice
     lattice.set_family_value('family', 'x', [1])
     lattice._cs.put.assert_called_with(['readback_pv'], [1])
+
+
+def test_s_position(simple_element_and_lattice):
+    element1, lattice = simple_element_and_lattice
+    assert lattice.get_s(element1) == 0.0
+
+    element2 = pml.element.Element(2, 1.0, 'Quad')
+    lattice.add_element(element2)
+    assert lattice.get_s(element2) == 0.0
+
+    element3 = pml.element.Element(3, 2.0, 'Quad')
+    lattice.add_element(element3)
+    assert lattice.get_s(element3) == 1.0
