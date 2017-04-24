@@ -13,7 +13,6 @@ def simple_element(identity=1):
     uc = UcPoly([0, 1])
 
     # Create devices and attach them to the element
-    # element = pml.element.Element(identity, 'element', mock.MagicMock())
     element = pml.element.Element(identity, 0, 'BPM')
     rb_pv = 'readback_pv'
     sp_pv = 'setpoint_pv'
