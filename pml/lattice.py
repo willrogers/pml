@@ -1,4 +1,5 @@
 from pml.exceptions import PvException
+from pml.exceptions import ElementNotFoundException
 
 
 class Lattice(object):
@@ -72,3 +73,12 @@ class Lattice(object):
             raise PvException("""Number of elements in given array must be equal
             to the number of elements in the lattice""")
         self._cs.put(pv_names, values)
+
+    def get_s(self, given_element):
+        s_pos = 0
+        for element in self._lattice:
+            if element is not given_element:
+                s_pos += element.get_length()
+            else:
+                return s_pos
+        raise ElementNotFoundException('Given element does not exist in the lattice')
