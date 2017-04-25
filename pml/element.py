@@ -21,6 +21,9 @@ class Element(object):
         self._uc = dict()
         self._devices = dict()
 
+    def get_devices_fields(self):
+        return self._devices.keys()
+
     def get_length(self):
         return self._length
 
