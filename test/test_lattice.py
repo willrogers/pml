@@ -4,6 +4,7 @@ import pml.element
 import pml.device
 import mock
 from pml.units import UcPoly
+from pml.exceptions import ElementNotFoundException
 
 DUMMY_NAME = 'dummy'
 
@@ -89,3 +90,9 @@ def test_s_position(simple_element_and_lattice):
     element3 = pml.element.Element(3, 2.0, 'Quad')
     lattice.add_element(element3)
     assert lattice.get_s(element3) == 1.0
+
+def test_get_s_throws_exception_if_element_not_in_lattice():
+    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock())
+    element = pml.element.Element(1, 1.0, 'Quad')
+    with pytest.raises(ElementNotFoundException):
+        l.get_s(element)
