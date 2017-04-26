@@ -74,6 +74,6 @@ def test_identity_conversion():
     assert value_physics == 40.0
 
 
-def test_get_devices_fields(get_element):
+def test_get_fields(get_element):
     element = get_element
     assert set(element.get_devices_fields()) == set(['y', 'x'])
