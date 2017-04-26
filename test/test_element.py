@@ -76,4 +76,4 @@ def test_identity_conversion():
 
 def test_get_fields(get_element):
     element = get_element
-    assert set(element.get_devices_fields()) == set(['y', 'x'])
+    assert set(element.get_fields()) == set(['y', 'x'])
