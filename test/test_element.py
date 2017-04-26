@@ -72,3 +72,8 @@ def test_identity_conversion():
     value_machine = element.get_pv_value('x', 'setpoint', 'machine')
     assert value_machine == 40.0
     assert value_physics == 40.0
+
+
+def test_get_fields(get_element):
+    element = get_element
+    assert set(element.get_fields()) == set(['y', 'x'])
