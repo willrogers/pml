@@ -55,20 +55,20 @@ class Lattice(object):
 
         return families
 
-    def get_pv_names(self, family, field, handle):
+    def get_family_pvs(self, family, field, handle):
         elements = self.get_elements(family)
         pv_names = []
         for element in elements:
             pv_names.append(element.get_pv_name(field, handle))
         return pv_names
 
-    def get_family_value(self, family, field, handle='setpoint'):
-        pv_names = self.get_pv_names(family, field, handle)
+    def get_family_values(self, family, field, handle='setpoint'):
+        pv_names = self.get_family_pvs(family, field, handle)
         return self._cs.get(pv_names)
 
-    def set_family_value(self, family, field, values):
+    def set_family_values(self, family, field, values):
         # Get the number of elements in the family
-        pv_names = self.get_pv_names(family, field, 'setpoint')
+        pv_names = self.get_family_pvs(family, field, 'setpoint')
         if len(pv_names) != len(values):
             raise PvException("""Number of elements in given array must be equal
             to the number of elements in the lattice""")

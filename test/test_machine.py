@@ -22,8 +22,8 @@ def test_load_lattice(lattice):
     assert (lattice.get_length() - 561.571) < EPS
 
 
-def test_get_pv_names(lattice):
-    bpm_x_pvs = lattice.get_pv_names('BPM', 'x', handle='readback')
+def test_get_family_pvs(lattice):
+    bpm_x_pvs = lattice.get_family_pvs('BPM', 'x', handle='readback')
     assert len(bpm_x_pvs) == 173
     for pv in bpm_x_pvs:
         assert re.match('SR.*BPM.*X', pv)
