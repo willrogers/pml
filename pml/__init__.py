@@ -1,0 +1,2 @@
+SP = 'setpoint'
+RB = 'readback'

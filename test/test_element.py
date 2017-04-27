@@ -13,7 +13,7 @@ def test_element(length=0.0, uc=UcPoly([1, 0])):
     mock_cs = mock.MagicMock()
     mock_cs.get.return_value = 40.0
 
-    element = pml.element.Element(1, 'Quad', Physics(6))
+    element = pml.element.Element('dummy', 1.0, 'Quad')
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'
     sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
     device1 = pml.device.Device(mock_cs, rb_pv, sp_pv)
@@ -41,13 +41,17 @@ def test_add_element_to_family():
 
 
 @pytest.mark.parametrize('pv_type', ['readback', 'setpoint'])
-def test_readback_pvs(pv_type, test_element):
+def test_get_pv_value(pv_type, test_element):
     # Tests to get/set pv names and/or values
     # The default unit conversion is identity
     assert test_element.get_pv_value('x', pv_type, unit='physics') == 40.0
     assert test_element.get_pv_value('x', pv_type, unit='hardware') == 40.0
     assert test_element.get_pv_value('y', pv_type, unit='physics') == 40.0
     assert test_element.get_pv_value('y', pv_type, unit='hardware') == 40.0
+
+
+@pytest.mark.parametrize('pv_type', ['readback', 'setpoint'])
+def test_get_pv_name(pv_type, test_element):
     assert isinstance(test_element.get_pv_name('x'), list)
     assert isinstance(test_element.get_pv_name('y'), list)
     assert isinstance(test_element.get_pv_name('x', pv_type), str)

@@ -1,4 +1,5 @@
 from pml.exceptions import PvException
+import pml
 
 
 class Device(object):
@@ -25,9 +26,9 @@ class Device(object):
                               .format(self.name))
 
     def get_value(self, handle):
-        if handle == 'readback' and self.rb_pv:
+        if handle == pml.RB and self.rb_pv:
             return self._cs.get(self.rb_pv)
-        elif handle == 'setpoint' and self.sp_pv:
+        elif handle == pml.SP and self.sp_pv:
             return self._cs.get(self.sp_pv)
 
         raise PvException("""This device {0} has no {1} pv."""
@@ -36,7 +37,7 @@ class Device(object):
     def get_pv_name(self, handle):
         if handle == '*':
             return [self.rb_pv, self.sp_pv]
-        elif handle == 'readback':
+        elif handle == pml.RB:
             return self.rb_pv
-        elif handle == 'setpoint':
+        elif handle == pml.SP:
             return self.sp_pv
