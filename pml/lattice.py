@@ -33,12 +33,12 @@ class Lattice(object):
         '''
         self._lattice.append(element)
 
-    def get_elements(self, family='*'):
+    def get_elements(self, family=None):
         '''
         Get all elements of a lattice from a specified family.
         If no family is specified, return all elements
         '''
-        if family == '*':
+        if family is None:
             return self._lattice
 
         matched_lattice = list()
