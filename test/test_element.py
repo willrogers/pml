@@ -13,7 +13,7 @@ def test_element(length=0.0, uc=UcPoly([1, 0])):
     mock_cs = mock.MagicMock()
     mock_cs.get.return_value = 40.0
 
-    element = pml.element.Element(1, 'Quad', Physics(6))
+    element = pml.element.Element('dummy', 1.0, 'Quad')
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'
     sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
     device1 = pml.device.Device(mock_cs, rb_pv, sp_pv)
