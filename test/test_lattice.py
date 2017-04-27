@@ -67,15 +67,15 @@ def test_get_all_families(simple_element_and_lattice):
     assert len(families) > 0
 
 
-def test_get_family_value(simple_element_and_lattice):
+def test_get_family_values(simple_element_and_lattice):
     element, lattice = simple_element_and_lattice
-    lattice.get_family_value('family', 'x')
+    lattice.get_family_values('family', 'x')
     lattice._cs.get.assert_called_with(['readback_pv'])
 
 
-def test_set_family_value(simple_element_and_lattice):
+def test_set_family_values(simple_element_and_lattice):
     element, lattice = simple_element_and_lattice
-    lattice.set_family_value('family', 'x', [1])
+    lattice.set_family_values('family', 'x', [1])
     lattice._cs.put.assert_called_with(['readback_pv'], [1])
 
 
