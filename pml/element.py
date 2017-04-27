@@ -20,6 +20,7 @@ class Element(object):
         self.families = set()
         self._uc = dict()
         self._devices = dict()
+        self._enabled = True
 
     def get_fields(self):
         return self._devices.keys()
@@ -29,6 +30,12 @@ class Element(object):
 
     def __repr__(self):
         return str(self.families)
+
+    def is_enabled(self):
+        return self._enabled
+
+    def set_enabled(self, enabled=True):
+        self._enabled = enabled
 
     def add_device(self, field, device, uc):
         self._devices[field] = device
