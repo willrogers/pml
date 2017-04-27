@@ -49,16 +49,13 @@ def test_get_pv_value(pv_type, test_element):
     assert test_element.get_pv_value('y', pv_type, unit='physics') == 40.0
     assert test_element.get_pv_value('y', pv_type, unit='hardware') == 40.0
 
+
 @pytest.mark.parametrize('pv_type', ['readback', 'setpoint'])
 def test_get_pv_name(pv_type, test_element):
     assert isinstance(test_element.get_pv_name('x'), list)
     assert isinstance(test_element.get_pv_name('y'), list)
     assert isinstance(test_element.get_pv_name('x', pv_type), str)
     assert isinstance(test_element.get_pv_name('y', pv_type), str)
-
-
-#def test_put_pv_value(test_element):
-#    test_element.put_pv_value('x')
 
 
 def test_get_pv_exceptions(test_element):
