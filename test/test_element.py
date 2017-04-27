@@ -58,6 +58,12 @@ def test_get_pv_name(pv_type, test_element):
     assert isinstance(test_element.get_pv_name('y', pv_type), str)
 
 
+@pytest.mark.parametrize('pv_type', ['setpoint'])
+def test_put_pv_value(pv_type, test_element):
+    test_element.put_pv_value('x', 40.3)
+    assert test_element.get_pv_value('x', pv_type, unit='physics') == 40.3
+
+
 def test_get_pv_exceptions(test_element):
     with pytest.raises(PvException):
         test_element.get_pv_value('setpoint', 'unknown_field')
