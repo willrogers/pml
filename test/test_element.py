@@ -8,7 +8,7 @@ import mock
 
 
 @pytest.fixture
-def get_element(length=0.0, uc=UcPoly([1, 0])):
+def test_element(length=0.0, uc=UcPoly([1, 0])):
 
     mock_cs = mock.MagicMock()
     mock_cs.get.return_value = 40.0
@@ -41,50 +41,45 @@ def test_add_element_to_family():
 
 
 @pytest.mark.parametrize('pv_type', ['readback', 'setpoint'])
-def test_readback_pvs(pv_type):
+def test_readback_pvs(pv_type, test_element):
     # Tests to get/set pv names and/or values
     # The default unit conversion is identity
-    element = get_element()
-    assert element.get_pv_value('x', pv_type, unit='physics') == 40.0
-    assert element.get_pv_value('x', pv_type, unit='hardware') == 40.0
-    assert element.get_pv_value('y', pv_type, unit='physics') == 40.0
-    assert element.get_pv_value('y', pv_type, unit='hardware') == 40.0
-    assert isinstance(element.get_pv_name('x'), list)
-    assert isinstance(element.get_pv_name('y'), list)
-    assert isinstance(element.get_pv_name('x', pv_type), str)
-    assert isinstance(element.get_pv_name('y', pv_type), str)
+    assert test_element.get_pv_value('x', pv_type, unit='physics') == 40.0
+    assert test_element.get_pv_value('x', pv_type, unit='hardware') == 40.0
+    assert test_element.get_pv_value('y', pv_type, unit='physics') == 40.0
+    assert test_element.get_pv_value('y', pv_type, unit='hardware') == 40.0
+    assert isinstance(test_element.get_pv_name('x'), list)
+    assert isinstance(test_element.get_pv_name('y'), list)
+    assert isinstance(test_element.get_pv_name('x', pv_type), str)
+    assert isinstance(test_element.get_pv_name('y', pv_type), str)
 
 
-def test_get_pv_exceptions():
-    element = get_element()
+def test_get_pv_exceptions(test_element):
     with pytest.raises(PvException):
-        element.get_pv_value('setpoint', 'unknown_field')
+        test_element.get_pv_value('setpoint', 'unknown_field')
     with pytest.raises(PvException):
-        element.get_pv_value('unknown_handle', 'y')
+        test_element.get_pv_value('unknown_handle', 'y')
     with pytest.raises(PvException):
-        element.get_pv_name('unknown_handle')
+        test_element.get_pv_name('unknown_handle')
 
 
 def test_identity_conversion():
     uc_id = UcPoly([1, 0])
-    element = get_element(uc=uc_id)
+    element = test_element(uc=uc_id)
     value_physics = element.get_pv_value('x', 'setpoint', 'physics')
     value_machine = element.get_pv_value('x', 'setpoint', 'machine')
     assert value_machine == 40.0
     assert value_physics == 40.0
 
 
-def test_get_fields(get_element):
-    element = get_element
-    assert set(element.get_fields()) == set(['y', 'x'])
+def test_get_fields(test_element):
+    assert set(test_element.get_fields()) == set(['y', 'x'])
 
 
-def test_is_enabled(get_element):
-    element = get_element
-    assert element.is_enabled() == True
+def test_is_enabled(test_element):
+    assert test_element.is_enabled() == True
 
 
-def test_set_enabled(get_element):
-    element = get_element
-    element.set_enabled(False)
-    element.is_enabled() == False
+def test_set_enabled(test_element):
+    test_element.set_enabled(False)
+    assert test_element.is_enabled() == False
