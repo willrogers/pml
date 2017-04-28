@@ -61,7 +61,7 @@ def test_get_pv_name(pv_type, test_element):
 @pytest.mark.parametrize('pv_type', ['setpoint'])
 def test_put_pv_value(pv_type, test_element):
     test_element.put_pv_value('x', 40.3)
-    assert test_element.get_pv_value('x', pv_type, unit='physics') == 40.3
+    test_element.get_device('x')._cs.put.assert_called_with('SR22C-DI-EBPM-04:SA:Y', 40.3)
 
 
 def test_get_pv_exceptions(test_element):
