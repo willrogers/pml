@@ -19,7 +19,7 @@ def simple_element(identity=1):
     sp_pv = 'setpoint_pv'
     device1 = pml.device.Device(mock.MagicMock(), sp_pv, rb_pv)
     device2 = pml.device.Device(mock.MagicMock(), sp_pv, rb_pv)
-    element.add_to_family('family')
+    element.add_to_family('BPM')
 
     element.add_device('x', device1, uc)
     element.add_device('y', device2, uc)
@@ -69,13 +69,13 @@ def test_get_all_families(simple_element_and_lattice):
 
 def test_get_family_values(simple_element_and_lattice):
     element, lattice = simple_element_and_lattice
-    lattice.get_family_values('family', 'x')
+    lattice.get_family_values('BPM', 'x')
     lattice._cs.get.assert_called_with(['readback_pv'])
 
 
 def test_set_family_values(simple_element_and_lattice):
     element, lattice = simple_element_and_lattice
-    lattice.set_family_values('family', 'x', [1])
+    lattice.set_family_values('BPM', 'x', [1])
     lattice._cs.put.assert_called_with(['readback_pv'], [1])
 
 
@@ -96,3 +96,22 @@ def test_get_s_throws_exception_if_element_not_in_lattice():
     element = pml.element.Element(1, 1.0, 'Quad')
     with pytest.raises(ElementNotFoundException):
         l.get_s(element)
+
+def test_get_family_s(simple_element_and_lattice):
+    element1, lattice = simple_element_and_lattice
+    assert lattice.get_family_s('BPM') == [0]
+
+    element2 = pml.element.Element(2, 1.0, 'BPM')
+    element2.add_to_family('BPM')
+    lattice.add_element(element2)
+    assert lattice.get_family_s('BPM') == [0, 0]
+
+    element3 = pml.element.Element(3, 1.5, 'BPM')
+    element3.add_to_family('BPM')
+    lattice.add_element(element3)
+    assert lattice.get_family_s('BPM') == [0, 0, 1.0]
+
+    element4 = pml.element.Element(3, 1.5, 'BPM')
+    element4.add_to_family('BPM')
+    lattice.add_element(element4)
+    assert lattice.get_family_s('BPM') == [0, 0, 1.0, 2.5]
