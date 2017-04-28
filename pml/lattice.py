@@ -82,3 +82,11 @@ class Lattice(object):
             else:
                 return s_pos
         raise ElementNotFoundException('Given element does not exist in the lattice')
+
+    def get_family_s(self, family):
+        elements = self.get_elements(family)
+        print elements, family, self._lattice
+        s_positions = list()
+        for element in elements:
+            s_positions.append(self.get_s(element))
+        return s_positions
