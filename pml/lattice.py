@@ -85,7 +85,6 @@ class Lattice(object):
 
     def get_family_s(self, family):
         elements = self.get_elements(family)
-        print elements, family, self._lattice
         s_positions = list()
         for element in elements:
             s_positions.append(self.get_s(element))
