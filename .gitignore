@@ -17,9 +17,8 @@ pip-selfcheck.json
 .coverage
 htmlcov/
 
-# emacs
+# editors
 pml/#*
-
-# vim
 *.swp
 *.swo
+*~
