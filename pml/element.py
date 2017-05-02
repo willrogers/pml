@@ -1,4 +1,5 @@
 from pml.exceptions import PvException
+import pml
 
 
 class Element(object):
@@ -47,32 +48,32 @@ class Element(object):
     def add_to_family(self, family):
         self.families.add(family)
 
-    def get_pv_value(self, field, handle, unit='machine', sim=False):
+    def get_pv_value(self, field, handle, unit=pml.ENG, sim=False):
         if not sim:
             if field in self._devices:
                 value = self._devices[field].get_value(handle)
-                if unit == 'physics':
+                if unit == pml.PHY:
                     value = self._uc[field].machine_to_physics(value)
                 return value
             else:
                 raise PvException("No device associated with field {0}")
         else:
             value = self._physics.get_value(field, handle, unit)
-            if unit == 'machine':
+            if unit == pml.ENG:
                 value = self._uc[field].machine_to_physics(value)
             return value
 
-    def put_pv_value(self, field, value, unit='machine', sim=False):
+    def put_pv_value(self, field, value, unit=pml.ENG, sim=False):
         if not sim:
             if field in self._devices:
-                if unit == 'physics':
+                if unit == pml.PHY:
                     value = self._uc[field].physics_to_machine(value)
                 self._devices[field].put_value(value)
             else:
                 raise PvException('''There is no device associated with
                                      field {0}'''.format(field))
         else:
-            if unit == 'machine':
+            if unit == pml.ENG:
                 value = self._uc[field].machine_to_physics(value)
             self._physics.put_value(field, value)
 
