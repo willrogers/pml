@@ -28,4 +28,6 @@ class UcPchip(object):
         return self.pp(machine_value)
 
     def physics_to_machine(self, physics_value):
-        pass
+        y = [val - physics_value for val in self.y]
+        new_pp = PchipInterpolator(self.x, y)
+        return new_pp.roots()[0]
