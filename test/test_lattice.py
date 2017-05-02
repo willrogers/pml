@@ -96,3 +96,22 @@ def test_get_s_throws_exception_if_element_not_in_lattice():
     element = pml.element.Element(1, 1.0, 'Quad')
     with pytest.raises(ElementNotFoundException):
         l.get_s(element)
+
+def test_get_family_s(simple_element_and_lattice):
+    element1, lattice = simple_element_and_lattice
+    assert lattice.get_family_s('family') == [0]
+
+    element2 = pml.element.Element(2, 1.0, 'family')
+    element2.add_to_family('family')
+    lattice.add_element(element2)
+    assert lattice.get_family_s('family') == [0, 0]
+
+    element3 = pml.element.Element(3, 1.5, 'family')
+    element3.add_to_family('family')
+    lattice.add_element(element3)
+    assert lattice.get_family_s('family') == [0, 0, 1.0]
+
+    element4 = pml.element.Element(3, 1.5, 'family')
+    element4.add_to_family('family')
+    lattice.add_element(element4)
+    assert lattice.get_family_s('family') == [0, 0, 1.0, 2.5]
