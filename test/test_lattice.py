@@ -4,7 +4,7 @@ import pml.element
 import pml.device
 import mock
 from pml.units import UcPoly
-from pml.exceptions import ElementNotFoundException
+from pml.exceptions import ElementNotFoundException, PvException
 
 DUMMY_NAME = 'dummy'
 
@@ -77,6 +77,12 @@ def test_set_family_values(simple_element_and_lattice):
     element, lattice = simple_element_and_lattice
     lattice.set_family_values('family', 'x', [1])
     lattice._cs.put.assert_called_with(['readback_pv'], [1])
+
+
+def test_set_family_values_raise_exception(simple_element_and_lattice):
+    element, lattice = simple_element_and_lattice
+    with pytest.raises(PvException):
+        lattice.set_family_values('family','x', [1, 2])
 
 
 def test_s_position(simple_element_and_lattice):
