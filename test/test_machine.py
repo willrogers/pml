@@ -10,8 +10,8 @@ EPS = 1e-8
 
 @pytest.fixture
 def lattice():
-    basepath = os.path.dirname(__file__)
-    filename = os.path.join(basepath, 'data/VMX/')
+    basepath = os.getcwd()
+    filename = os.path.join(basepath, 'data/')
     lattice = pml.load_csv.load(filename, 'VMX', mock.MagicMock())
     return lattice
 
