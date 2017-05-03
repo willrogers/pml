@@ -4,6 +4,14 @@ from pml import lattice, element, device
 
 
 def load(directory, mode, control_system):
+    '''
+    Load a lattice object from a directory.
+
+    Parameters:
+      directory: directory where to load the files from
+      mode:the mode to be loaded
+      control_system: control system to be used
+    '''
     lat = lattice.Lattice(mode, control_system)
     with open(os.path.join(directory, mode, 'elements.csv')) as elements:
         csv_reader = csv.DictReader(elements)
