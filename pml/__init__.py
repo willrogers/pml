@@ -1,4 +1,4 @@
 SP = 'setpoint'
 RB = 'readback'
-ENG = 'machine'
+ENG = 'engineering'
 PHY = 'physics'
