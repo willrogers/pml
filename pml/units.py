@@ -24,8 +24,15 @@ class UcPchip(object):
         self.y = y
         self.pp = PchipInterpolator(x, y)
 
+        diff = np.diff(y)
+        if not (np.all(diff > 0)):
+            raise ValueError('''Given coefficients must be
+                                monotonically increasing.''')
+
     def machine_to_physics(self, machine_value):
         return self.pp(machine_value)
 
     def physics_to_machine(self, physics_value):
-        pass
+        y = [val - physics_value for val in self.y]
+        new_pp = PchipInterpolator(self.x, y)
+        return new_pp.roots()[0]
