@@ -27,7 +27,7 @@ class UcPchip(object):
         diff = np.diff(y)
         if not (np.all(diff > 0)):
             raise ValueError('''Given coefficients must be
-                                monotonely increasing.''')
+                                monotonically increasing.''')
 
     def machine_to_physics(self, machine_value):
         return self.pp(machine_value)

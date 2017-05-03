@@ -1,5 +1,6 @@
 import pytest
 from pml.units import UcPoly, UcPchip
+import numpy as np
 
 
 def test_identity_conversion():
@@ -36,9 +37,9 @@ def test_ppconversion_to_physics_2_points():
 def test_pp_conversion_to_physics_3_points():
     pchip_uc = UcPchip([1, 3, 5], [1, 3, 6])
     assert pchip_uc.machine_to_physics(1) == 1
-    assert round(pchip_uc.machine_to_physics(2), 4) == 1.8875
+    assert np.round(pchip_uc.machine_to_physics(2), 4) == 1.8875
     assert pchip_uc.machine_to_physics(3) == 3
-    assert round(pchip_uc.machine_to_physics(4), 4) == 4.3625
+    assert np.round(pchip_uc.machine_to_physics(4), 4) == 4.3625
     assert pchip_uc.machine_to_physics(5) == 6
 
 
