@@ -6,8 +6,7 @@ units_file = fullfile(dir, '..', 'data', ringmode, 'unitconv.csv');
 poly_file = fullfile(dir, '..', 'data', ringmode, 'uc_poly_data.csv');
 pchip_file = fullfile(dir, '..', 'data', ringmode, 'uc_pchip_data.csv');
 
-
-fprintf('Loading unit conversions to file %s\n', units_file);
+fprintf('Loading unit conversions...\n');
 
 % These variables are used throughout this file.
 f_units = fopen(units_file, 'w');
@@ -79,6 +78,8 @@ fclose(f_units);
 fclose(f_poly);
 fclose(f_pchip);
 
+fprintf('Finished.\n');
+
     function id = write_linear_data(gradient, offset)
         uc_id = uc_id + 1; 
         fprintf(f_poly, '%d,%d,%f\n', uc_id, 0, offset);
@@ -121,14 +122,11 @@ fclose(f_pchip);
 
     function caldata = el_cal_data(channel_name)
         global calibration_data;
-        disp(channel_name);
         index = calibration_lookup2(channel_name);
         caldata = calibration_data{index};
-        disp(caldata);
     end
 
     function caldata = fam_cal_data(famname)
-        disp(famname);
         fd = getfamilydata(famname);
         chan = fd.Monitor.ChannelNames(1,:);
         caldata = el_cal_data(chan);
