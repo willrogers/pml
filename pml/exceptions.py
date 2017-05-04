@@ -1,3 +1,5 @@
+''' Template module to represent existant exceptions. '''
+
 class PvException(Exception):
     pass
 
