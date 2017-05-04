@@ -120,7 +120,7 @@ class Element(object):
             sim (boolean): Set whether real or simulated values to be returned.
 
         Returns:
-            int: A number that corresponds to the pv value of the identified
+            Number: A number that corresponds to the pv value of the identified
             device.
 
         Raises:
