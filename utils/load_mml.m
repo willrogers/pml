@@ -17,13 +17,13 @@ function load_mml(ringmode)
     % load directly into the ap SQL database
     dir = fileparts(mfilename('fullpath'));
     cd(dir);
-    elements_file = fullfile(dir, '..', 'test', 'data', ringmode, 'elements.csv');
+    elements_file = fullfile(dir, '..', 'data', ringmode, 'elements.csv');
     f_elements = fopen(elements_file, 'wt', 'n', 'utf-8');
     fprintf(f_elements, 'id,name,type,length\n');
-    devices_file = fullfile(dir, '..', 'test', 'data', ringmode, 'devices.csv');
+    devices_file = fullfile(dir, '..', 'data', ringmode, 'devices.csv');
     f_devices = fopen(devices_file, 'w');
     fprintf(f_devices, 'id,field,get_pv,set_pv\n');
-    families_file = fullfile(dir, '..', 'test', 'data', ringmode, 'families.csv');
+    families_file = fullfile(dir, '..', 'data', ringmode, 'families.csv');
     f_families = fopen(families_file, 'w');
     fprintf(f_families, 'id,family\n');
 
@@ -41,14 +41,20 @@ function load_mml(ringmode)
     TYPE_MAP = containers.Map(keys, values);
 
     usedElements = containers.Map();
+    renamedIndexes = containers.Map('KeyType', 'int32', 'ValueType', 'int32');
 
     s = 0;
+    newIndex = 0;
 
-    for i = 1:length(THERING)
-        disp(i);
-        elm = THERING{i};
+    for oldIndex = 1:length(THERING)
+        elm = THERING{oldIndex};
         s = s + elm.Length;
-        insertelement(i, elm, s, ringmode, f_elements, f_families);
+        if not(strcmp(elm.FamName, 'HSTR') || strcmp(elm.FamName, 'VSTR'))
+            newIndex = newIndex + 1;
+            insertelement(newIndex, elm, s, ringmode, f_elements, f_families);
+        else
+            fprintf(f_families, '%i,%s\n', newIndex, elm.FamName);
+        end
 
         type = gettype(elm);
         if usedElements.isKey(type)
@@ -57,28 +63,31 @@ function load_mml(ringmode)
             usedElements(type) = 1;
         end
         pvs = getpvs(ao, elm, usedElements);
-        insertpvs(i, pvs, f_devices);
+        insertpvs(newIndex, pvs, f_devices);
+        fprintf('%d: %d\n', oldIndex, newIndex);
+        renamedIndexes(oldIndex) = newIndex;
     end
 
     % The following families  and do not have their
     % own elements.  We insert their PVs separately.
-    insertextrapvs('SQUAD', 'a1', f_devices);
-    insertextrapvs('BBVMXS', 'db0', f_devices);
-    insertextrapvs('BBVMXL', 'db0', f_devices);
+    insertextrapvs('SQUAD', 'a1', f_devices, renamedIndexes);
+    insertextrapvs('BBVMXS', 'db0', f_devices, renamedIndexes);
+    insertextrapvs('BBVMXL', 'db0', f_devices, renamedIndexes);
 
     % DCCT not in THERING.
     dcct = struct ('FamName', 'DCCT', 'Length', 0);
-    i = i + 1;
-    insertelement(i, dcct, 0, ringmode, f_elements);
+    newIndex = newIndex + 1;
+    insertelement(newIndex, dcct, 0, ringmode, f_elements, f_families);
     s = pv_struct('SR-DI-DCCT-01:SIGNAL', 'I', 'get');
-    insertpvs(i, {s}, f_devices);
-
+    insertpvs(newIndex, {s}, f_devices);
+    oldIndex = oldIndex + 1;
+    renamedIndexes(oldIndex) = newIndex;
     fclose(f_elements);
     fclose(f_devices);
     fclose(f_families);
 
     % finally, load unit conversion data
-    load_unitconv(ringmode);
+    load_unitconv(ringmode, renamedIndexes);
 
 end
 
@@ -170,14 +179,15 @@ function pvs = getpvs(ao, elm, usedElements)
 
 end
 
-function insertextrapvs(family, field, file)
+function insertextrapvs(family, field, file, renamedIndexes)
     elms = getfamilydata(family);
     if ~isempty(elms)
         for i = 1:length(elms.AT.ATIndex)
             get_pv = elms.Monitor.ChannelNames(i,:);
             set_pv = elms.Setpoint.ChannelNames(i,:);
             pvs = pv_struct(field, set_pv, get_pv);
-            insertpvs(elms.AT.ATIndex(i), {pvs}, file);
+            fprintf('renamed %d to %d\n', elms.AT.ATIndex(i), renamedIndexes(elms.AT.ATIndex(i)));
+            insertpvs(renamedIndexes(elms.AT.ATIndex(i)), {pvs}, file);
         end
     end
 end
