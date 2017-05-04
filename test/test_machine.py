@@ -17,7 +17,7 @@ def lattice():
 
 
 def test_load_lattice(lattice):
-    assert len(lattice) == 2476
+    assert len(lattice) == 2131
     assert lattice.name == 'VMX'
     assert (lattice.get_length() - 561.571) < EPS
 
@@ -63,3 +63,13 @@ def test_load_correctors(lattice):
     vcm = lattice.get_elements('VSTR')
     assert len(hcm) == 173
     assert len(vcm) == 173
+
+
+@pytest.mark.parametrize('field', ('x', 'y'))
+def test_bpm_unitconv(lattice, field):
+    bpm = lattice.get_elements('BPM')[0]
+    uc = bpm._uc[field]
+    print('p is {}'.format(uc.p))
+
+    assert uc.machine_to_physics(1) == 0.001
+    assert uc.physics_to_machine(2) == 2000
