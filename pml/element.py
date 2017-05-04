@@ -39,11 +39,10 @@ class Element(object):
         return str(self.families)
 
     def get_fields(self):
-        """Get the required fields to access the devices of an element.
+        """Get the fields defined on an element.
 
         Returns:
-            list: A list of keys required to access each device set on the
-            element.
+            list: A sequence of all the fields defined on an element.
         """
         return self._devices.keys()
 
@@ -87,7 +86,7 @@ class Element(object):
         self._uc[field] = uc
 
     def get_device(self, field):
-        """Get the device of a given field.
+        """Get the device for the given field.
 
         Args:
             field (string): The lookup key to find the device on an element.
@@ -98,8 +97,8 @@ class Element(object):
         return self._devices[field]
 
     def add_to_family(self, family):
-        """Add a family on the element.
-            #should I say what a family is
+        """Add the element to the specified family.
+
         Args:
             family (string): Represents the name of the family
         """
@@ -121,12 +120,11 @@ class Element(object):
             sim (boolean): Set whether real or simulated values to be returned.
 
         Returns:
-            int: An int that corresponds to the pv value of the identified
+            int: A number that corresponds to the pv value of the identified
             device.
 
         Raises:
-            PvException: An exception occured when there is no associated device
-            on the given field.
+            PvException: When there is no associated device on the given field.
         """
         if not sim:
             if field in self._devices:
