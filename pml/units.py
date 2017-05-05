@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.interpolate import PchipInterpolator
+from pml.exceptions import UniqueSolutionException
 
 
 class UcPoly(object):
@@ -21,11 +22,11 @@ class UcPoly(object):
         Given engineering value find out the machine value.
         '''
         roots = (self.p - physics_value).roots
-        positive_roots = [root for root in roots if root > 0]
-        if len(positive_roots) > 0:
-            return positive_roots[0]
+        if len(roots) == 1:
+            return roots[0]
         else:
-            raise ValueError("No corresponding positive machine value:", roots)
+            raise ValueError("""There doesn't exist a corresponding machine value or
+                              they are not unique:""", roots)
 
 
 class UcPchip(object):
@@ -39,10 +40,11 @@ class UcPchip(object):
         self.y = y
         self.pp = PchipInterpolator(x, y)
 
+        raiseException = False;
         diff = np.diff(y)
-        if not (np.all(diff > 0)):
-            raise ValueError('''Given coefficients must be
-                                monotonically increasing.''')
+        if not ((np.all(diff > 0)) or (np.all((diff < 0)))):
+            raise ValueError('''Given coefficients must be monotonically
+                                decreasing.''')
 
     def machine_to_physics(self, machine_value):
         '''
@@ -56,4 +58,8 @@ class UcPchip(object):
         '''
         y = [val - physics_value for val in self.y]
         new_pp = PchipInterpolator(self.x, y)
-        return new_pp.roots()[0]
+        roots = new_pp.roots()
+        if(len(roots) == 1):
+            return roots[0]
+        else:
+            raise UniqueSolutionException("The function does not have any solution.")

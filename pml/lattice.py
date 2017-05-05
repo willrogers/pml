@@ -143,7 +143,6 @@ class Lattice(object):
             doesn't match the number of found pvs.
 
         """
-        Given a family set the values of the pvs from a specified field.
         # Get the number of elements in the family
         pv_names = self.get_family_pvs(family, field, 'setpoint')
         if len(pv_names) != len(values):

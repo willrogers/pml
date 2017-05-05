@@ -5,3 +5,6 @@ class PvException(Exception):
 
 class ElementNotFoundException(Exception):
     pass
+
+class UniqueSolutionException(Exception):
+    pass
