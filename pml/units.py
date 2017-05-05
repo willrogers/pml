@@ -40,8 +40,8 @@ class UcPoly(object):
         if len(roots) == 1:
             return roots[0]
         else:
-            raise ValueError("""There doesn't exist a corresponding machine value or
-                              they are not unique:""", roots)
+            raise ValueError("There doesn't exist a corresponding machine value or"
+                             "they are not unique:", roots)
 
 
 class UcPchip(object):
@@ -64,8 +64,8 @@ class UcPchip(object):
 
         diff = np.diff(y)
         if not ((np.all(diff > 0)) or (np.all((diff < 0)))):
-            raise ValueError('''Given coefficients must be monotonically
-                                decreasing.''')
+            raise ValueError("Given coefficients must be monotonically"
+                             "decreasing.")
 
     def machine_to_physics(self, machine_value):
         """Convert between machine and engineering units.
@@ -93,7 +93,7 @@ class UcPchip(object):
         y = [val - physics_value for val in self.y]
         new_pp = PchipInterpolator(self.x, y)
         roots = new_pp.roots()
-        if(len(roots) == 1):
+        if len(roots) == 1:
             return roots[0]
         else:
             raise UniqueSolutionException("The function does not have any solution.")
