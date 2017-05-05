@@ -146,8 +146,8 @@ class Lattice(object):
         # Get the number of elements in the family
         pv_names = self.get_family_pvs(family, field, 'setpoint')
         if len(pv_names) != len(values):
-            raise PvException("""Number of elements in given array must be equal
-                                 to the number of elements in the lattice""")
+            raise PvException("Number of elements in given array must be equal"
+                              "to the number of elements in the lattice")
         self._cs.put(pv_names, values)
 
     def get_s(self, given_element):
