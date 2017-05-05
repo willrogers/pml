@@ -62,7 +62,6 @@ class UcPchip(object):
         self.y = y
         self.pp = PchipInterpolator(x, y)
 
-        raiseException = False;
         diff = np.diff(y)
         if not ((np.all(diff > 0)) or (np.all((diff < 0)))):
             raise ValueError("Given coefficients must be monotonically"
