@@ -4,7 +4,6 @@ from pml.exceptions import UniqueSolutionException
 
 
 class UcPoly(object):
-    '''inear interpolation for converting between physics and engineering units.'''
     def __init__(self, coef):
         """Linear interpolation for converting between physics and engineering units.
 
@@ -47,18 +46,18 @@ class UcPoly(object):
 
 class UcPchip(object):
     def __init__(self, x, y):
-    """ PChip interpolation for converting between physics and engineering units.
+        """ PChip interpolation for converting between physics and engineering units.
 
-    Args:
-        x(list): A list of points on the x axis. These must be in increasing order
-            for the interpolation to work. Otherwise, a ValueError is raised.
-        y(list): A list of points on the y axis. These must be in increasing or
-            decreasing order. Otherwise, a ValueError is raised.
+        Args:
+            x(list): A list of points on the x axis. These must be in increasing order
+                for the interpolation to work. Otherwise, a ValueError is raised.
+            y(list): A list of points on the y axis. These must be in increasing or
+                decreasing order. Otherwise, a ValueError is raised.
 
-    Raises:
-        ValueError: An error occured when the given y coefficients are neither in
-        increasing or decreasing order.
-    """
+        Raises:
+            ValueError: An error occured when the given y coefficients are neither in
+            increasing or decreasing order.
+        """
         self.x = x
         self.y = y
         self.pp = PchipInterpolator(x, y)
