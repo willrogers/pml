@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pml.physics &mdash; docs 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="docs 1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pml.physics</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">List of available physics objects:</span>
+<span class="sd">RF</span>
+<span class="sd">AP</span>
+<span class="sd">DRIFT</span>
+<span class="sd">BPM</span>
+<span class="sd">BEND</span>
+<span class="sd">QUAD</span>
+<span class="sd">SEXT</span>
+<span class="sd">DIPOLE</span>
+<span class="sd">HSTR</span>
+<span class="sd">VSTR</span>
+<span class="sd">HCHICA</span>
+<span class="sd">VTRIM</span>
+<span class="sd">HTRIM</span>
+<span class="sd">MPW12</span>
+<span class="sd">MPW15</span>
+<span class="sd">BPM10</span>
+<span class="sd">source</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="Physics"><a class="viewcode-back" href="../../pml.html#pml.physics.Physics">[docs]</a><span class="k">class</span> <span class="nc">Physics</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Template class to represent an object for the simulation. &#39;&#39;&#39;</span><span class="s">&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">length</span>
+
+<div class="viewcode-block" id="Physics.get_length"><a class="viewcode-back" href="../../pml.html#pml.physics.Physics.get_length">[docs]</a>    <span class="k">def</span> <span class="nf">get_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;&#39;&#39;This method should be overwritten</span>
+<span class="s">                                     in children classes!&#39;&#39;&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Physics.set_length"><a class="viewcode-back" href="../../pml.html#pml.physics.Physics.set_length">[docs]</a>    <span class="k">def</span> <span class="nf">set_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;&#39;&#39;This method should be overwritten</span>
+<span class="s">                                     in children classes!&#39;&#39;&#39;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="Hchica"><a class="viewcode-back" href="../../pml.html#pml.physics.Hchica">[docs]</a><span class="k">class</span> <span class="nc">Hchica</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="Vtrim"><a class="viewcode-back" href="../../pml.html#pml.physics.Vtrim">[docs]</a><span class="k">class</span> <span class="nc">Vtrim</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="Htrim"><a class="viewcode-back" href="../../pml.html#pml.physics.Htrim">[docs]</a><span class="k">class</span> <span class="nc">Htrim</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="Mpw12"><a class="viewcode-back" href="../../pml.html#pml.physics.Mpw12">[docs]</a><span class="k">class</span> <span class="nc">Mpw12</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="Mpw10"><a class="viewcode-back" href="../../pml.html#pml.physics.Mpw10">[docs]</a><span class="k">class</span> <span class="nc">Mpw10</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="Mpw15"><a class="viewcode-back" href="../../pml.html#pml.physics.Mpw15">[docs]</a><span class="k">class</span> <span class="nc">Mpw15</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="Bpm10"><a class="viewcode-back" href="../../pml.html#pml.physics.Bpm10">[docs]</a><span class="k">class</span> <span class="nc">Bpm10</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Bpm10</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+
+</div>
+<div class="viewcode-block" id="Source"><a class="viewcode-back" href="../../pml.html#pml.physics.Source">[docs]</a><span class="k">class</span> <span class="nc">Source</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="Rf"><a class="viewcode-back" href="../../pml.html#pml.physics.Rf">[docs]</a><span class="k">class</span> <span class="nc">Rf</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">voltage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">harmonic_no</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">time_lag</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Rf</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">voltage</span> <span class="o">=</span> <span class="n">voltage</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="n">frequency</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">harmonic_no</span> <span class="o">=</span> <span class="n">harmonic_no</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_lag</span> <span class="o">=</span> <span class="n">time_lag</span>
+
+<div class="viewcode-block" id="Rf.get_voltage"><a class="viewcode-back" href="../../pml.html#pml.physics.Rf.get_voltage">[docs]</a>    <span class="k">def</span> <span class="nf">get_voltage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">voltage</span>
+</div>
+<div class="viewcode-block" id="Rf.set_voltage"><a class="viewcode-back" href="../../pml.html#pml.physics.Rf.set_voltage">[docs]</a>    <span class="k">def</span> <span class="nf">set_voltage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">voltage</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Rf.get_frequency"><a class="viewcode-back" href="../../pml.html#pml.physics.Rf.get_frequency">[docs]</a>    <span class="k">def</span> <span class="nf">get_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span>
+</div>
+<div class="viewcode-block" id="Rf.set_frequency"><a class="viewcode-back" href="../../pml.html#pml.physics.Rf.set_frequency">[docs]</a>    <span class="k">def</span> <span class="nf">set_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Rf.get_harmonic_no"><a class="viewcode-back" href="../../pml.html#pml.physics.Rf.get_harmonic_no">[docs]</a>    <span class="k">def</span> <span class="nf">get_harmonic_no</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">harmonic_no</span>
+</div>
+<div class="viewcode-block" id="Rf.set_harmonic_no"><a class="viewcode-back" href="../../pml.html#pml.physics.Rf.set_harmonic_no">[docs]</a>    <span class="k">def</span> <span class="nf">set_harmonic_no</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">harmonic_no</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Rf.get_time_lag"><a class="viewcode-back" href="../../pml.html#pml.physics.Rf.get_time_lag">[docs]</a>    <span class="k">def</span> <span class="nf">get_time_lag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_lag</span>
+</div>
+<div class="viewcode-block" id="Rf.set_time_lag"><a class="viewcode-back" href="../../pml.html#pml.physics.Rf.set_time_lag">[docs]</a>    <span class="k">def</span> <span class="nf">set_time_lag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_lag</span> <span class="o">=</span> <span class="n">value</span>
+
+</div></div>
+<div class="viewcode-block" id="Ap"><a class="viewcode-back" href="../../pml.html#pml.physics.Ap">[docs]</a><span class="k">class</span> <span class="nc">Ap</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Ap</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
+
+</div>
+<div class="viewcode-block" id="Drift"><a class="viewcode-back" href="../../pml.html#pml.physics.Drift">[docs]</a><span class="k">class</span> <span class="nc">Drift</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="Bpm"><a class="viewcode-back" href="../../pml.html#pml.physics.Bpm">[docs]</a><span class="k">class</span> <span class="nc">Bpm</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Bpm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+
+<div class="viewcode-block" id="Bpm.get_x"><a class="viewcode-back" href="../../pml.html#pml.physics.Bpm.get_x">[docs]</a>    <span class="k">def</span> <span class="nf">get_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+</div>
+<div class="viewcode-block" id="Bpm.get_y"><a class="viewcode-back" href="../../pml.html#pml.physics.Bpm.get_y">[docs]</a>    <span class="k">def</span> <span class="nf">get_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+
+
+<span class="c"># Magnets</span></div></div>
+<div class="viewcode-block" id="Magnet"><a class="viewcode-back" href="../../pml.html#pml.physics.Magnet">[docs]</a><span class="k">class</span> <span class="nc">Magnet</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="c"># Should create subclasses of each magnet that inherit MagnetPhysics</span>
+    <span class="c"># Quad, dipole, corrector, sext</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">poly_a</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">poly_b</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">t1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">t2</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Magnet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">poly_a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">poly_b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r1</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r2</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+
+
+<div class="viewcode-block" id="Magnet.get_poly_a"><a class="viewcode-back" href="../../pml.html#pml.physics.Magnet.get_poly_a">[docs]</a>    <span class="k">def</span> <span class="nf">get_poly_a</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">poly_a</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Magnet.set_poly_a"><a class="viewcode-back" href="../../pml.html#pml.physics.Magnet.set_poly_a">[docs]</a>    <span class="k">def</span> <span class="nf">set_poly_a</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">poly_a</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Magnet.get_poly_b"><a class="viewcode-back" href="../../pml.html#pml.physics.Magnet.get_poly_b">[docs]</a>    <span class="k">def</span> <span class="nf">get_poly_b</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly_b</span>
+</div>
+<div class="viewcode-block" id="Magnet.set_poly_b"><a class="viewcode-back" href="../../pml.html#pml.physics.Magnet.set_poly_b">[docs]</a>    <span class="k">def</span> <span class="nf">set_poly_b</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">poly_b</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Magnet.get_r1"><a class="viewcode-back" href="../../pml.html#pml.physics.Magnet.get_r1">[docs]</a>    <span class="k">def</span> <span class="nf">get_r1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">r1</span>
+</div>
+<div class="viewcode-block" id="Magnet.set_r1"><a class="viewcode-back" href="../../pml.html#pml.physics.Magnet.set_r1">[docs]</a>    <span class="k">def</span> <span class="nf">set_r1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r1</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Magnet.get_r2"><a class="viewcode-back" href="../../pml.html#pml.physics.Magnet.get_r2">[docs]</a>    <span class="k">def</span> <span class="nf">get_r2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2</span>
+</div>
+<div class="viewcode-block" id="Magnet.set_r2"><a class="viewcode-back" href="../../pml.html#pml.physics.Magnet.set_r2">[docs]</a>    <span class="k">def</span> <span class="nf">set_r2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r2</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Magnet.get_t1"><a class="viewcode-back" href="../../pml.html#pml.physics.Magnet.get_t1">[docs]</a>    <span class="k">def</span> <span class="nf">get_t1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">t1</span>
+</div>
+<div class="viewcode-block" id="Magnet.set_t1"><a class="viewcode-back" href="../../pml.html#pml.physics.Magnet.set_t1">[docs]</a>    <span class="k">def</span> <span class="nf">set_t1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t1</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Magnet.get_t2"><a class="viewcode-back" href="../../pml.html#pml.physics.Magnet.get_t2">[docs]</a>    <span class="k">def</span> <span class="nf">get_t2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">t2</span>
+</div>
+<div class="viewcode-block" id="Magnet.set_t2"><a class="viewcode-back" href="../../pml.html#pml.physics.Magnet.set_t2">[docs]</a>    <span class="k">def</span> <span class="nf">set_t2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t2</span> <span class="o">=</span> <span class="n">value</span>
+
+</div></div>
+<div class="viewcode-block" id="Aperture"><a class="viewcode-back" href="../../pml.html#pml.physics.Aperture">[docs]</a><span class="k">class</span> <span class="nc">Aperture</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limits</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">limits</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="n">limits</span>
+
+<div class="viewcode-block" id="Aperture.get_limits"><a class="viewcode-back" href="../../pml.html#pml.physics.Aperture.get_limits">[docs]</a>    <span class="k">def</span> <span class="nf">get_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">limits</span>
+</div>
+<div class="viewcode-block" id="Aperture.set_limits"><a class="viewcode-back" href="../../pml.html#pml.physics.Aperture.set_limits">[docs]</a>    <span class="k">def</span> <span class="nf">set_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="n">value</span>
+</div></div>
+<div class="viewcode-block" id="Bend"><a class="viewcode-back" href="../../pml.html#pml.physics.Bend">[docs]</a><span class="k">class</span> <span class="nc">Bend</span><span class="p">(</span><span class="n">Magnet</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="Quad"><a class="viewcode-back" href="../../pml.html#pml.physics.Quad">[docs]</a><span class="k">class</span> <span class="nc">Quad</span><span class="p">(</span><span class="n">Magnet</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Quad</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Sext"><a class="viewcode-back" href="../../pml.html#pml.physics.Sext">[docs]</a><span class="k">class</span> <span class="nc">Sext</span><span class="p">(</span><span class="n">Magnet</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="c"># Correctors</span></div>
+<div class="viewcode-block" id="Corrector"><a class="viewcode-back" href="../../pml.html#pml.physics.Corrector">[docs]</a><span class="k">class</span> <span class="nc">Corrector</span><span class="p">(</span><span class="n">Magnet</span><span class="p">):</span>
+<div class="viewcode-block" id="Corrector.put_b0"><a class="viewcode-back" href="../../pml.html#pml.physics.Corrector.put_b0">[docs]</a>    <span class="k">def</span> <span class="nf">put_b0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="Corrector.get_b0"><a class="viewcode-back" href="../../pml.html#pml.physics.Corrector.get_b0">[docs]</a>    <span class="k">def</span> <span class="nf">get_b0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+</div></div>
+<div class="viewcode-block" id="Hstr"><a class="viewcode-back" href="../../pml.html#pml.physics.Hstr">[docs]</a><span class="k">class</span> <span class="nc">Hstr</span><span class="p">(</span><span class="n">Corrector</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="Vstr"><a class="viewcode-back" href="../../pml.html#pml.physics.Vstr">[docs]</a><span class="k">class</span> <span class="nc">Vstr</span><span class="p">(</span><span class="n">Corrector</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="Marker"><a class="viewcode-back" href="../../pml.html#pml.physics.Marker">[docs]</a><span class="k">class</span> <span class="nc">Marker</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="Monitor"><a class="viewcode-back" href="../../pml.html#pml.physics.Monitor">[docs]</a><span class="k">class</span> <span class="nc">Monitor</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="RF"><a class="viewcode-back" href="../../pml.html#pml.physics.RF">[docs]</a><span class="k">class</span> <span class="nc">RF</span><span class="p">(</span><span class="n">Physics</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">voltage</span><span class="p">,</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">harmonic_number</span><span class="p">,</span> <span class="n">time_lag</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">voltage</span> <span class="o">=</span> <span class="n">voltage</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="n">frequency</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">harmonic_number</span> <span class="o">=</span> <span class="n">harmonic_number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_lag</span> <span class="o">=</span> <span class="n">time_lag</span>
+
+<div class="viewcode-block" id="RF.get_voltage"><a class="viewcode-back" href="../../pml.html#pml.physics.RF.get_voltage">[docs]</a>    <span class="k">def</span> <span class="nf">get_voltage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">voltage</span>
+</div>
+<div class="viewcode-block" id="RF.set_voltage"><a class="viewcode-back" href="../../pml.html#pml.physics.RF.set_voltage">[docs]</a>    <span class="k">def</span> <span class="nf">set_voltage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">voltage</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="RF.get_frequency"><a class="viewcode-back" href="../../pml.html#pml.physics.RF.get_frequency">[docs]</a>    <span class="k">def</span> <span class="nf">get_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span>
+</div>
+<div class="viewcode-block" id="RF.set_frequency"><a class="viewcode-back" href="../../pml.html#pml.physics.RF.set_frequency">[docs]</a>    <span class="k">def</span> <span class="nf">set_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="RF.get_harmonic_number"><a class="viewcode-back" href="../../pml.html#pml.physics.RF.get_harmonic_number">[docs]</a>    <span class="k">def</span> <span class="nf">get_harmonic_number</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">harmonic_number</span>
+</div>
+<div class="viewcode-block" id="RF.set_harmonic_number"><a class="viewcode-back" href="../../pml.html#pml.physics.RF.set_harmonic_number">[docs]</a>    <span class="k">def</span> <span class="nf">set_harmonic_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">harmonic_number</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="RF.get_time_lag"><a class="viewcode-back" href="../../pml.html#pml.physics.RF.get_time_lag">[docs]</a>    <span class="k">def</span> <span class="nf">get_time_lag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_lag</span>
+</div>
+<div class="viewcode-block" id="RF.set_time_lag"><a class="viewcode-back" href="../../pml.html#pml.physics.RF.set_time_lag">[docs]</a>    <span class="k">def</span> <span class="nf">set_time_lag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_lag</span> <span class="o">=</span> <span class="n">value</span>
+
+</div></div>
+<div class="viewcode-block" id="Dipole"><a class="viewcode-back" href="../../pml.html#pml.physics.Dipole">[docs]</a><span class="k">class</span> <span class="nc">Dipole</span><span class="p">(</span><span class="n">Magnet</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bending_angle</span><span class="p">,</span> <span class="n">entrance_angle</span><span class="p">,</span> <span class="n">exit_angle</span><span class="p">,</span>
+                 <span class="n">full_gap</span><span class="p">,</span> <span class="n">fringe_int1</span><span class="p">,</span> <span class="n">fringe_int2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bending_angle</span> <span class="o">=</span> <span class="n">bending_angle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entrance_angle</span> <span class="o">=</span> <span class="n">entrance_angle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_angle</span> <span class="o">=</span> <span class="n">exit_angle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">full_gap</span> <span class="o">=</span> <span class="n">full_gap</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fringe_int1</span> <span class="o">=</span> <span class="n">fringe_int1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fringe_int2</span> <span class="o">=</span> <span class="n">fringe_int2</span>
+
+<div class="viewcode-block" id="Dipole.get_bending_angle"><a class="viewcode-back" href="../../pml.html#pml.physics.Dipole.get_bending_angle">[docs]</a>    <span class="k">def</span> <span class="nf">get_bending_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bending_angle</span>
+</div>
+<div class="viewcode-block" id="Dipole.set_bending_angle"><a class="viewcode-back" href="../../pml.html#pml.physics.Dipole.set_bending_angle">[docs]</a>    <span class="k">def</span> <span class="nf">set_bending_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bending_angle</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Dipole.get_entrance_angle"><a class="viewcode-back" href="../../pml.html#pml.physics.Dipole.get_entrance_angle">[docs]</a>    <span class="k">def</span> <span class="nf">get_entrance_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">entrance_angle</span>
+</div>
+<div class="viewcode-block" id="Dipole.set_entrance_angle"><a class="viewcode-back" href="../../pml.html#pml.physics.Dipole.set_entrance_angle">[docs]</a>    <span class="k">def</span> <span class="nf">set_entrance_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entrance_angle</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Dipole.get_exit_angle"><a class="viewcode-back" href="../../pml.html#pml.physics.Dipole.get_exit_angle">[docs]</a>    <span class="k">def</span> <span class="nf">get_exit_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_angle</span>
+</div>
+<div class="viewcode-block" id="Dipole.set_exit_angle"><a class="viewcode-back" href="../../pml.html#pml.physics.Dipole.set_exit_angle">[docs]</a>    <span class="k">def</span> <span class="nf">set_exit_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_angle</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Dipole.get_full_gap"><a class="viewcode-back" href="../../pml.html#pml.physics.Dipole.get_full_gap">[docs]</a>    <span class="k">def</span> <span class="nf">get_full_gap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_gap</span>
+</div>
+<div class="viewcode-block" id="Dipole.set_full_gap"><a class="viewcode-back" href="../../pml.html#pml.physics.Dipole.set_full_gap">[docs]</a>    <span class="k">def</span> <span class="nf">set_full_gap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">full_gap</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Dipole.get_fringe_int1"><a class="viewcode-back" href="../../pml.html#pml.physics.Dipole.get_fringe_int1">[docs]</a>    <span class="k">def</span> <span class="nf">get_fringe_int1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fringe_int1</span>
+</div>
+<div class="viewcode-block" id="Dipole.set_fringe_int1"><a class="viewcode-back" href="../../pml.html#pml.physics.Dipole.set_fringe_int1">[docs]</a>    <span class="k">def</span> <span class="nf">set_fringe_int1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fringe_int1</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Dipole.get_fringe_int2"><a class="viewcode-back" href="../../pml.html#pml.physics.Dipole.get_fringe_int2">[docs]</a>    <span class="k">def</span> <span class="nf">get_fringe_int2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fringe_int2</span>
+</div>
+<div class="viewcode-block" id="Dipole.set_fringe_int2"><a class="viewcode-back" href="../../pml.html#pml.physics.Dipole.set_fringe_int2">[docs]</a>    <span class="k">def</span> <span class="nf">set_fringe_int2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fringe_int2</span> <span class="o">=</span> <span class="n">value</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Will Rogers, Razvan Vasile.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

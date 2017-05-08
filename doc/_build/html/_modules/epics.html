@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>epics &mdash; docs 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="docs 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for epics</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">   epics channel access python module</span>
+
+<span class="sd">   version    :  3.2.0</span>
+<span class="sd">   last update:  19-Jan-2012</span>
+
+<span class="sd">   Principle Authors:</span>
+<span class="sd">      Matthew Newville &lt;newville@cars.uchicago.edu&gt;, CARS, University of Chicago</span>
+<span class="sd">      Angus Gratton &lt;angus.gratton@anu.edu.au&gt;, Australian National University</span>
+
+<span class="sd">== License:</span>
+<span class="sd">   Except where explicitly noted, this file and all files in this</span>
+<span class="sd">   distribution are licensed under the Epics Open License</span>
+<span class="sd">   See license.txt in the top-level directory of this distribution.</span>
+
+<span class="sd">== Overview:</span>
+<span class="sd">   Python Interface to the Epics Channel Access protocol of the Epics control system.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;3.2.0&#39;</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">ca</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">dbr</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">pv</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">alarm</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">device</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">motor</span>
+
+<span class="n">PV</span>    <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PV</span>
+<span class="n">Alarm</span> <span class="o">=</span> <span class="n">alarm</span><span class="o">.</span><span class="n">Alarm</span>
+<span class="n">Motor</span> <span class="o">=</span> <span class="n">motor</span><span class="o">.</span><span class="n">Motor</span>
+<span class="n">Device</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">Device</span>
+<span class="n">poll</span>  <span class="o">=</span> <span class="n">ca</span><span class="o">.</span><span class="n">poll</span>
+
+<span class="c"># some constants</span>
+<span class="n">NO_ALARM</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">MINOR_ALARM</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">MAJOR_ALARM</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">INVALID_ALARM</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c"># compatibility with other CA libraries</span>
+<span class="c"># from  .compat import epicsPV</span>
+
+<span class="c"># a local cache for PVs used in caget/caput/cainfo/camonitor functions</span>
+<span class="n">_CACHE_</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="c"># a local cache for Monitored PVs</span>
+<span class="n">_MONITORS_</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">def</span> <span class="nf">__create_pv</span><span class="p">(</span><span class="n">pvname</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">5.0</span><span class="p">):</span>
+    <span class="s">&quot;create PV, wait for connection: &quot;</span>
+    <span class="k">if</span> <span class="n">pvname</span> <span class="ow">in</span> <span class="n">_CACHE_</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_CACHE_</span><span class="p">[</span><span class="n">pvname</span><span class="p">]</span>
+
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">thispv</span> <span class="o">=</span> <span class="n">PV</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span>
+    <span class="n">thispv</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">thispv</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
+        <span class="n">poll</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start_time</span> <span class="o">&gt;</span> <span class="n">timeout</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">thispv</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
+        <span class="n">ca</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;cannot connect to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">pvname</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="c"># save this one for next time</span>
+    <span class="n">_CACHE_</span><span class="p">[</span><span class="n">pvname</span><span class="p">]</span> <span class="o">=</span> <span class="n">thispv</span>
+    <span class="k">return</span> <span class="n">thispv</span>
+
+<div class="viewcode-block" id="caput"><a class="viewcode-back" href="../epics.html#epics.caput">[docs]</a><span class="k">def</span> <span class="nf">caput</span><span class="p">(</span><span class="n">pvname</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;caput(pvname, value, wait=False, timeout=60)</span>
+<span class="sd">    simple put to a pv&#39;s value.</span>
+<span class="sd">       &gt;&gt;&gt; caput(&#39;xx.VAL&#39;,3.0)</span>
+
+<span class="sd">    to wait for pv to complete processing, use &#39;wait=True&#39;:</span>
+<span class="sd">       &gt;&gt;&gt; caput(&#39;xx.VAL&#39;,3.0,wait=True)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">thispv</span> <span class="o">=</span> <span class="n">__create_pv</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">thispv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">thispv</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="n">wait</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="caget"><a class="viewcode-back" href="../epics.html#epics.caget">[docs]</a><span class="k">def</span> <span class="nf">caget</span><span class="p">(</span><span class="n">pvname</span><span class="p">,</span> <span class="n">as_string</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">as_numpy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+          <span class="n">use_monitor</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;caget(pvname, as_string=False)</span>
+<span class="sd">    simple get of a pv&#39;s value..</span>
+<span class="sd">       &gt;&gt;&gt; x = caget(&#39;xx.VAL&#39;)</span>
+
+<span class="sd">    to get the character string representation (formatted double,</span>
+<span class="sd">    enum string, etc):</span>
+<span class="sd">       &gt;&gt;&gt; x = caget(&#39;xx.VAL&#39;, as_string=True)</span>
+
+<span class="sd">    to get a truncated amount of data from an array, you can specify</span>
+<span class="sd">    the count with</span>
+<span class="sd">       &gt;&gt;&gt; x = caget(&#39;MyArray.VAL&#39;, count=1000)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">thispv</span> <span class="o">=</span> <span class="n">__create_pv</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">thispv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">as_string</span><span class="p">:</span>
+            <span class="n">thispv</span><span class="o">.</span><span class="n">get_ctrlvars</span><span class="p">()</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">thispv</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span>
+                         <span class="n">use_monitor</span><span class="o">=</span><span class="n">use_monitor</span><span class="p">,</span>
+                         <span class="n">as_string</span><span class="o">=</span><span class="n">as_string</span><span class="p">,</span>
+                         <span class="n">as_numpy</span><span class="o">=</span><span class="n">as_numpy</span><span class="p">)</span>
+        <span class="n">poll</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">val</span>
+</div>
+<div class="viewcode-block" id="cainfo"><a class="viewcode-back" href="../epics.html#epics.cainfo">[docs]</a><span class="k">def</span> <span class="nf">cainfo</span><span class="p">(</span><span class="n">pvname</span><span class="p">,</span> <span class="n">print_out</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;cainfo(pvname,print_out=True)</span>
+
+<span class="sd">    return printable information about pv</span>
+<span class="sd">       &gt;&gt;&gt;cainfo(&#39;xx.VAL&#39;)</span>
+
+<span class="sd">    will return a status report for the pv.</span>
+
+<span class="sd">    If print_out=False, the status report will be printed,</span>
+<span class="sd">    and not returned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">thispv</span> <span class="o">=</span> <span class="n">__create_pv</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">thispv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">thispv</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">thispv</span><span class="o">.</span><span class="n">get_ctrlvars</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">print_out</span><span class="p">:</span>
+            <span class="n">ca</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">thispv</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">thispv</span><span class="o">.</span><span class="n">info</span>
+</div>
+<div class="viewcode-block" id="camonitor_clear"><a class="viewcode-back" href="../epics.html#epics.camonitor_clear">[docs]</a><span class="k">def</span> <span class="nf">camonitor_clear</span><span class="p">(</span><span class="n">pvname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;clear a monitor on a PV&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">pvname</span> <span class="ow">in</span> <span class="n">_MONITORS_</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_MONITORS_</span><span class="p">[</span><span class="n">pvname</span><span class="p">],</span> <span class="n">PV</span><span class="p">):</span>
+            <span class="n">_MONITORS_</span><span class="p">[</span><span class="n">pvname</span><span class="p">]</span><span class="o">.</span><span class="n">clear_callbacks</span><span class="p">()</span>
+        <span class="n">_MONITORS_</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="camonitor"><a class="viewcode-back" href="../epics.html#epics.camonitor">[docs]</a><span class="k">def</span> <span class="nf">camonitor</span><span class="p">(</span><span class="n">pvname</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; camonitor(pvname, writer=None, callback=None)</span>
+
+<span class="sd">    sets a monitor on a PV.</span>
+<span class="sd">       &gt;&gt;&gt;camonitor(&#39;xx.VAL&#39;)</span>
+
+<span class="sd">    This will write a message with the latest value for that PV each</span>
+<span class="sd">    time the value changes and when ca.poll() is called.</span>
+
+<span class="sd">    To write the result to a file, provide the writer option a write method</span>
+<span class="sd">    to an open file or some other method that accepts a string.</span>
+
+<span class="sd">    To completely control where the output goes, provide a callback method</span>
+<span class="sd">    and you can do whatever you&#39;d like with them.</span>
+
+<span class="sd">    Your callback will be sent keyword arguments for pvname, value, and</span>
+<span class="sd">    char_value Important: use **kwd!!</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">writer</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">ca</span><span class="o">.</span><span class="n">write</span>
+    <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">pvname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">char_value</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+            <span class="s">&quot;generic monitor callback&quot;</span>
+            <span class="k">if</span> <span class="n">char_value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">char_value</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">writer</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%.32s</span><span class="s"> </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pvname</span><span class="p">,</span> <span class="n">pv</span><span class="o">.</span><span class="n">fmt_time</span><span class="p">(),</span> <span class="n">char_value</span><span class="p">))</span>
+
+    <span class="n">thispv</span> <span class="o">=</span> <span class="n">__create_pv</span><span class="p">(</span><span class="n">pvname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">thispv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">thispv</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">thispv</span><span class="o">.</span><span class="n">add_callback</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="n">with_ctrlvars</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">_MONITORS_</span><span class="p">[</span><span class="n">pvname</span><span class="p">]</span> <span class="o">=</span> <span class="n">thispv</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Will Rogers, Razvan Vasile.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
