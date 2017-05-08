@@ -5,6 +5,7 @@ from pml.physics import Physics
 from pml.units import UcPoly
 import pytest
 import mock
+import pml
 
 
 @pytest.fixture
@@ -44,10 +45,10 @@ def test_add_element_to_family():
 def test_get_pv_value(pv_type, test_element):
     # Tests to get/set pv names and/or values
     # The default unit conversion is identity
-    assert test_element.get_pv_value('x', pv_type, unit='physics') == 40.0
-    assert test_element.get_pv_value('x', pv_type, unit='hardware') == 40.0
-    assert test_element.get_pv_value('y', pv_type, unit='physics') == 40.0
-    assert test_element.get_pv_value('y', pv_type, unit='hardware') == 40.0
+    assert test_element.get_pv_value('x', pv_type, unit=pml.PHY) == 40.0
+    assert test_element.get_pv_value('x', pv_type, unit=pml.ENG) == 40.0
+    assert test_element.get_pv_value('y', pv_type, unit=pml.PHY) == 40.0
+    assert test_element.get_pv_value('y', pv_type, unit=pml.ENG) == 40.0
 
 
 @pytest.mark.parametrize('pv_type', ['readback', 'setpoint'])
@@ -75,8 +76,8 @@ def test_get_pv_exceptions(test_element):
 def test_identity_conversion():
     uc_id = UcPoly([1, 0])
     element = test_element(uc=uc_id)
-    value_physics = element.get_pv_value('x', 'setpoint', 'physics')
-    value_machine = element.get_pv_value('x', 'setpoint', 'machine')
+    value_physics = element.get_pv_value('x', 'setpoint', pml.PHY)
+    value_machine = element.get_pv_value('x', 'setpoint', pml.ENG)
     assert value_machine == 40.0
     assert value_physics == 40.0
 
