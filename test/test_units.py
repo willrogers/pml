@@ -48,7 +48,7 @@ def test_pp_conversion_to_machine_2_points():
     assert pchip_uc.physics_to_machine(1) == 1
     assert pchip_uc.physics_to_machine(1.5) == 1.5
 
-def test_pp_not_monotonely_increasing_error():
+def test_pp_not_monotonically_increasing_error():
     with pytest.raises(ValueError):
         UcPchip([1, 2, 3], [1, 3, 2])
 
