@@ -13,3 +13,9 @@ It is simplest to work with a virtualenv.  Then:
 To see a coverage report:
 
 * `py.test --cov=pml test`
+
+To build documentation correctly:
+
+Change current directory to docs
+* `sphinx-build -b html -E . _build/html`
+The documentation is build inside _build/html
