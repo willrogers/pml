@@ -3,6 +3,13 @@ from pml.units import UcPoly, UcPchip
 import numpy as np
 
 
+def f1(value):
+    return value * 2
+
+def f2(value):
+    return value / 2
+
+
 def test_identity_conversion():
     id_conversion = UcPoly([1, 0])
     physics_value = id_conversion.machine_to_physics(4)
@@ -54,3 +61,19 @@ def test_pp_not_monotonically_increasing_error():
 
     with pytest.raises(ValueError):
         UcPchip([-1, -2, -3], [-1, -2, -3])
+
+def test_UcPchip_with_additional_function():
+    pchip_uc = UcPchip([2, 4], [2, 4], f1, f2)
+    assert pchip_uc.machine_to_physics(2) == 4.0
+    assert pchip_uc.machine_to_physics(3) == 6.0
+    assert pchip_uc.physics_to_machine(2) == 1.0
+    assert pchip_uc.physics_to_machine(3) == 1.5
+
+def test_UcPoly_with_additional_function():
+    ucpoly_uc = UcPoly([2, 3], f1, f2)
+    assert ucpoly_uc.machine_to_physics(4) == 22.0
+    assert ucpoly_uc.machine_to_physics(5) == 26.0
+    assert ucpoly_uc.machine_to_physics(3) == 18.0
+    assert ucpoly_uc.physics_to_machine(1) == -0.5
+    assert ucpoly_uc.physics_to_machine(2) == -0.25
+    assert ucpoly_uc.physics_to_machine(3) == 0.0
