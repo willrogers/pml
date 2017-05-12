@@ -11,8 +11,6 @@ class Uc(object):
     def __init__(self, f1=unit_function, f2=unit_function):
         self.f1 = f1
         self.f2 = f2
-        print f1, f2
-
 
     def _machine_to_physics(self, value):
         raise NotImplementedError()
