@@ -3,49 +3,77 @@ from scipy.interpolate import PchipInterpolator
 from pml.exceptions import UniqueSolutionException
 
 
-class UcPoly(object):
-    def __init__(self, coef):
+def unit_function(value):
+    return value
+
+
+class UnitConv(object):
+    def __init__(self, f1=unit_function, f2=unit_function):
+        self.f1 = f1
+        self.f2 = f2
+
+    def _raw_eng_to_phys(self, value):
+        raise NotImplementedError()
+
+    def eng_to_phys(self, value):
+        x = self._raw_eng_to_phys(value)
+        y = self.f1(x)
+        return y
+
+    def _raw_phys_to_eng(self, value):
+        raise NotImplementedError()
+
+    def phys_to_eng(self, value):
+        x = self._raw_phys_to_eng(value)
+        y = self.f2(x)
+        return y
+
+
+class PolyUnitConv(UnitConv):
+    def __init__(self, coef, f1=unit_function, f2=unit_function):
         """Linear interpolation for converting between physics and engineering units.
 
         Args:
             coef(array_like): The polynomial's coefficients, in decreasing powers.
         """
+        super(self.__class__, self).__init__(f1, f2)
         self.p = np.poly1d(coef)
 
-    def machine_to_physics(self, machine_value):
-        """Convert between machine and engineering units.
+    def _raw_eng_to_phys(self, eng_value):
+        """Convert between engineering and physics units.
 
         Args:
-            machine_value(float): The machine value to be converted to the engineering unit.
+            eng_value(float): The engineering value to be converted to the engineering unit.
 
         Returns:
-            float: The engineering value determined using the machine value.
+            float: The physics value determined using the engineering value.
         """
-        return self.p(machine_value)
+        return self.p(eng_value)
 
-    def physics_to_machine(self, physics_value):
-        """Convert between engineering and machine units.
+    def _raw_phys_to_eng(self, physics_value):
+        """Convert between physics and engineering units.
 
         Args:
-            physics_value(float): The engineering value to be converted to the
-                machine value.
+            physics_value(float): The physics value to be converted to the
+                engineering value.
 
         Returns:
-            float: The converted machine value from the given engineering value.
+            float: The converted engineering value from the given physics value.
 
         Raises:
             ValueError: An error occured when there exist no or more than one roots.
         """
         roots = (self.p - physics_value).roots
         if len(roots) == 1:
-            return roots[0]
+            x = roots[0]
+            return x
         else:
-            raise ValueError("There doesn't exist a corresponding machine value or"
+            raise ValueError("There doesn't exist a corresponding engineering value or "
                              "they are not unique:", roots)
 
 
-class UcPchip(object):
-    def __init__(self, x, y):
+class PchipUnitConv(UnitConv):
+    def __init__(self, x, y, f1=unit_function, f2=unit_function):
         """ PChip interpolation for converting between physics and engineering units.
 
         Args:
@@ -58,6 +86,7 @@ class UcPchip(object):
             ValueError: An error occured when the given y coefficients are neither in
             increasing or decreasing order.
         """
+        super(self.__class__, self).__init__(f1, f2)
         self.x = x
         self.y = y
         self.pp = PchipInterpolator(x, y)
@@ -67,22 +96,22 @@ class UcPchip(object):
             raise ValueError("Given coefficients must be monotonically"
                              "decreasing.")
 
-    def machine_to_physics(self, machine_value):
-        """Convert between machine and engineering units.
+    def _raw_eng_to_phys(self, eng_value):
+        """Convert between engineering and physics units.
 
         Args:
-            machine_value(float): The machine value to be converted to the engineering unit.
+            eng_value(float): The engineering value to be converted to the engineering unit.
         Returns:
-            float: The converted engineering value from the given machine value.
+            float: The converted engineering value from the given engineering value.
         """
-        return self.pp(machine_value)
+        return self.pp(eng_value)
 
-    def physics_to_machine(self, physics_value):
-        """Convert between engineering and machine units.
+    def _raw_phys_to_eng(self, physics_value):
+        """Convert between physics and engineering units.
 
         Args:
             physics_value(float): The engineering value to be converted to the
-                machine value.
+                engineering value.
 
         Returns:
             float: The converted engineering value from the given physics value.
@@ -94,6 +123,7 @@ class UcPchip(object):
         new_pp = PchipInterpolator(self.x, y)
         roots = new_pp.roots()
         if len(roots) == 1:
-            return roots[0]
+            x = roots[0]
+            return x
         else:
             raise UniqueSolutionException("The function does not have any solution.")

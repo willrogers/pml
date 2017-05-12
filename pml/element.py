@@ -79,7 +79,7 @@ class Element(object):
             field (string): The key to store the unit conversion and device
                 objects.
             device (Device): Represents a device stored on an element.
-            uc (UcPoly/UcPchip): Represents a unit conversion object stored for a
+            uc (PolyUnitConv/PchipUnitConv): Represents a unit conversion object stored for a
                 device.
         """
         self._devices[field] = device
@@ -129,15 +129,15 @@ class Element(object):
         if not sim:
             if field in self._devices:
                 value = self._devices[field].get_value(handle)
-                if unit == pml.PHY:
-                    value = self._uc[field].machine_to_physics(value)
+                if unit == pml.PHYS:
+                    value = self._uc[field].eng_to_phys(value)
                 return value
             else:
                 raise PvException("No device associated with field {0}")
         else:
             value = self._physics.get_value(field, handle, unit)
             if unit == pml.ENG:
-                value = self._uc[field].machine_to_physics(value)
+                value = self._uc[field].eng_to_phys(value)
             return value
 
     def put_pv_value(self, field, value, unit=pml.ENG, sim=False):
@@ -159,15 +159,15 @@ class Element(object):
         """
         if not sim:
             if field in self._devices:
-                if unit == pml.PHY:
-                    value = self._uc[field].physics_to_machine(value)
+                if unit == pml.PHYS:
+                    value = self._uc[field].phys_to_eng(value)
                 self._devices[field].put_value(value)
             else:
                 raise PvException('''There is no device associated with
                                      field {0}'''.format(field))
         else:
             if unit == pml.ENG:
-                value = self._uc[field].machine_to_physics(value)
+                value = self._uc[field].eng_to_phys(value)
             self._physics.put_value(field, value)
 
     def get_pv_name(self, field, handle='*'):

@@ -2,14 +2,14 @@ from pml.exceptions import PvException
 import pml.element
 import pml.device
 from pml.physics import Physics
-from pml.units import UcPoly
+from pml.units import PolyUnitConv
 import pytest
 import mock
 import pml
 
 
 @pytest.fixture
-def test_element(length=0.0, uc=UcPoly([1, 0])):
+def test_element(length=0.0, uc=PolyUnitConv([1, 0])):
 
     mock_cs = mock.MagicMock()
     mock_cs.get.return_value = 40.0
@@ -45,9 +45,9 @@ def test_add_element_to_family():
 def test_get_pv_value(pv_type, test_element):
     # Tests to get/set pv names and/or values
     # The default unit conversion is identity
-    assert test_element.get_pv_value('x', pv_type, unit=pml.PHY) == 40.0
+    assert test_element.get_pv_value('x', pv_type, unit=pml.PHYS) == 40.0
     assert test_element.get_pv_value('x', pv_type, unit=pml.ENG) == 40.0
-    assert test_element.get_pv_value('y', pv_type, unit=pml.PHY) == 40.0
+    assert test_element.get_pv_value('y', pv_type, unit=pml.PHYS) == 40.0
     assert test_element.get_pv_value('y', pv_type, unit=pml.ENG) == 40.0
 
 
@@ -74,9 +74,9 @@ def test_get_pv_exceptions(test_element):
 
 
 def test_identity_conversion():
-    uc_id = UcPoly([1, 0])
+    uc_id = PolyUnitConv([1, 0])
     element = test_element(uc=uc_id)
-    value_physics = element.get_pv_value('x', 'setpoint', pml.PHY)
+    value_physics = element.get_pv_value('x', 'setpoint', pml.PHYS)
     value_machine = element.get_pv_value('x', 'setpoint', pml.ENG)
     assert value_machine == 40.0
     assert value_physics == 40.0
