@@ -1,10 +1,14 @@
-'''
+"""
 Template module to define control systems.
-'''
+"""
 
 
 class ControlSystem(object):
+    """ Define a control system to be used with a device
 
+    It uses channel access to comunicate over the network with
+    the hardware.
+    """
     def __init__(self):
         raise NotImplementedError()
 
