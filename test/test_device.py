@@ -24,6 +24,7 @@ def test_set_device_value():
     with pytest.raises(PvException):
         device2.put_value(40)
 
+
 def test_get_device_value():
     sp_pv = 'SR01A-PC-SQUAD-01:SETI'
 
