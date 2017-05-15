@@ -52,7 +52,7 @@ class Element(object):
         if not sim:
             if field in self._devices:
                 value = self._devices[field].get_value(handle)
-                if unit == pml.PHY:
+                if unit == pml.PHYS:
                     value = self._uc[field].machine_to_physics(value)
                 return value
             else:
@@ -66,7 +66,7 @@ class Element(object):
     def put_pv_value(self, field, value, unit=pml.ENG, sim=False):
         if not sim:
             if field in self._devices:
-                if unit == pml.PHY:
+                if unit == pml.PHYS:
                     value = self._uc[field].physics_to_machine(value)
                 self._devices[field].put_value(value)
             else:

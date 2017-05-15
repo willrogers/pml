@@ -45,9 +45,9 @@ def test_add_element_to_family():
 def test_get_pv_value(pv_type, test_element):
     # Tests to get/set pv names and/or values
     # The default unit conversion is identity
-    assert test_element.get_pv_value('x', pv_type, unit=pml.PHY) == 40.0
+    assert test_element.get_pv_value('x', pv_type, unit=pml.PHYS) == 40.0
     assert test_element.get_pv_value('x', pv_type, unit=pml.ENG) == 40.0
-    assert test_element.get_pv_value('y', pv_type, unit=pml.PHY) == 40.0
+    assert test_element.get_pv_value('y', pv_type, unit=pml.PHYS) == 40.0
     assert test_element.get_pv_value('y', pv_type, unit=pml.ENG) == 40.0
 
 
@@ -63,6 +63,12 @@ def test_put_pv_value(test_element):
     test_element.put_pv_value('x', 40.3)
     test_element.get_device('x')._cs.put.assert_called_with('SR22C-DI-EBPM-04:SA:Y', 40.3)
 
+    test_element.put_pv_value('x', 40.3, unit=pml.PHYS)
+    test_element.get_device('x')._cs.put.assert_called_with('SR22C-DI-EBPM-04:SA:Y', 40.3)
+
+    with pytest.raises(PvException):
+        test_element.put_pv_value('non_existant', 40.0)
+
 
 def test_get_pv_exceptions(test_element):
     with pytest.raises(PvException):
@@ -76,7 +82,7 @@ def test_get_pv_exceptions(test_element):
 def test_identity_conversion():
     uc_id = UcPoly([1, 0])
     element = test_element(uc=uc_id)
-    value_physics = element.get_pv_value('x', 'setpoint', pml.PHY)
+    value_physics = element.get_pv_value('x', 'setpoint', pml.PHYS)
     value_machine = element.get_pv_value('x', 'setpoint', pml.ENG)
     assert value_machine == 40.0
     assert value_physics == 40.0
