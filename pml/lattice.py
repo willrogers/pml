@@ -1,4 +1,3 @@
-import pml
 from pml.exceptions import PvException
 from pml.exceptions import ElementNotFoundException
 
