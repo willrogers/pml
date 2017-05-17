@@ -16,7 +16,7 @@ def load(directory, mode, control_system):
     with open(os.path.join(directory, mode, 'devices.csv')) as devices:
         csv_reader = csv.DictReader(devices)
         for item in csv_reader:
-            d = device.Device(None, item['get_pv'], item['set_pv'])
+            d = device.Device(control_system, item['get_pv'], item['set_pv'])
             lat[int(item['id']) - 1].add_device(item['field'], d, None)
 
     with open(os.path.join(directory, mode, 'families.csv')) as families:
