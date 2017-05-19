@@ -8,7 +8,7 @@ Welcome to PML's documentation!
 PML is a python library for accelerator commissioning and beam study. It is a framework that implements high level configure/run behaviour
 of control system components like those used in continuous scans.
 
-PML is a package that includes libraries. Besides the the commonly used applications, like Beam based alignment, the PML includes a set of API
+PML is a package that includes libraries. PML includes a set of API
 (Application Programming Interface) which is used for writing further scripts and interactive controls.
 
 
