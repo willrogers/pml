@@ -24,7 +24,7 @@ Contents:
    intro
    examples
 
-#.. include:: intro.rst
+.. #.. include:: intro.rst
 
 Indices and tables
 ==================
