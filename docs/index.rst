@@ -22,7 +22,6 @@ Contents:
 .. toctree::
    :maxdepth: 4
 
-   epics
    pml
    intro
    examples
