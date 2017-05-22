@@ -25,21 +25,24 @@ Print BPM pvs along with s position
      ('SR01C-DI-EBPM-02:SA:X', 'SR01C-DI-EBPM-02:SA:Y', 'S position', 8.806500000000002)
      ('SR01C-DI-EBPM-03:SA:X', 'SR01C-DI-EBPM-03:SA:Y', 'S position', 11.374000000000002)
      ('SR01C-DI-EBPM-04:SA:X', 'SR01C-DI-EBPM-04:SA:Y', 'S position', 12.559000000000005)
-     ('SR01C-DI-EBPM-05:SA:X', 'SR01C-DI-EBPM-05:SA:Y', 'S position', 14.942500000000006)
+     ('SR01C-DI-EBPM-05:SA:X', 'SR01C-DI-EBPM-05:SA:Y', 'S position', 14.942500000000006)...
 
 - Version 2 - to get the pv name of each bpm:
      >>> lattice.get_family_pvs('BPM', 'x', 'readback')
-     >>> lattice.get_family_pvs('BPM', 'y', 'readback')
-     >>> lattice.get_family_s('BPM')
      ['SR01C-DI-EBPM-01:SA:X',
      'SR01C-DI-EBPM-02:SA:X',
-     'SR01C-DI-EBPM-03:SA:X']
+     'SR01C-DI-EBPM-03:SA:X'
+     ...
+     >>> lattice.get_family_pvs('BPM', 'y', 'readback')
      ['SR01C-DI-EBPM-01:SA:Y',
      'SR01C-DI-EBPM-02:SA:Y',
-     'SR01C-DI-EBPM-03:SA:Y']
+     'SR01C-DI-EBPM-03:SA:Y',
+     ...
+     >>> lattice.get_family_s('BPM')
      [4.38,
       8.806500000000002,
-      11.374000000000002]
+      11.374000000000002,
+      ...
 
 Get the pv value from the quad elements
 ---------------------------------------
@@ -60,6 +63,7 @@ Get the pv value from the quad elements
      71.3240509033
      129.351394653
      98.2537231445
+     ...
 
 
 - Version 2: Print the quad pv values on the b1 field using the lattice. This is more efficient:
@@ -67,7 +71,8 @@ Get the pv value from the quad elements
      >>> lattice.get_family_values('QUAD', 'b1', 'readback')
      [71.32496643066406,
       129.35191345214844,
-      98.25287628173828]
+      98.25287628173828,
+     ...
 
 Print pv names to file
 ----------------------
@@ -94,6 +99,7 @@ Print pv names to file
      SR01A-PC-Q1B-10
      SR03A-PC-Q1B-01
      SR03A-PC-Q1B-10
+     ...
 
 
 - Version 2: Get the Quad elements using the lattice:
@@ -101,3 +107,4 @@ Print pv names to file
      >>> with open('elements_in_families.txt', 'a') as out_file:
      >>>     out_file.write('{}'.format(lattice.get_family_pvs('Q1B', 'b1', 'readback')))
      ['SR01A-PC-Q1B-10:I', 'SR03A-PC-Q1B-01:I', 'SR03A-PC-Q1B-10:I']
+     ...

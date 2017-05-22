@@ -10,8 +10,8 @@ def load(mode, control_system, directory=None):
     Parameters:
       mode: the mode to be loaded
       control_system: control system to be used
-      directory: directory where to load the files from. If no directory is
-          given that the data directory at the root of the repository is used.
+      directory: directory where to load the files from. If no directory is given
+          that the data directory at the root of the repository is used.
     '''
     if directory is None:
         directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
