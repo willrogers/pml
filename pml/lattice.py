@@ -13,10 +13,20 @@ class Lattice(object):
             name (string): The name of the lattice.
             control_system (ControlSystem): The control system used
                 to store the values on a pv.
+            energy(Number): The total energy of the lattice.
         """
         self.name = name
         self._lattice = []
         self._cs = control_system
+        self._energy = 0
+
+    def get_energy(self):
+        """Function to get the total energy of the lattice.
+
+        Returns:
+            Number: The total energy of the lattice.
+        """
+        return self._energy
 
     def __getitem__(self, n):
         """Get the nth element of the lattice.
