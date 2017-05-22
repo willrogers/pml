@@ -87,3 +87,6 @@ class Device(object):
             return self.rb_pv
         elif handle == pml.SP:
             return self.sp_pv
+
+    def get_cs(self):
+        return self._cs

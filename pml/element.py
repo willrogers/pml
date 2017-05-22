@@ -133,7 +133,7 @@ class Element(object):
                     value = self._uc[field].eng_to_phys(value)
                 return value
             else:
-                raise PvException("No device associated with field {0}")
+                raise PvException("No device associated with field {0}".format(field))
         else:
             value = self._physics.get_value(field, handle, unit)
             if unit == pml.ENG:
@@ -191,3 +191,6 @@ class Element(object):
             return self._devices[field].get_pv_name(handle)
         except KeyError:
             raise PvException('Element has no device for field {}'.format(field))
+
+    def get_cs(self, field):
+        return self._devices[field].get_cs()
