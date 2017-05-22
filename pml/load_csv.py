@@ -20,7 +20,7 @@ def load(mode, control_system, directory=None):
         csv_reader = csv.DictReader(elements)
         for item in csv_reader:
             e = element.Element(item['name'], float(item['length']),
-                                item['type'], None)
+                                item['type'])
             e.add_to_family(item['type'])
             lat.add_element(e)
 
