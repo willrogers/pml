@@ -13,7 +13,7 @@ def load(mode, control_system, directory=None):
       directory: directory where to load the files from. If no directory is
           given that the data directory at the root of the repository is used.
     '''
-    if directory == None:
+    if directory is None:
         directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
     lat = lattice.Lattice(mode, control_system)
     with open(os.path.join(directory, mode, 'elements.csv')) as elements:
