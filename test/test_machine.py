@@ -64,6 +64,6 @@ def test_load_correctors(lattice):
     assert len(hcm) == 173
     assert len(vcm) == 173
 
-def test_elements_using_default_dir():
+def test_load_lattice_using_default_dir():
     lat = pml.load_csv.load('VMX', mock.MagicMock())
     assert len(lat) == 2476
