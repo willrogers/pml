@@ -9,8 +9,7 @@ CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
 
 @pytest.fixture
 def lattice():
-    lat = load_csv.load(os.path.join(CURRENT_DIR, 'data'), 'dummy',
-                        mock.MagicMock())
+    lat = load_csv.load('dummy', mock.MagicMock(), os.path.join(CURRENT_DIR, 'data'))
     return lat
 
 
