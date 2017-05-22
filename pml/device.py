@@ -20,7 +20,6 @@ class Device(object):
         self.rb_pv = rb_pv
         self.sp_pv = sp_pv
         self._cs = cs
-        assert not (rb_pv is None and sp_pv is None)
         if rb_pv is not None:
             self.name = rb_pv.split(':')[0]
         elif sp_pv is not None:
@@ -87,3 +86,6 @@ class Device(object):
             return self.rb_pv
         elif handle == pml.SP:
             return self.sp_pv
+
+    def get_cs(self):
+        return self._cs

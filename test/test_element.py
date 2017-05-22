@@ -63,6 +63,12 @@ def test_put_pv_value(test_element):
     test_element.put_pv_value('x', 40.3)
     test_element.get_device('x')._cs.put.assert_called_with('SR22C-DI-EBPM-04:SA:Y', 40.3)
 
+    test_element.put_pv_value('x', 40.3, unit=pml.PHYS)
+    test_element.get_device('x')._cs.put.assert_called_with('SR22C-DI-EBPM-04:SA:Y', 40.3)
+
+    with pytest.raises(PvException):
+        test_element.put_pv_value('non_existent', 40.0)
+
 
 def test_get_pv_exceptions(test_element):
     with pytest.raises(PvException):
