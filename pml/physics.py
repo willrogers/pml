@@ -21,6 +21,7 @@ source
 
 
 class Physics(object):
+    ''' Template class to represent an object for the simulation. '''''
     def __init__(self, length):
         self.length = length
 
