@@ -3,7 +3,7 @@ import pml.lattice
 import pml.element
 import pml.device
 import mock
-from pml.units import UcPoly
+from pml.units import PolyUnitConv
 from pml.exceptions import ElementNotFoundException, PvException
 
 DUMMY_NAME = 'dummy'
@@ -11,7 +11,7 @@ DUMMY_NAME = 'dummy'
 
 @pytest.fixture
 def simple_element(identity=1):
-    uc = UcPoly([0, 1])
+    uc = PolyUnitConv([0, 1])
 
     # Create devices and attach them to the element
     element = pml.element.Element(identity, 0, 'BPM')
