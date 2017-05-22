@@ -32,5 +32,5 @@ def test_get_device_value():
     with pytest.raises(PvException):
         device.get_value('non_existent')
 
-    with pytest.raises(PvException):
+    with pytest.raises(AssertionError):
         create_device(None, None)
