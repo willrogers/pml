@@ -2,7 +2,7 @@ from pml.exceptions import PvException
 from pml.exceptions import ElementNotFoundException
 
 class Lattice(object):
-    def __init__(self, name, control_system):
+    def __init__(self, name, control_system, energy):
         """Representation of a lattice.
 
         Represents a lattice object that contains all elements
@@ -18,7 +18,7 @@ class Lattice(object):
         self.name = name
         self._lattice = []
         self._cs = control_system
-        self._energy = 0
+        self._energy = energy
 
     def get_energy(self):
         """Function to get the total energy of the lattice.

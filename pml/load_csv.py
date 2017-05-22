@@ -15,7 +15,7 @@ def load(mode, control_system, directory=None):
     '''
     if directory is None:
         directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
-    lat = lattice.Lattice(mode, control_system)
+    lat = lattice.Lattice(mode, control_system, 1)
     with open(os.path.join(directory, mode, 'elements.csv')) as elements:
         csv_reader = csv.DictReader(elements)
         for item in csv_reader:
