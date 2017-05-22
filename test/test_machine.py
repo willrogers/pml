@@ -12,7 +12,7 @@ EPS = 1e-8
 def lattice():
     basepath = os.getcwd()
     filename = os.path.join(basepath, 'data/')
-    lattice = pml.load_csv.load(filename, 'VMX', mock.MagicMock())
+    lattice = pml.load_csv.load('VMX', mock.MagicMock(), filename)
     return lattice
 
 
@@ -63,3 +63,7 @@ def test_load_correctors(lattice):
     vcm = lattice.get_elements('VSTR')
     assert len(hcm) == 173
     assert len(vcm) == 173
+
+def test_load_lattice_using_default_dir():
+    lat = pml.load_csv.load('VMX', mock.MagicMock())
+    assert len(lat) == 2476

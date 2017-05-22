@@ -3,21 +3,24 @@ import csv
 from pml import lattice, element, device
 
 
-def load(directory, mode, control_system):
+def load(mode, control_system, directory=None):
     '''
     Load a lattice object from a directory.
 
     Parameters:
-      directory: directory where to load the files from
-      mode:the mode to be loaded
+      mode: the mode to be loaded
       control_system: control system to be used
+      directory: directory where to load the files from. If no directory is
+          given that the data directory at the root of the repository is used.
     '''
-    lat = lattice.Lattice(mode, control_system)
+    if directory is None:
+        directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
+    lat = lattice.Lattice(mode, control_system, 1)
     with open(os.path.join(directory, mode, 'elements.csv')) as elements:
         csv_reader = csv.DictReader(elements)
         for item in csv_reader:
             e = element.Element(item['name'], float(item['length']),
-                                item['type'], None)
+                                item['type'])
             e.add_to_family(item['type'])
             lat.add_element(e)
 

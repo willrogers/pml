@@ -4,7 +4,7 @@ import pml
 
 class Element(object):
 
-    def __init__(self, name, length, element_type, physics=None):
+    def __init__(self, name, length, element_type):
         """An element of the ring.
 
         Represents an element of the lattice. Contains a family set
@@ -16,13 +16,11 @@ class Element(object):
             name (int): Unique identifier for the element in the ring.
             length (float): The length of the element.
             element_type (string): Type of the element.
-            physics (Optional[physics]): Physics object used in the simulation.
 
         """
         self._name = name
         self._type = element_type
         self._length = length
-        self._physics = physics
         self.families = set()
         self._uc = dict()
         self._devices = dict()
