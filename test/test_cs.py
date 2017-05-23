@@ -1,5 +1,5 @@
 import pytest
-from pml import cs
+from pytac import cs
 
 
 class InvalidControlSystem(cs.ControlSystem):

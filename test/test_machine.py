@@ -1,4 +1,4 @@
-import pml
+import pytac
 import pytest
 import os
 import re
@@ -13,7 +13,7 @@ EPS = 1e-8
 def lattice():
     basepath = os.getcwd()
     filename = os.path.join(basepath, 'data/')
-    lattice = pml.load_csv.load('VMX', mock.MagicMock(), filename)
+    lattice = pytac.load_csv.load('VMX', mock.MagicMock(), filename)
     return lattice
 
 
@@ -76,7 +76,7 @@ def test_bpm_unitconv(lattice, field):
 
 
 def test_load_lattice_using_default_dir():
-    lat = pml.load_csv.load('VMX', mock.MagicMock())
+    lat = pytac.load_csv.load('VMX', mock.MagicMock())
     assert len(lat) == 2131
 
 
@@ -91,9 +91,9 @@ def test_quad_unitconv(lattice):
 def test_quad_unitconv_known_failing_test(lattice):
     LAT_ENERGY = 3000
 
-    element = pml.element.Element('failing_element', 10, 'q1d')
-    uc = pml.units.PchipUnitConv([50.0, 100.0, 180.0], [-4.95, -9.85, -17.56])
-    uc.f1 = pml.load_csv.get_div_rigidity(LAT_ENERGY)
-    uc.f2 = pml.load_csv.get_mult_rigidity(LAT_ENERGY)
+    element = pytac.element.Element('failing_element', 10, 'q1d')
+    uc = pytac.units.PchipUnitConv([50.0, 100.0, 180.0], [-4.95, -9.85, -17.56])
+    uc.f1 = pytac.load_csv.get_div_rigidity(LAT_ENERGY)
+    uc.f2 = pytac.load_csv.get_mult_rigidity(LAT_ENERGY)
     numpy.testing.assert_allclose(uc.eng_to_phys(70), -0.69133465)
     numpy.testing.assert_allclose(uc.phys_to_eng(-0.7),  70.8834284954)

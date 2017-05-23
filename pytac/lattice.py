@@ -1,5 +1,5 @@
-from pml.exceptions import PvException
-from pml.exceptions import ElementNotFoundException
+from pytac.exceptions import PvException
+from pytac.exceptions import ElementNotFoundException
 
 class Lattice(object):
     def __init__(self, name, control_system, energy):

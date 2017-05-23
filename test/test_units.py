@@ -1,5 +1,5 @@
 import pytest
-from pml.units import PolyUnitConv, PchipUnitConv
+from pytac.units import PolyUnitConv, PchipUnitConv
 import numpy as np
 
 
