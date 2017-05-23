@@ -52,14 +52,6 @@ pml.load_csv module
     :undoc-members:
     :show-inheritance:
 
-pml.physics module
-------------------
-
-.. automodule:: pml.physics
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 pml.units module
 ----------------
 
