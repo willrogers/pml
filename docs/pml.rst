@@ -28,6 +28,14 @@ pml.element module
     :undoc-members:
     :show-inheritance:
 
+pml.epics module
+----------------
+
+.. automodule:: pml.epics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pml.exceptions module
 ---------------------
 
@@ -48,14 +56,6 @@ pml.load_csv module
 -------------------
 
 .. automodule:: pml.load_csv
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-pml.physics module
-------------------
-
-.. automodule:: pml.physics
     :members:
     :undoc-members:
     :show-inheritance:
