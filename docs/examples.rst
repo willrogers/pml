@@ -4,14 +4,14 @@ Examples
 Print BPM pvs along with s position
 -----------------------------------
 
-- Import 'pml':
+- Import 'pytac':
 
-     >>> import pml.load_csv
-     >>> import pml.epics
+     >>> import pytac.load_csv
+     >>> import pytac.epics
 
 - Initialize the VMX mode:
 
-     >>> lattice = pml.load_csv.load('VMX', pml.epics.EpicsControlSystem())
+     >>> lattice = pytac.load_csv.load('VMX', pytac.epics.EpicsControlSystem())
 
 - Version 1: Get the BPM elements:
 
@@ -47,13 +47,13 @@ Print BPM pvs along with s position
 Get the pv value from the quad elements
 ---------------------------------------
 
-- Import 'pml'
+- Import 'pytac'
 
-     >>> import pml
+     >>> import pytac
 
 - Initialize the VMX mode
 
-     >>> lattice = pml.load_csv.load('VMX', pml.epics.EpicsControlSystem())
+     >>> lattice = pytac.load_csv.load('VMX', pytac.epics.EpicsControlSystem())
 
 - Version 1: Get the Quad elements and print their readback values on the b1 field:
 
@@ -77,14 +77,14 @@ Get the pv value from the quad elements
 Print pv names to file
 ----------------------
 
-- Import 'pml' and epics:
+- Import 'pytac' and epics:
 
-     >>> import pml.load_csv
-     >>> import pml.epics
+     >>> import pytac.load_csv
+     >>> import pytac.epics
 
 - Initialize the VMX mode:
 
-     >>> lattice = pml.load_csv.load('VMX', pml.epics.EpicsControlSystem())
+     >>> lattice = pytac.load_csv.load('VMX', pytac.epics.EpicsControlSystem())
 
 - Version 1: Get the Quad elements individually:
 

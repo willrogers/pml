@@ -3,7 +3,6 @@ import pytac
 
 
 class Element(object):
-
     def __init__(self, name, length, element_type):
         """An element of the ring.
 

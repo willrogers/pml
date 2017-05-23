@@ -1,7 +1,7 @@
-What can PML do?
-----------------
+What can PYTAC do?
+------------------
 
-PML provides a layer on top of `EPICS`_
+PYTAC provides a layer on top of `EPICS`_
 that wraps up groups of `PVs`_.
 
 
