@@ -1,6 +1,6 @@
 import os
 import csv
-from pml import lattice, element, device
+from pytac import lattice, element, device
 
 
 def load(mode, control_system, directory=None):

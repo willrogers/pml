@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.interpolate import PchipInterpolator
-from pml.exceptions import UniqueSolutionException
+from pytac.exceptions import UniqueSolutionException
 
 
 def unit_function(value):

@@ -12,7 +12,7 @@ It is simplest to work with a virtualenv.  Then:
 
 To see a coverage report:
 
-* `py.test --cov=pml test`
+* `py.test --cov=pytac test`
 
 To build documentation correctly:
 

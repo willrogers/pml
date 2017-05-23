@@ -1,7 +1,7 @@
 import os
 import pytest
 import mock
-from pml import load_csv
+from pytac import load_csv
 
 
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))

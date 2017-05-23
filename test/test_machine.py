@@ -1,4 +1,4 @@
-import pml
+import pytac
 import pytest
 import os
 import re
@@ -12,7 +12,7 @@ EPS = 1e-8
 def lattice():
     basepath = os.getcwd()
     filename = os.path.join(basepath, 'data/')
-    lattice = pml.load_csv.load('VMX', mock.MagicMock(), filename)
+    lattice = pytac.load_csv.load('VMX', mock.MagicMock(), filename)
     return lattice
 
 
@@ -65,5 +65,5 @@ def test_load_correctors(lattice):
     assert len(vcm) == 173
 
 def test_load_lattice_using_default_dir():
-    lat = pml.load_csv.load('VMX', mock.MagicMock())
+    lat = pytac.load_csv.load('VMX', mock.MagicMock())
     assert len(lat) == 2476
