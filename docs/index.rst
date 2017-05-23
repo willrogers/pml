@@ -23,9 +23,9 @@ Contents:
 .. toctree::
    :maxdepth: 4
 
-   pytac
    intro
    examples
+   pytac
 
 
 Indices and tables
