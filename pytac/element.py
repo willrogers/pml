@@ -1,5 +1,5 @@
-from pml.exceptions import PvException
-import pml
+from pytac.exceptions import PvException
+import pytac
 
 
 class Element(object):
@@ -102,7 +102,7 @@ class Element(object):
         """
         self.families.add(family)
 
-    def get_pv_value(self, field, handle, unit=pml.ENG, sim=False):
+    def get_pv_value(self, field, handle, unit=pytac.ENG, sim=False):
         """Get the value of a pv.
 
         Returns the value of a pv on the element. This value is uniquely
@@ -127,18 +127,18 @@ class Element(object):
         if not sim:
             if field in self._devices:
                 value = self._devices[field].get_value(handle)
-                if unit == pml.PHYS:
+                if unit == pytac.PHYS:
                     value = self._uc[field].eng_to_phys(value)
                 return value
             else:
                 raise PvException("No device associated with field {0}".format(field))
         else:
             value = self._physics.get_value(field, handle, unit)
-            if unit == pml.ENG:
+            if unit == pytac.ENG:
                 value = self._uc[field].eng_to_phys(value)
             return value
 
-    def put_pv_value(self, field, value, unit=pml.ENG, sim=False):
+    def put_pv_value(self, field, value, unit=pytac.ENG, sim=False):
         """Set the pv value on a uniquely identified device.
 
         This value can be set on the machine or the simulation.
@@ -157,14 +157,14 @@ class Element(object):
         """
         if not sim:
             if field in self._devices:
-                if unit == pml.PHYS:
+                if unit == pytac.PHYS:
                     value = self._uc[field].phys_to_eng(value)
                 self._devices[field].put_value(value)
             else:
                 raise PvException('''There is no device associated with
                                      field {0}'''.format(field))
         else:
-            if unit == pml.ENG:
+            if unit == pytac.ENG:
                 value = self._uc[field].eng_to_phys(value)
             self._physics.put_value(field, value)
 

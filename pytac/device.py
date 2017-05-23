@@ -1,5 +1,5 @@
-from pml.exceptions import PvException
-import pml
+from pytac.exceptions import PvException
+import pytac
 
 
 class Device(object):
@@ -61,9 +61,9 @@ class Device(object):
         Raises:
             PvException: In case the requested pv doesn't exist.
         """
-        if handle == pml.RB and self.rb_pv:
+        if handle == pytac.RB and self.rb_pv:
             return self._cs.get(self.rb_pv)
-        elif handle == pml.SP and self.sp_pv:
+        elif handle == pytac.SP and self.sp_pv:
             return self._cs.get(self.sp_pv)
 
         raise PvException("""This device {0} has no {1} pv."""
@@ -82,9 +82,9 @@ class Device(object):
         """
         if handle == '*':
             return [self.rb_pv, self.sp_pv]
-        elif handle == pml.RB:
+        elif handle == pytac.RB:
             return self.rb_pv
-        elif handle == pml.SP:
+        elif handle == pytac.SP:
             return self.sp_pv
 
     def get_cs(self):
