@@ -29,7 +29,7 @@ install:
 
 script:
   - export PYTHONPATH=.
-  - py.test --cov=pml
+  - py.test --cov=pytac
 
 after_success:
   - coveralls
