@@ -1,7 +1,21 @@
 import os
 import csv
-from pml import lattice, element, device, units
+from pml import lattice, element, device, units, utils
 import collections
+
+
+def get_div_rigidity(energy):
+    rigidity = utils.rigidity(energy)
+    def div_rigidity(input):
+        return input / rigidity
+    return div_rigidity
+
+
+def get_mult_rigidity(energy):
+    rigidity = utils.rigidity(energy)
+    def mult_rigidity(input):
+        return input * rigidity
+    return mult_rigidity
 
 
 def load_unitconv(directory, mode, lattice):
@@ -31,6 +45,9 @@ def load_unitconv(directory, mode, lattice):
         csv_reader = csv.DictReader(unitconv)
         for item in csv_reader:
             element = lattice[int(item['el_id']) - 1]
+            if 'QUAD' in element.families or 'SEXT' in element.families:
+                uc[int(item['uc_id'])].f1 = get_div_rigidity(lattice.get_energy())
+                uc[int(item['uc_id'])].f2 = get_mult_rigidity(lattice.get_energy())
             element._uc[item['field']] = uc[int(item['uc_id'])]
 
 
@@ -46,7 +63,7 @@ def load(mode, control_system, directory=None):
     '''
     if directory is None:
         directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
-    lat = lattice.Lattice(mode, control_system, 1)
+    lat = lattice.Lattice(mode, control_system, 3000)
     with open(os.path.join(directory, mode, 'elements.csv')) as elements:
         csv_reader = csv.DictReader(elements)
         for item in csv_reader:

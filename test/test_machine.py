@@ -3,6 +3,7 @@ import pytest
 import os
 import re
 import mock
+import numpy
 
 
 EPS = 1e-8
@@ -77,3 +78,12 @@ def test_bpm_unitconv(lattice, field):
 def test_load_lattice_using_default_dir():
     lat = pml.load_csv.load('VMX', mock.MagicMock())
     assert len(lat) == 2131
+
+
+def test_quad_unitconv(lattice):
+    q1d = lattice.get_elements('Q1D')
+    lattice._energy = 3000
+    for q in q1d:
+        uc = q._uc['b1']
+        numpy.testing.assert_allclose(uc.eng_to_phys(70), -0.69133465)
+        numpy.testing.assert_allclose(uc.phys_to_eng(-0.7),  70.8834284954)
