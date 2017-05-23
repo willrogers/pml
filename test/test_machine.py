@@ -87,3 +87,13 @@ def test_quad_unitconv(lattice):
         uc = q._uc['b1']
         numpy.testing.assert_allclose(uc.eng_to_phys(70), -0.69133465)
         numpy.testing.assert_allclose(uc.phys_to_eng(-0.7),  70.8834284954)
+
+def test_quad_unitconv_known_failing_test(lattice):
+    LAT_ENERGY = 3000
+
+    element = pml.element.Element('failing_element', 10, 'q1d')
+    uc = pml.units.PchipUnitConv([50.0, 100.0, 180.0], [-4.95, -9.85, -17.56])
+    uc.f1 = pml.load_csv.get_div_rigidity(LAT_ENERGY)
+    uc.f2 = pml.load_csv.get_mult_rigidity(LAT_ENERGY)
+    numpy.testing.assert_allclose(uc.eng_to_phys(70), -0.69133465)
+    numpy.testing.assert_allclose(uc.phys_to_eng(-0.7),  70.8834284954)

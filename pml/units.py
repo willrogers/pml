@@ -9,23 +9,23 @@ def unit_function(value):
 
 class UnitConv(object):
     def __init__(self, f1=unit_function, f2=unit_function):
-        self.f1 = f1
-        self.f2 = f2
+        self._post_eng_to_phys = f1
+        self._pre_phys_to_eng = f2
 
     def _raw_eng_to_phys(self, value):
         raise NotImplementedError()
 
     def eng_to_phys(self, value):
         x = self._raw_eng_to_phys(value)
-        y = self.f1(x)
+        y = self._post_eng_to_phys(x)
         return y
 
     def _raw_phys_to_eng(self, value):
         raise NotImplementedError()
 
     def phys_to_eng(self, value):
-        x = self._raw_phys_to_eng(value)
-        y = self.f2(x)
+        x = self._pre_phys_to_eng(value)
+        y = self._raw_phys_to_eng(x)
         return y
 
 
@@ -122,8 +122,17 @@ class PchipUnitConv(UnitConv):
         y = [val - physics_value for val in self.y]
         new_pp = PchipInterpolator(self.x, y)
         roots = new_pp.roots()
-        if len(roots) == 1:
-            x = roots[0]
-            return x
+
+        solution_within_bounds = False
+        print self.x
+        for root in roots:
+            if root <= self.x[-1] and root >= self.x[0]:
+                if not solution_within_bounds:
+                    solution_within_bounds = True
+                    correct_root = root
+                else:
+                    raise UniqueSolutionException("The function is not invertible.")
+        if solution_within_bounds:
+            return correct_root
         else:
-            raise UniqueSolutionException("The function does not have any solution.")
+            raise UniqueSolutionException("The function does not have a solution within the bounds.")
