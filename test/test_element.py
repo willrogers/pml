@@ -1,7 +1,6 @@
 from pml.exceptions import PvException
 import pml.element
 import pml.device
-from pml.physics import Physics
 from pml.units import PolyUnitConv
 import pytest
 import mock
@@ -27,16 +26,14 @@ def test_element(length=0.0, uc=PolyUnitConv([1, 0])):
 
 
 def test_create_element():
-    physics = Physics(length=6.0)
-    e = pml.element.Element('bpm1', 6.0, 'bpm', physics)
+    e = pml.element.Element('bpm1', 6.0, 'bpm')
     e.add_to_family('BPM')
     assert 'BPM' in e.families
     assert e.get_length() == 6.0
 
 
 def test_add_element_to_family():
-    physics = Physics(length=6.0)
-    e = pml.element.Element('dummy', 'Quad', physics)
+    e = pml.element.Element('dummy', 6.0, 'Quad')
     e.add_to_family('fam')
     assert 'fam' in e.families
 
@@ -62,6 +59,12 @@ def test_get_pv_name(pv_type, test_element):
 def test_put_pv_value(test_element):
     test_element.put_pv_value('x', 40.3)
     test_element.get_device('x')._cs.put.assert_called_with('SR22C-DI-EBPM-04:SA:Y', 40.3)
+
+    test_element.put_pv_value('x', 40.3, unit=pml.PHYS)
+    test_element.get_device('x')._cs.put.assert_called_with('SR22C-DI-EBPM-04:SA:Y', 40.3)
+
+    with pytest.raises(PvException):
+        test_element.put_pv_value('non_existent', 40.0)
 
 
 def test_get_pv_exceptions(test_element):

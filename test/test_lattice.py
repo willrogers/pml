@@ -29,19 +29,19 @@ def simple_element(identity=1):
 
 @pytest.fixture
 def simple_element_and_lattice(simple_element):
-    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock())
+    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock(), 1)
     l.add_element(simple_element)
     return simple_element, l
 
 
 def test_create_lattice():
-    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock())
+    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock(), 1)
     assert(len(l)) == 0
     assert l.name == DUMMY_NAME
 
 
 def test_non_negative_lattice():
-    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock())
+    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock(), 1)
     assert(len(l)) >= 0
 
 
@@ -98,7 +98,7 @@ def test_s_position(simple_element_and_lattice):
     assert lattice.get_s(element3) == 1.0
 
 def test_get_s_throws_exception_if_element_not_in_lattice():
-    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock())
+    l = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock(), 1)
     element = pml.element.Element(1, 1.0, 'Quad')
     with pytest.raises(ElementNotFoundException):
         l.get_s(element)
@@ -121,3 +121,7 @@ def test_get_family_s(simple_element_and_lattice):
     element4.add_to_family('family')
     lattice.add_element(element4)
     assert lattice.get_family_s('family') == [0, 0, 1.0, 2.5]
+
+def test_lattice_initial_energy():
+    lattice = pml.lattice.Lattice(DUMMY_NAME, mock.MagicMock(), 1)
+    assert lattice.get_energy() == 1

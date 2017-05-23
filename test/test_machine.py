@@ -12,7 +12,7 @@ EPS = 1e-8
 def lattice():
     basepath = os.getcwd()
     filename = os.path.join(basepath, 'data/')
-    lattice = pml.load_csv.load(filename, 'VMX', mock.MagicMock())
+    lattice = pml.load_csv.load('VMX', mock.MagicMock(), filename)
     return lattice
 
 
@@ -64,7 +64,6 @@ def test_load_correctors(lattice):
     assert len(hcm) == 173
     assert len(vcm) == 173
 
-
 @pytest.mark.parametrize('field', ('x', 'y'))
 def test_bpm_unitconv(lattice, field):
     bpm = lattice.get_elements('BPM')[0]
@@ -73,3 +72,8 @@ def test_bpm_unitconv(lattice, field):
 
     assert uc.machine_to_physics(1) == 0.001
     assert uc.physics_to_machine(2) == 2000
+
+
+def test_load_lattice_using_default_dir():
+    lat = pml.load_csv.load('VMX', mock.MagicMock())
+    assert len(lat) == 2476

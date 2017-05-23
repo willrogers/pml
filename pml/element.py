@@ -4,7 +4,7 @@ import pml
 
 class Element(object):
 
-    def __init__(self, name, length, element_type, physics=None):
+    def __init__(self, name, length, element_type):
         """An element of the ring.
 
         Represents an element of the lattice. Contains a family set
@@ -16,13 +16,11 @@ class Element(object):
             name (int): Unique identifier for the element in the ring.
             length (float): The length of the element.
             element_type (string): Type of the element.
-            physics (Optional[physics]): Physics object used in the simulation.
 
         """
         self._name = name
         self._type = element_type
         self._length = length
-        self._physics = physics
         self.families = set()
         self._uc = dict()
         self._devices = dict()
@@ -133,7 +131,7 @@ class Element(object):
                     value = self._uc[field].eng_to_phys(value)
                 return value
             else:
-                raise PvException("No device associated with field {0}")
+                raise PvException("No device associated with field {0}".format(field))
         else:
             value = self._physics.get_value(field, handle, unit)
             if unit == pml.ENG:
@@ -191,3 +189,6 @@ class Element(object):
             return self._devices[field].get_pv_name(handle)
         except KeyError:
             raise PvException('Element has no device for field {}'.format(field))
+
+    def get_cs(self, field):
+        return self._devices[field].get_cs()
