@@ -17,7 +17,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='pml',
+    name='pytac',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
@@ -65,8 +65,8 @@ setup(
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
-    # packages=find_packages['pml', 'test']),
-    packages=['pml'],
+    # packages=find_packages['pytac', 'test']),
+    packages=['pytac'],
 
     # Alternatively, if you want to distribute just a my_module.py, uncomment
     # this:
