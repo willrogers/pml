@@ -28,6 +28,14 @@ pml.element module
     :undoc-members:
     :show-inheritance:
 
+pml.epics module
+----------------
+
+.. automodule:: pml.epics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pml.exceptions module
 ---------------------
 
