@@ -8,9 +8,9 @@ def unit_function(value):
 
 
 class UnitConv(object):
-    def __init__(self, f1=unit_function, f2=unit_function):
-        self._post_eng_to_phys = f1
-        self._pre_phys_to_eng = f2
+    def __init__(self, post_eng_to_phys=unit_function, pre_phys_to_eng=unit_function):
+        self._post_eng_to_phys = post_eng_to_phys
+        self._pre_phys_to_eng = pre_phys_to_eng
 
     def _raw_eng_to_phys(self, value):
         raise NotImplementedError()
@@ -30,13 +30,13 @@ class UnitConv(object):
 
 
 class PolyUnitConv(UnitConv):
-    def __init__(self, coef, f1=unit_function, f2=unit_function):
+    def __init__(self, coef, post_eng_to_phys=unit_function, pre_phys_to_eng=unit_function):
         """Linear interpolation for converting between physics and engineering units.
 
         Args:
             coef(array_like): The polynomial's coefficients, in decreasing powers.
         """
-        super(self.__class__, self).__init__(f1, f2)
+        super(self.__class__, self).__init__(post_eng_to_phys, pre_phys_to_eng)
         self.p = np.poly1d(coef)
 
     def _raw_eng_to_phys(self, eng_value):
@@ -73,7 +73,7 @@ class PolyUnitConv(UnitConv):
 
 
 class PchipUnitConv(UnitConv):
-    def __init__(self, x, y, f1=unit_function, f2=unit_function):
+    def __init__(self, x, y, post_eng_to_phys=unit_function, pre_phys_to_eng=unit_function):
         """ PChip interpolation for converting between physics and engineering units.
 
         Args:
@@ -86,7 +86,7 @@ class PchipUnitConv(UnitConv):
             ValueError: An error occured when the given y coefficients are neither in
             increasing or decreasing order.
         """
-        super(self.__class__, self).__init__(f1, f2)
+        super(self.__class__, self).__init__(post_eng_to_phys, pre_phys_to_eng)
         self.x = x
         self.y = y
         self.pp = PchipInterpolator(x, y)
