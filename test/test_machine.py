@@ -70,10 +70,10 @@ def test_bpm_unitconv(lattice, field):
     uc = bpm._uc[field]
     print('p is {}'.format(uc.p))
 
-    assert uc.machine_to_physics(1) == 0.001
-    assert uc.physics_to_machine(2) == 2000
+    assert uc.eng_to_phys(1) == 0.001
+    assert uc.phys_to_eng(2) == 2000
 
 
 def test_load_lattice_using_default_dir():
     lat = pml.load_csv.load('VMX', mock.MagicMock())
-    assert len(lat) == 2476
+    assert len(lat) == 2131

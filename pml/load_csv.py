@@ -13,7 +13,7 @@ def load_unitconv(directory, mode, lattice):
             data[(int(item['uc_id']))].append((int(item['coeff']), float(item['val'])))
 
     for d in data:
-        u = units.UcPoly([x[1] for x in reversed(sorted(data[d]))])
+        u = units.PolyUnitConv([x[1] for x in reversed(sorted(data[d]))])
         uc[d] = u
     data.clear()
     with open(os.path.join(directory, mode, 'uc_pchip_data.csv')) as pchip:
@@ -24,7 +24,7 @@ def load_unitconv(directory, mode, lattice):
     for d in data:
         eng = [x[0] for x in sorted(data[d])]
         phy = [x[1] for x in sorted(data[d])]
-        u = units.UcPchip(eng, phy)
+        u = units.PchipUnitConv(eng, phy)
         uc[d] = u
 
     with open(os.path.join(directory, mode, 'unitconv.csv')) as unitconv:
