@@ -17,7 +17,7 @@ pip-selfcheck.json
 .coverage
 
 # emacs
-pml/#*
+pytac/#*
 
 # vim
 *.swp
