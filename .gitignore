@@ -18,6 +18,9 @@ pip-selfcheck.json
 htmlcov/
 
 # editors
+# emacs
+# vim
+
 pytac/#*
 *.swp
 *.swo
