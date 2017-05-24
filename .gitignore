@@ -15,10 +15,10 @@ pip-selfcheck.json
 
 # coverage
 .coverage
+htmlcov/
 
-# emacs
-pml/#*
-
-# vim
+# editors
+pytac/#*
 *.swp
 *.swo
+*~

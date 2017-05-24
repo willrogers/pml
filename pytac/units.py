@@ -8,35 +8,35 @@ def unit_function(value):
 
 
 class UnitConv(object):
-    def __init__(self, f1=unit_function, f2=unit_function):
-        self.f1 = f1
-        self.f2 = f2
+    def __init__(self, post_eng_to_phys=unit_function, pre_phys_to_eng=unit_function):
+        self._post_eng_to_phys = post_eng_to_phys
+        self._pre_phys_to_eng = pre_phys_to_eng
 
     def _raw_eng_to_phys(self, value):
         raise NotImplementedError()
 
     def eng_to_phys(self, value):
         x = self._raw_eng_to_phys(value)
-        y = self.f1(x)
+        y = self._post_eng_to_phys(x)
         return y
 
     def _raw_phys_to_eng(self, value):
         raise NotImplementedError()
 
     def phys_to_eng(self, value):
-        x = self._raw_phys_to_eng(value)
-        y = self.f2(x)
+        x = self._pre_phys_to_eng(value)
+        y = self._raw_phys_to_eng(x)
         return y
 
 
 class PolyUnitConv(UnitConv):
-    def __init__(self, coef, f1=unit_function, f2=unit_function):
+    def __init__(self, coef, post_eng_to_phys=unit_function, pre_phys_to_eng=unit_function):
         """Linear interpolation for converting between physics and engineering units.
 
         Args:
             coef(array_like): The polynomial's coefficients, in decreasing powers.
         """
-        super(self.__class__, self).__init__(f1, f2)
+        super(self.__class__, self).__init__(post_eng_to_phys, pre_phys_to_eng)
         self.p = np.poly1d(coef)
 
     def _raw_eng_to_phys(self, eng_value):
@@ -73,7 +73,7 @@ class PolyUnitConv(UnitConv):
 
 
 class PchipUnitConv(UnitConv):
-    def __init__(self, x, y, f1=unit_function, f2=unit_function):
+    def __init__(self, x, y, post_eng_to_phys=unit_function, pre_phys_to_eng=unit_function):
         """ PChip interpolation for converting between physics and engineering units.
 
         Args:
@@ -86,7 +86,7 @@ class PchipUnitConv(UnitConv):
             ValueError: An error occured when the given y coefficients are neither in
             increasing or decreasing order.
         """
-        super(self.__class__, self).__init__(f1, f2)
+        super(self.__class__, self).__init__(post_eng_to_phys, pre_phys_to_eng)
         self.x = x
         self.y = y
         self.pp = PchipInterpolator(x, y)
@@ -122,8 +122,16 @@ class PchipUnitConv(UnitConv):
         y = [val - physics_value for val in self.y]
         new_pp = PchipInterpolator(self.x, y)
         roots = new_pp.roots()
-        if len(roots) == 1:
-            x = roots[0]
-            return x
+
+        solution_within_bounds = False
+        for root in roots:
+            if root <= self.x[-1] and root >= self.x[0]:
+                if not solution_within_bounds:
+                    solution_within_bounds = True
+                    correct_root = root
+                else:
+                    raise UniqueSolutionException("The function is not invertible.")
+        if solution_within_bounds:
+            return correct_root
         else:
-            raise UniqueSolutionException("The function does not have any solution.")
+            raise UniqueSolutionException("The function does not have a solution within the bounds.")
