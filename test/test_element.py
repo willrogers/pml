@@ -1,11 +1,10 @@
-from pml.exceptions import PvException
-import pml.element
-import pml.device
-from pml.physics import Physics
-from pml.units import PolyUnitConv
+from pytac.exceptions import PvException
+import pytac.element
+import pytac.device
+from pytac.units import PolyUnitConv
 import pytest
 import mock
-import pml
+import pytac
 
 
 @pytest.fixture
@@ -14,11 +13,11 @@ def test_element(length=0.0, uc=PolyUnitConv([1, 0])):
     mock_cs = mock.MagicMock()
     mock_cs.get.return_value = 40.0
 
-    element = pml.element.Element('dummy', 1.0, 'Quad')
+    element = pytac.element.Element('dummy', 1.0, 'Quad')
     rb_pv = 'SR22C-DI-EBPM-04:SA:X'
     sp_pv = 'SR22C-DI-EBPM-04:SA:Y'
-    device1 = pml.device.Device(mock_cs, rb_pv, sp_pv)
-    device2 = pml.device.Device(mock_cs, sp_pv, rb_pv)
+    device1 = pytac.device.Device(mock_cs, rb_pv, sp_pv)
+    device2 = pytac.device.Device(mock_cs, sp_pv, rb_pv)
 
     element.add_device('x', device1, uc)
     element.add_device('y', device2, uc)
@@ -27,16 +26,14 @@ def test_element(length=0.0, uc=PolyUnitConv([1, 0])):
 
 
 def test_create_element():
-    physics = Physics(length=6.0)
-    e = pml.element.Element('bpm1', 6.0, 'bpm', physics)
+    e = pytac.element.Element('bpm1', 6.0, 'bpm')
     e.add_to_family('BPM')
     assert 'BPM' in e.families
     assert e.get_length() == 6.0
 
 
 def test_add_element_to_family():
-    physics = Physics(length=6.0)
-    e = pml.element.Element('dummy', 'Quad', physics)
+    e = pytac.element.Element('dummy', 6.0, 'Quad')
     e.add_to_family('fam')
     assert 'fam' in e.families
 
@@ -45,10 +42,10 @@ def test_add_element_to_family():
 def test_get_pv_value(pv_type, test_element):
     # Tests to get/set pv names and/or values
     # The default unit conversion is identity
-    assert test_element.get_pv_value('x', pv_type, unit=pml.PHYS) == 40.0
-    assert test_element.get_pv_value('x', pv_type, unit=pml.ENG) == 40.0
-    assert test_element.get_pv_value('y', pv_type, unit=pml.PHYS) == 40.0
-    assert test_element.get_pv_value('y', pv_type, unit=pml.ENG) == 40.0
+    assert test_element.get_pv_value('x', pv_type, unit=pytac.PHYS) == 40.0
+    assert test_element.get_pv_value('x', pv_type, unit=pytac.ENG) == 40.0
+    assert test_element.get_pv_value('y', pv_type, unit=pytac.PHYS) == 40.0
+    assert test_element.get_pv_value('y', pv_type, unit=pytac.ENG) == 40.0
 
 
 @pytest.mark.parametrize('pv_type', ['readback', 'setpoint'])
@@ -63,7 +60,7 @@ def test_put_pv_value(test_element):
     test_element.put_pv_value('x', 40.3)
     test_element.get_device('x')._cs.put.assert_called_with('SR22C-DI-EBPM-04:SA:Y', 40.3)
 
-    test_element.put_pv_value('x', 40.3, unit=pml.PHYS)
+    test_element.put_pv_value('x', 40.3, unit=pytac.PHYS)
     test_element.get_device('x')._cs.put.assert_called_with('SR22C-DI-EBPM-04:SA:Y', 40.3)
 
     with pytest.raises(PvException):
@@ -82,8 +79,8 @@ def test_get_pv_exceptions(test_element):
 def test_identity_conversion():
     uc_id = PolyUnitConv([1, 0])
     element = test_element(uc=uc_id)
-    value_physics = element.get_pv_value('x', 'setpoint', pml.PHYS)
-    value_machine = element.get_pv_value('x', 'setpoint', pml.ENG)
+    value_physics = element.get_pv_value('x', 'setpoint', pytac.PHYS)
+    value_machine = element.get_pv_value('x', 'setpoint', pytac.ENG)
     assert value_machine == 40.0
     assert value_physics == 40.0
 

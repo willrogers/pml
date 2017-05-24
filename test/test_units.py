@@ -1,5 +1,5 @@
 import pytest
-from pml.units import PolyUnitConv, PchipUnitConv
+from pytac.units import PolyUnitConv, PchipUnitConv
 import numpy as np
 
 
@@ -66,14 +66,14 @@ def test_PchipUnitConv_with_additional_function():
     pchip_uc = PchipUnitConv([2, 4], [2, 4], f1, f2)
     assert pchip_uc.eng_to_phys(2) == 4.0
     assert pchip_uc.eng_to_phys(3) == 6.0
-    assert pchip_uc.phys_to_eng(2) == 1.0
-    assert pchip_uc.phys_to_eng(3) == 1.5
+    assert pchip_uc.phys_to_eng(4.0) == 2
+    assert pchip_uc.phys_to_eng(6.0) == 3
 
 def test_PolyUnitConv_with_additional_function():
     ucpoly_uc = PolyUnitConv([2, 3], f1, f2)
     assert ucpoly_uc.eng_to_phys(4) == 22.0
     assert ucpoly_uc.eng_to_phys(5) == 26.0
     assert ucpoly_uc.eng_to_phys(3) == 18.0
-    assert ucpoly_uc.phys_to_eng(1) == -0.5
-    assert ucpoly_uc.phys_to_eng(2) == -0.25
-    assert ucpoly_uc.phys_to_eng(3) == 0.0
+    assert ucpoly_uc.phys_to_eng(22.0) == 4
+    assert ucpoly_uc.phys_to_eng(26.0) == 5
+    assert ucpoly_uc.phys_to_eng(18.0) == 3
