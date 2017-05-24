@@ -1,5 +1,5 @@
-from pml.exceptions import PvException
-import pml.device
+from pytac.exceptions import PvException
+import pytac.device
 import pytest
 import mock
 
@@ -8,7 +8,7 @@ import mock
 def create_device(readback, setpoint):
     _rb = readback
     _sp = setpoint
-    device = pml.device.Device(rb_pv=_rb, sp_pv=_sp, cs=mock.MagicMock())
+    device = pytac.device.Device(rb_pv=_rb, sp_pv=_sp, cs=mock.MagicMock())
     return device
 
 
