@@ -86,8 +86,8 @@ def test_quad_unitconv(lattice):
     lattice._energy = 3000
     for q in q1d:
         uc = q._uc['b1']
-        numpy.testing.assert_allclose(uc.eng_to_phys(70), -6.918132432432433)#-0.69133465) ???????
-        numpy.testing.assert_allclose(uc.phys_to_eng(-6.918132432432433), 70)#(-0.7),  70.8834284954)
+        numpy.testing.assert_allclose(uc.eng_to_phys(70), -6.918132432432433)
+        numpy.testing.assert_allclose(uc.phys_to_eng(-6.918132432432433), 70)
 
 def test_quad_unitconv_raise_exception(lattice):
     LAT_ENERGY = 3000
