@@ -18,7 +18,7 @@ pip-selfcheck.json
 htmlcov/
 
 # editors
-pml/#*
+pytac/#*
 *.swp
 *.swo
 *~
