@@ -124,7 +124,6 @@ class PchipUnitConv(UnitConv):
         roots = new_pp.roots()
 
         solution_within_bounds = False
-        print self.x
         for root in roots:
             if root <= self.x[-1] and root >= self.x[0]:
                 if not solution_within_bounds:
